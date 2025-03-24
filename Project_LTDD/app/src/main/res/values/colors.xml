@@ -4,5 +4,10 @@
     <color name="white">#FFFFFFFF</color>
     <color name="header_color">#1565C0</color>
     <color name="main_color">#E3F2FD</color>
+    <color name="dark_gray">#C6C6C6</color>
+
+    <color name="primary">#0857F6</color>
+    <color name="secondary">#517FEE</color>
+
 
 </resources>
