@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:padding="20dp"
+    android:background="@android:color/white"
+    tools:context=".activities.OTPActivity">
+
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nhập mã OTP"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"/>
+
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chúng tôi đã gửi mã OTP đến mail của bạn."
+        android:textSize="16sp"
+        android:layout_below="@id/tvTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"/>
+
+    <com.chaos.view.PinView
+        android:id="@+id/otpView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tvDescription"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        app:itemBackground="@android:drawable/editbox_background"
+        app:itemCount="6"
+        app:itemWidth="40dp"
+        app:itemHeight="40dp"
+        app:itemSpacing="10dp"
+        app:itemRadius="6dp"
+        android:cursorVisible="true"
+        android:inputType="number"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        app:lineColor="@android:color/darker_gray"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textColor="@android:color/darker_gray"/>
+
+    <LinearLayout
+        android:id="@+id/layout_bottom_otp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/otpView">
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Thời gian tồn tại: 60s"
+                android:layout_centerHorizontal="true"
+                />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gửi lại"
+                android:layout_centerHorizontal="true"
+                android:textColor="@color/primary"
+                android:textSize="14dp"
+                android:textStyle="bold"
+                />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="10dp"/>
+        </RelativeLayout>
+
+
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnConfirmOtp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layout_bottom_otp"
+        android:layout_marginTop="20dp"
+        android:text="Xác nhận"
+        android:textSize="16sp"
+        android:textColor="@android:color/white"
+        android:padding="10dp"/>
+
+    <ImageView
+        android:layout_width="350dp"
+        android:layout_height="265dp"
+        android:layout_below="@+id/btnConfirmOtp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/send_mail" />
+
+
+</RelativeLayout>
