@@ -4,5 +4,10 @@
     <color name="white">#FFFFFFFF</color>
     <color name="header_color">#1565C0</color>
     <color name="main_color">#E3F2FD</color>
-
+    <color name="title">#FFE0B2</color>
+    <color name="colorbutton">#4CAF50</color>
+    <color name="colorbutton_pressed">#388E3C</color>
+    <color name="purple_primary">#6200EE</color> <!-- Tím đậm Material Design -->
+    <color name="gray">#A9A9A9</color>
+    <color name="accent">#2196F3</color>
 </resources>
