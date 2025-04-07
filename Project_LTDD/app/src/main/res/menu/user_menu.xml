@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Tài khoản">
+        <menu>
+            <item
+                android:id="@+id/nav_userLogin"
+                android:icon="@drawable/ic_login"
+                android:title="Đăng nhập" />
+            <item
+                android:id="@+id/nav_userRegister"
+                android:icon="@drawable/ic_register"
+                android:title="Đăng ký" />
+        </menu>
+    </item>
+
+    <item android:title="Giao diện" android:checkableBehavior="single">
+        <menu>
+            <item
+                android:id="@+id/theme_light"
+                android:checkable="true"
+                android:title="Light"
+                android:icon="@drawable/ic_light"
+                />
+            <item
+                android:id="@+id/theme_dark"
+                android:checkable="true"
+                android:title="Dark"
+                android:icon="@drawable/ic_dark"
+                />
+        </menu>
+    </item>
+</menu>

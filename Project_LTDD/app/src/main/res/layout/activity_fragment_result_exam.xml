@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_color"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:background="@color/white"
+        android:gravity="center">
+
+        <!-- Ảnh minh họa -->
+        <ImageView
+            android:id="@+id/imgResultIllustration"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/ic_congratulations"
+            android:contentDescription="Minh họa kết quả"
+            android:scaleType="fitCenter"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Tiêu đề quiz -->
+        <TextView
+            android:id="@+id/txvResultTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quiz số 1"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_marginBottom="10dp" />
+
+        <!-- Thời gian làm bài -->
+        <TextView
+            android:id="@+id/txvResultTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thời gian làm bài: 10 phút"
+            android:textSize="20sp"
+            android:textColor="@color/gray"
+            android:layout_marginBottom="10dp" />
+
+        <!-- Tổng số câu hỏi -->
+        <TextView
+            android:id="@+id/txvResultTotalQuestions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tổng số câu hỏi: 20"
+            android:textSize="20sp"
+            android:textColor="@color/gray"
+            android:layout_marginBottom="10dp" />
+
+        <!-- Số câu trả lời đúng -->
+        <TextView
+            android:id="@+id/txvResultCorrectAnswers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Số câu trả lời đúng: 15"
+            android:textSize="20sp"
+            android:textColor="@color/gray"
+            android:layout_marginBottom="10dp" />
+
+        <!-- Điểm số -->
+        <TextView
+            android:id="@+id/txvResultScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Điểm số: 75"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp" />
+
+        <!-- Thanh tiến trình -->
+        <ProgressBar
+            android:id="@+id/progressBarResult"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="200dp"
+            android:layout_height="10dp"
+            android:progress="75"
+            android:max="100"
+            android:progressTint="@color/header_color"
+            android:layout_marginBottom="10dp"/>
+
+        <!-- Thông báo kết quả -->
+        <TextView
+            android:id="@+id/txvResultStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chúc mừng! Bạn đã hoàn thành bài Quiz!"
+            android:textSize="25sp"
+            android:textColor="@color/colorbutton"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp" />
+
+        <!-- Nút thoát -->
+        <Button
+            android:id="@+id/btnResultExit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Thoát"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            app:backgroundTint="@null"
+            android:background="@drawable/bg_button_border"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="center" />
+    </LinearLayout>
+
+</LinearLayout>
