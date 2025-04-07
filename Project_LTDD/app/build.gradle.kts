@@ -49,4 +49,5 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation(libs.lottie)
     implementation(libs.pinview)
+    implementation ("com.github.bumptech.glide:glide:4.12.0")
 }
