@@ -47,7 +47,10 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    implementation(libs.lottie)
+    implementation("me.relex:circleindicator:2.1.6")
+    implementation("com.google.mlkit:text-recognition:16.0.0")
+    implementation("com.github.bumptech.glide:glide:4.13.2") // Kiểm tra phiên bản mới nhất của Glide
+    annotationProcessor("com.github.bumptech.glide:compiler:4.13.2")
+	implementation(libs.lottie)
     implementation(libs.pinview)
-    implementation ("com.github.bumptech.glide:glide:4.12.0")
 }

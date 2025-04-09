@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="vertical"
+    android:scrollbarSize="5dp"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Chính Sách Bảo Mật"
+            android:textStyle="bold"
+            android:textSize="30sp"
+            android:layout_marginBottom="10dp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Chính sách bảo mật này mô tả cách ứng dụng SmartDict thu thập, sử dụng và bảo vệ thông tin của bạn khi bạn sử dụng dịch vụ của chúng tôi. Khi bạn sử dụng ứng dụng, bạn đồng ý với các điều khoản và quy định trong chính sách bảo mật này."
+            android:layout_marginBottom="10dp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1. Thu thập thông tin"
+            android:textStyle="bold"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Khi bạn sử dụng ứng dụng SmartDict, chúng tôi có thể thu thập một số thông tin cá nhân và thông tin sử dụng ứng dụng của bạn, bao gồm:\n - Email và họ tên khi bạn đăng ký tài khoản.\n - Lịch sử tra từ và dữ liệu liên quan đến việc sử dụng ứng dụng như từ khóa, số lần tra cứu, thời gian sử dụng ứng dụng.\n- Dữ liệu thiết bị như địa chỉ IP, hệ điều hành, loại trình duyệt, và các dữ liệu khác phục vụ cho việc cải thiện trải nghiệm người dùng."
+            android:layout_marginBottom="10dp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2. Sử dụng thông tin"
+            android:textStyle="bold"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Thông tin bạn cung cấp sẽ được chúng tôi sử dụng vào các mục đích sau:\n- Cung cấp các tính năng dịch vụ của ứng dụng SmartDict cho bạn.\n- Cải thiện chất lượng dịch vụ và tính năng của ứng dụng thông qua việc phân tích dữ liệu sử dụng.\n- Gửi thông báo về các cập nhật, thay đổi, hay tính năng mới của ứng dụng.\n- Hỗ trợ bạn trong trường hợp có vấn đề về tài khoản hoặc sử dụng dịch vụ."
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="3. Chia sẻ thông tin"
+            android:textStyle="bold"
+            android:textSize="18sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Chúng tôi cam kết không chia sẻ bất kỳ thông tin cá nhân nào của bạn với bên thứ ba mà không có sự đồng ý của bạn, ngoại trừ các trường hợp sau:\n- Yêu cầu từ cơ quan pháp luật, cơ quan nhà nước có thẩm quyền.\n- Chia sẻ với các đối tác hoặc nhà cung cấp dịch vụ của chúng tôi để hỗ trợ cung cấp dịch vụ cho bạn.\n- Chúng tôi có quyền chia sẻ thông tin trong các tình huống cần thiết để bảo vệ quyền lợi hợp pháp của ứng dụng hoặc người dùng."
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="4. Bảo mật thông tin"
+            android:textStyle="bold"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Chúng tôi sử dụng các biện pháp bảo mật hợp lý để bảo vệ thông tin cá nhân của bạn khỏi mất mát, truy cập trái phép hoặc lạm dụng. Mặc dù chúng tôi áp dụng các biện pháp bảo mật, nhưng không thể đảm bảo tuyệt đối rằng thông tin sẽ luôn được bảo vệ hoàn toàn an toàn trong môi trường mạng."
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="5. Cookies và công nghệ theo dõi"
+            android:textStyle="bold"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ứng dụng SmartDict có thể sử dụng cookies và các công nghệ theo dõi khác để cải thiện trải nghiệm người dùng. Cookies giúp chúng tôi lưu trữ các thông tin như trạng thái đăng nhập, lịch sử sử dụng ứng dụng, và các tùy chỉnh cá nhân khác. Bạn có thể điều chỉnh cài đặt cookies trong trình duyệt của mình."
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="6. Quyền lợi của bạn"
+            android:textStyle="bold"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bạn có quyền kiểm soát thông tin cá nhân của mình. Cụ thể, bạn có thể:\n- Yêu cầu xem hoặc chỉnh sửa thông tin cá nhân mà chúng tôi đã thu thập.\n- Yêu cầu xóa thông tin cá nhân của bạn khỏi hệ thống nếu không còn sử dụng dịch vụ của chúng tôi.\n- Được quyền từ chối nhận các thông báo tiếp thị từ chúng tôi.\n- Được yêu cầu hạn chế việc sử dụng dữ liệu của bạn cho các mục đích khác."
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="7. Liên hệ"
+            android:textStyle="bold"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nếu bạn có bất kỳ câu hỏi nào về chính sách bảo mật của chúng tôi, vui lòng liên hệ với chúng tôi qua địa chỉ email: 22110418@student.hcmute.edu.com. Chúng tôi sẽ cố gắng trả lời các câu hỏi của bạn một cách nhanh chóng và rõ ràng."
+            android:layout_marginBottom="10dp"/>
+
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="6dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Tiêu đề Quiz -->
+        <TextView
+            android:id="@+id/txvQuizTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tên bài Quiz"
+            android:textColor="#333"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center"
+            />
+
+        <!-- Số câu hỏi -->
+        <TextView
+            android:id="@+id/txvQuestionCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="10 câu hỏi"
+            android:textColor="#666"
+            android:textSize="15sp"
+            android:layout_marginTop="5dp"/>
+
+        <!-- Thời gian làm bài -->
+        <TextView
+            android:id="@+id/txvQuizTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thời gian: 10 phút"
+            android:textColor="#666"
+            android:textSize="15sp"
+            android:layout_marginTop="5dp"/>
+
+        <!-- Nút bắt đầu -->
+        <Button
+            android:id="@+id/btnStartQuiz"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Bắt đầu"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:backgroundTint="@null"
+            android:background="@drawable/bg_button_border"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center"
+            />
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

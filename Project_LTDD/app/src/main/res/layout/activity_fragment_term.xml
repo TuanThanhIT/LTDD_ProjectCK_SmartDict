@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:scrollbars="vertical"
+    android:scrollbarSize="5dp" >
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:scrollbars="vertical"
+        android:padding="16dp"
+        >
+
+        <!-- Tiêu đề của ứng dụng -->
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Điều khoản và Điều kiện"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp" />
+
+        <!-- Mô tả về ứng dụng -->
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Đây là một ứng dụng từ điển tiếng Anh được phát triển như một dự án học tập. Khi sử dụng ứng dụng này, bạn đồng ý với các điều khoản sau:"
+            android:textSize="16sp"
+            android:layout_marginBottom="10dp"
+            android:lineSpacingExtra="4dp"/>
+
+        <!-- Điều khoản 1 -->
+        <TextView
+            android:id="@+id/term1_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1. Về Ứng Dụng"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/term1_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SmartDict được tạo ra để hỗ trợ việc tra cứu từ vựng tiếng Anh và nâng cao trải nghiệm học tập. Ứng dụng này miễn phí sử dụng, nhưng có thể có các bản cập nhật hoặc thay đổi trong tương lai."
+            android:textSize="16sp"
+            android:layout_marginBottom="10dp"/>
+
+        <!-- Điều khoản 2 -->
+        <TextView
+            android:id="@+id/term2_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="2. Quyền Sở Hữu"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/term2_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Toàn bộ nội dung và chức năng của SmartDict thuộc về nhóm phát triển. Vui lòng không sao chép, chỉnh sửa hay sử dụng nội dung ứng dụng cho mục đích thương mại mà không có sự cho phép."
+            android:textSize="16sp"
+            android:layout_marginBottom="10dp"/>
+
+        <!-- Điều khoản 3 -->
+        <TextView
+            android:id="@+id/term3_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="3. Bình Luận và Đóng Góp"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/term3_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bạn có thể để lại nhận xét hoặc đóng góp ý kiến để giúp ứng dụng hoàn thiện hơn. Tuy nhiên, vui lòng không đăng tải nội dung vi phạm pháp luật, gây khó chịu hoặc spam."
+            android:textSize="16sp"
+            android:layout_marginBottom="10dp"/>
+
+        <!-- Điều khoản 4 -->
+        <TextView
+            android:id="@+id/term4_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="4. Bảo Mật Thông Tin"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/term4_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ứng dụng có thể thu thập một số dữ liệu để cải thiện trải nghiệm người dùng. Thông tin cá nhân của bạn sẽ được bảo vệ và không chia sẻ với bên thứ ba nếu không có sự đồng ý."
+            android:textSize="16sp"
+            android:layout_marginBottom="10dp"/>
+
+        <!-- Điều khoản 5 -->
+        <TextView
+            android:id="@+id/term5_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="5. Giới Hạn Trách Nhiệm"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/term5_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Do đây là một dự án học tập, nhóm phát triển không chịu trách nhiệm nếu ứng dụng có lỗi hoặc hoạt động không như mong đợi. Rất mong nhận được sự thông cảm và góp ý để cải thiện."
+            android:textSize="16sp"
+            android:layout_marginBottom="10dp"/>
+
+        <!-- Điều khoản 6 -->
+        <TextView
+            android:id="@+id/term6_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="6. Thay Đổi Điều Khoản"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/term6_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Điều khoản này có thể được cập nhật để phù hợp với sự phát triển của ứng dụng. Nếu tiếp tục sử dụng SmartDict, bạn đồng ý với các thay đổi mới nhất."
+            android:textSize="16sp"
+            android:layout_marginBottom="10dp"/>
+
+    </LinearLayout>
+</ScrollView>
+

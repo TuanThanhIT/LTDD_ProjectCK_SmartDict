@@ -1,13 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/main_color"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:padding="16dp">
 
+    <!-- Toolbar -->
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/txvTitle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Search Word Fragment"
-        android:textSize="24sp"/>
+        android:text="🧐 Tra cứu từ vựng"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:background="@drawable/bg_gradient_title"
+        android:gravity="center" />
+
+    <!-- Thanh tìm kiếm -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="4dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+
+            <ImageView
+                android:id="@+id/imgSearchIcon"
+                android:src="@drawable/ic_search"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                app:tint="@color/header_color"/>
+
+            <EditText
+                android:id="@+id/edtSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/imgSearchIcon"
+                android:layout_toStartOf="@+id/btnClear"
+                android:hint="Tìm kiếm..."
+                android:padding="8dp"
+                android:background="@android:color/transparent"
+                android:inputType="text" />
+
+            <ImageView
+                android:id="@+id/btnClear"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_clear"
+                app:tint="@null"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/btnVoice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="250dp"
+                android:contentDescription="Voice Search"
+                android:src="@android:drawable/ic_btn_speak_now"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/imgSearchIcon" />
+
+            <ImageView
+                android:id="@+id/btnWrite"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="220dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_write"
+                app:tint="@null"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/imgSearchIcon" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Nội dung trang trí hoặc ảnh nền + RecyclerView và TextView vào trong FrameLayout -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!-- Nội dung trang trí hoặc ảnh nền -->
+            <ImageView
+                android:id="@+id/imgGif"
+                android:layout_width="340dp"
+                android:layout_height="340dp"
+                android:layout_marginTop="16dp"
+                android:scaleType="centerCrop"
+                android:layout_gravity="center"
+                />
+
+            <!-- Dòng chữ chào mừng -->
+            <TextView
+                android:id="@+id/txvWelcome"
+                android:layout_width="340dp"
+                android:layout_height="wrap_content"
+                android:text="Chào mừng bạn đến với ứng dụng SmartDict! Tìm kiếm từ vựng chưa bao giờ dễ dàng đến thế!"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:textColor="@android:color/darker_gray"
+                android:gravity="center"
+                android:layout_marginTop="8dp"
+                android:padding="10dp" />
+
+        </LinearLayout>
+
+        <!-- Danh sách gợi ý -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvSuggestions"
+            android:layout_width="340dp"
+            android:layout_height="450dp"
+            android:layout_gravity="center_horizontal|top"
+            android:scrollbars="vertical"
+            android:visibility="gone" />
+    </FrameLayout>
+
 </LinearLayout>
