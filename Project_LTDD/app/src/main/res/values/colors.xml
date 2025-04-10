@@ -10,4 +10,11 @@
     <color name="purple_primary">#6200EE</color> <!-- Tím đậm Material Design -->
     <color name="gray">#A9A9A9</color>
     <color name="accent">#2196F3</color>
+    <color name="dark_gray">#C6C6C6</color>
+    <color name="primary">#0857F6</color>
+    <color name="secondary">#517FEE</color>
+
+    <color name="luminus_blue">#4D88ED</color>
+
+
 </resources>
