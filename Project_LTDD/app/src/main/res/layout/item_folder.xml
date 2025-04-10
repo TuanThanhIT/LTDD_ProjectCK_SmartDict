@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:padding="12dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_card_folder"
+    android:gravity="center_vertical">
+
+    <ImageView
+        android:id="@+id/imvMove"
+        android:src="@drawable/ic_move_up"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        app:tint="#000" />
+
+    <TextView
+        android:id="@+id/txvFolderName"
+        android:text="TỪ ĐANG HỌC"
+        android:textSize="16sp"
+        android:layout_marginStart="12dp"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"/>
+
+    <ImageView
+        android:id="@+id/imvEdit"
+        android:src="@drawable/ic_edit"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="16dp" />
+
+    <ImageView
+        android:id="@+id/imvDelete"
+        android:src="@drawable/ic_delete"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        app:tint="#F00"/>
+</LinearLayout>
