@@ -11,17 +11,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_ltdd.R;
-import com.example.project_ltdd.models.VocabularyModel;
+import com.example.project_ltdd.models.WordModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class VocabularyAdapter extends RecyclerView.Adapter<VocabularyAdapter.VocabViewHolder> implements Filterable {
+public class WordAdapter extends RecyclerView.Adapter<WordAdapter.VocabViewHolder> implements Filterable {
 
-    private List<VocabularyModel> vocabList;
-    private List<VocabularyModel> vocabListFiltered;
+    private List<WordModel> vocabList;
+    private List<WordModel> vocabListFiltered;
 
-    public VocabularyAdapter(List<VocabularyModel> vocabList) {
+    public WordAdapter(List<WordModel> vocabList) {
         this.vocabList = vocabList;
         this.vocabListFiltered = new ArrayList<>();
     }
@@ -35,7 +35,7 @@ public class VocabularyAdapter extends RecyclerView.Adapter<VocabularyAdapter.Vo
 
     @Override
     public void onBindViewHolder(@NonNull VocabViewHolder holder, int position) {
-        VocabularyModel vocab = vocabListFiltered.get(position);
+        WordModel vocab = vocabListFiltered.get(position);
         holder.txvWord.setText(vocab.getWord());
         holder.txvPhonetic.setText(vocab.getPhonetic());
         holder.txvMeaning.setText(vocab.getMeaning());
@@ -64,14 +64,14 @@ public class VocabularyAdapter extends RecyclerView.Adapter<VocabularyAdapter.Vo
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
-                List<VocabularyModel> filtered = new ArrayList<>();
+                List<WordModel> filtered = new ArrayList<>();
                 String keyword = constraint.toString().toLowerCase().trim();
 
                 // Kiểm tra xem từ khóa có hợp lệ không
                 if (keyword.isEmpty()) {
                     filtered.addAll(vocabList); // Nếu không có từ khóa, hiển thị tất cả
                 } else {
-                    for (VocabularyModel v : vocabList) {
+                    for (WordModel v : vocabList) {
                         // Kiểm tra từ khóa xuất hiện ở bất kỳ vị trí nào trong từ (dùng contains thay vì startsWith)
                         if (v.getWord().toLowerCase().startsWith(keyword)) {
                             filtered.add(v);
@@ -87,7 +87,7 @@ public class VocabularyAdapter extends RecyclerView.Adapter<VocabularyAdapter.Vo
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
                 vocabListFiltered.clear(); // Xóa các kết quả trước đó
-                vocabListFiltered.addAll((List<VocabularyModel>) results.values); // Thêm kết quả mới
+                vocabListFiltered.addAll((List<WordModel>) results.values); // Thêm kết quả mới
                 notifyDataSetChanged();
             }
         };

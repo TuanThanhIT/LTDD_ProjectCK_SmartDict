@@ -1,20 +1,20 @@
 package com.example.project_ltdd.models;
 
-public class VocabularyModel {
+public class WordModel {
     private String word;
     private String phonetic;
     private String meaning;
 
     private String partOfSpeech;
 
-    public VocabularyModel(String word, String phonetic, String meaning, String partOfSpeech) {
+    public WordModel(String word, String phonetic, String meaning, String partOfSpeech) {
         this.word = word;
         this.phonetic = phonetic;
         this.meaning = meaning;
         this.partOfSpeech = partOfSpeech;
     }
 
-    public VocabularyModel() {
+    public WordModel() {
     }
 
     public String getWord() {

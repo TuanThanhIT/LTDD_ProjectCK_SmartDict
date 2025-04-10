@@ -1,14 +1,51 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
     android:background="@color/main_color">
 
+    <!-- Tiêu đề -->
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/txvTitle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Your Word Fragment"
-        android:textSize="24sp"/>
+        android:text="❤️ Từ của bạn"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:background="@drawable/bg_gradient_title"
+        android:padding="16dp" />
+
+    <!-- Nút Folder -->
+    <ImageView
+        android:id="@+id/btnFolder"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/ic_folder" />
+
+    <!-- Tab layout với khoảng cách và hiệu ứng đẹp -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="4dp"
+        app:tabMode="scrollable"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@android:color/transparent"
+        app:tabTextColor="@color/gray"
+        app:tabSelectedTextColor="@color/white"/>
+
+    <!-- ViewPager2 -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 </LinearLayout>

@@ -15,7 +15,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Filter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -29,8 +28,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.project_ltdd.R;
-import com.example.project_ltdd.adapter.VocabularyAdapter;
-import com.example.project_ltdd.models.VocabularyModel;
+import com.example.project_ltdd.adapter.WordAdapter;
+import com.example.project_ltdd.models.WordModel;
 import com.example.project_ltdd.utils.DrawingView;
 import com.google.mlkit.vision.text.TextRecognition;
 import com.google.mlkit.vision.text.TextRecognizer;
@@ -40,7 +39,6 @@ import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 public class SearchFragment extends Fragment {
 
@@ -48,8 +46,8 @@ public class SearchFragment extends Fragment {
     private EditText edtSearch;
     private ImageView btnClear;
     private RecyclerView rvSuggestions;
-    private VocabularyAdapter adapter;
-    private List<VocabularyModel> fakeData;
+    private WordAdapter adapter;
+    private List<WordModel> fakeData;
     private ImageView btnVoice;
 
     private ImageView btnWrite;
@@ -80,20 +78,20 @@ public class SearchFragment extends Fragment {
 
         // Tạo dữ liệu giả
         fakeData = Arrays.asList(
-                new VocabularyModel("telecast", "[ˈtelikæst]", "chương trình truyền hình", "Noun"),
-                new VocabularyModel("television", "[ˈteləˌvɪʒən]", "tivi", "Noun"),
-                new VocabularyModel("teleport", "[ˈtelɪpɔːt]", "dịch chuyển tức thời", "Noun"),
-                new VocabularyModel("telecom", "[ˈtelɪkɒm]", "viễn thông", "Noun"),
-                new VocabularyModel("telegraph", "[ˈtelɪɡræf]", "máy điện báo", "Noun"),
-                new VocabularyModel("telephone", "[ˈtelɪfəʊn]", "điện thoại", "Noun"),
-                new VocabularyModel("telepathy", "[təˈlepəθi]", "thần giao cách cảm", "Noun"),
-                new VocabularyModel("telephoto", "[ˌtelɪˈfəʊtəʊ]", "ống kính tele", "Noun"),
-                new VocabularyModel("telemarketer", "[ˈtelimɑːkɪtə(r)]", "nhân viên tiếp thị qua điện thoại", "Noun")
+                new WordModel("telecast", "[ˈtelikæst]", "chương trình truyền hình", "Noun"),
+                new WordModel("television", "[ˈteləˌvɪʒən]", "tivi", "Noun"),
+                new WordModel("teleport", "[ˈtelɪpɔːt]", "dịch chuyển tức thời", "Noun"),
+                new WordModel("telecom", "[ˈtelɪkɒm]", "viễn thông", "Noun"),
+                new WordModel("telegraph", "[ˈtelɪɡræf]", "máy điện báo", "Noun"),
+                new WordModel("telephone", "[ˈtelɪfəʊn]", "điện thoại", "Noun"),
+                new WordModel("telepathy", "[təˈlepəθi]", "thần giao cách cảm", "Noun"),
+                new WordModel("telephoto", "[ˌtelɪˈfəʊtəʊ]", "ống kính tele", "Noun"),
+                new WordModel("telemarketer", "[ˈtelimɑːkɪtə(r)]", "nhân viên tiếp thị qua điện thoại", "Noun")
         );
 
         btnVoice.setOnClickListener(v -> startVoiceInput());
 
-        adapter = new VocabularyAdapter(fakeData);
+        adapter = new WordAdapter(fakeData);
         rvSuggestions.setLayoutManager(new LinearLayoutManager(requireContext()));
         rvSuggestions.setAdapter(adapter);
         rvSuggestions.setLayoutAnimation(
