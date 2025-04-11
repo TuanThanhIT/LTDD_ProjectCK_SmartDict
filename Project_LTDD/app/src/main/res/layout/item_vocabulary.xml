@@ -40,8 +40,8 @@
                 android:layout_height="wrap_content"
                 android:text="[ˈtelikæst]"
                 android:textColor="@color/white"
-                android:textSize="15sp"
-                android:layout_marginRight="50dp"
+                android:textSize="12sp"
+                android:layout_marginRight="40dp"
                 />
             <TextView
                 android:id="@+id/txvPartOfSpeech"
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:text="Noun"
                 android:textColor="@color/white"
-                android:textSize="15sp" />
+                android:textSize="12sp" />
         </LinearLayout>
 
         <TextView

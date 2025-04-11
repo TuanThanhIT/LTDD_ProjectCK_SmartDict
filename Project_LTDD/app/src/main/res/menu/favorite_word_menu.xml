@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/menu/word_item_menu.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_remove"
+        android:title="Xoá khỏi từ của bạn" />
+    <item
+        android:id="@+id/action_move_top"
+        android:title="Chuyển lên đầu" />
+    <item
+        android:id="@+id/action_move_folder"
+        android:title="Chuyển đến thư mục khác" />
+</menu>

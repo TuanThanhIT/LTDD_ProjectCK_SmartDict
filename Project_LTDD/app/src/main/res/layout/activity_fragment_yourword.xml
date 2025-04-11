@@ -4,48 +4,73 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_color">
+    android:background="@color/main_color"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="16dp">
 
-    <!-- Tiêu đề -->
-    <TextView
-        android:id="@+id/txvTitle"
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="❤️ Từ của bạn"
-        android:textSize="26sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:textColor="@color/white"
+        android:orientation="horizontal"
         android:background="@drawable/bg_gradient_title"
-        android:padding="16dp" />
+        android:padding="10dp"
+        android:layout_marginTop="10dp">
 
-    <!-- Nút Folder -->
-    <ImageView
-        android:id="@+id/btnFolder"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:src="@drawable/ic_folder" />
+        <!-- Tiêu đề -->
+        <TextView
+            android:id="@+id/txvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="❤️ Từ của bạn"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:layout_marginTop="2dp" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <!-- Nút Folder -->
+        <ImageView
+            android:id="@+id/btnFolder"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_folder"
+            android:layout_marginRight="20dp"/>
+
+        <!-- Nút Folder -->
+        <ImageView
+            android:id="@+id/btnMenu"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_menu" />
+    </LinearLayout>
+
+
 
     <!-- Tab layout với khoảng cách và hiệu ứng đẹp -->
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="4dp"
         app:tabMode="scrollable"
-        app:tabGravity="fill"
-        app:tabIndicatorColor="@android:color/transparent"
-        app:tabTextColor="@color/gray"
-        app:tabSelectedTextColor="@color/white"/>
+        app:tabGravity="center"
+        android:layout_marginTop="10dp"
+        android:background="@color/main_color"
+        app:tabIndicatorColor="@android:color/transparent" />
+
 
     <!-- ViewPager2 -->
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:layout_marginTop="10dp" />
 </LinearLayout>

@@ -1,20 +1,21 @@
 package com.example.project_ltdd.models;
 
-public class WordModel {
+import java.io.Serializable;
+import java.util.List;
+
+public class WordModel implements Serializable {
+
+    private Long wordId;
     private String word;
-    private String phonetic;
-    private String meaning;
+    private List<PhoneticModel> phonetics;
+    private List<MeaningModel> meanings;
 
-    private String partOfSpeech;
-
-    public WordModel(String word, String phonetic, String meaning, String partOfSpeech) {
-        this.word = word;
-        this.phonetic = phonetic;
-        this.meaning = meaning;
-        this.partOfSpeech = partOfSpeech;
+    public Long getWordId() {
+        return wordId;
     }
 
-    public WordModel() {
+    public void setWordId(Long wordId) {
+        this.wordId = wordId;
     }
 
     public String getWord() {
@@ -25,29 +26,29 @@ public class WordModel {
         this.word = word;
     }
 
-    public String getPartOfSpeech() {
-        return partOfSpeech;
+    public List<MeaningModel> getMeanings() {
+        return meanings;
     }
 
-    public void setPartOfSpeech(String partOfSpeech) {
-        this.partOfSpeech = partOfSpeech;
+    public void setMeanings(List<MeaningModel> meanings) {
+        this.meanings = meanings;
     }
 
-    public String getMeaning() {
-        return meaning;
+    public List<PhoneticModel> getPhonetics() {
+        return phonetics;
     }
 
-    public void setMeaning(String meaning) {
-        this.meaning = meaning;
+    public void setPhonetics(List<PhoneticModel> phonetics) {
+        this.phonetics = phonetics;
     }
 
-    public String getPhonetic() {
-        return phonetic;
+    public WordModel(Long wordId, List<MeaningModel> meanings, List<PhoneticModel> phonetics, String word) {
+        this.wordId = wordId;
+        this.meanings = meanings;
+        this.phonetics = phonetics;
+        this.word = word;
     }
 
-    public void setPhonetic(String phonetic) {
-        this.phonetic = phonetic;
+    public WordModel() {
     }
-
-
 }

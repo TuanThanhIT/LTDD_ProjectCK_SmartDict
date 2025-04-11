@@ -29,6 +29,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.project_ltdd.R;
 import com.example.project_ltdd.adapter.WordAdapter;
+import com.example.project_ltdd.models.MeaningModel;
+import com.example.project_ltdd.models.PhoneticModel;
 import com.example.project_ltdd.models.WordModel;
 import com.example.project_ltdd.utils.DrawingView;
 import com.google.mlkit.vision.text.TextRecognition;
@@ -76,17 +78,114 @@ public class SearchFragment extends Fragment {
                 .load(R.drawable.gi_search)  // Đường dẫn đến GIF trong drawable
                 .into(imgGif);  // ImageView mà bạn muốn hiển thị GIF
 
-        // Tạo dữ liệu giả
-        fakeData = Arrays.asList(
-                new WordModel("telecast", "[ˈtelikæst]", "chương trình truyền hình", "Noun"),
-                new WordModel("television", "[ˈteləˌvɪʒən]", "tivi", "Noun"),
-                new WordModel("teleport", "[ˈtelɪpɔːt]", "dịch chuyển tức thời", "Noun"),
-                new WordModel("telecom", "[ˈtelɪkɒm]", "viễn thông", "Noun"),
-                new WordModel("telegraph", "[ˈtelɪɡræf]", "máy điện báo", "Noun"),
-                new WordModel("telephone", "[ˈtelɪfəʊn]", "điện thoại", "Noun"),
-                new WordModel("telepathy", "[təˈlepəθi]", "thần giao cách cảm", "Noun"),
-                new WordModel("telephoto", "[ˌtelɪˈfəʊtəʊ]", "ống kính tele", "Noun"),
-                new WordModel("telemarketer", "[ˈtelimɑːkɪtə(r)]", "nhân viên tiếp thị qua điện thoại", "Noun")
+        List<WordModel> fakeData = Arrays.asList(
+                new WordModel(
+                        1L,
+                        Arrays.asList(
+                                new MeaningModel(101L, "chương trình truyền hình", "Noun"),
+                                new MeaningModel(102L, "việc phát sóng trên TV", "Verb")
+                        ),
+                        Arrays.asList(
+                                new PhoneticModel("https://audio-url.com/telecast.mp3", 201L, "/ˈtelikæst/"),
+                                new PhoneticModel("https://audio-url.com/telecast2.mp3", 202L, "/ˌtelɪˈkæst/")
+                        ),
+                        "telecast"
+                ),
+                new WordModel(
+                        2L,
+                        Arrays.asList(
+                                new MeaningModel(103L, "máy truyền hình", "Noun"),
+                                new MeaningModel(104L, "ngành truyền hình", "Noun")
+                        ),
+                        Arrays.asList(
+                                new PhoneticModel("https://audio-url.com/television.mp3", 203L, "/ˈteləˌvɪʒən/")
+                        ),
+                        "television"
+                ),
+                new WordModel(
+                        3L,
+                        Arrays.asList(
+                                new MeaningModel(105L, "dịch chuyển tức thời", "Verb")
+                        ),
+                        Arrays.asList(
+                                new PhoneticModel("https://audio-url.com/teleport.mp3", 204L, "/ˈtelɪpɔːt/")
+                        ),
+                        "teleport"
+                ),
+                new WordModel(
+                        4L,
+                        Arrays.asList(
+                                new MeaningModel(106L, "viễn thông", "Noun")
+                        ),
+                        Arrays.asList(
+                                new PhoneticModel("https://audio-url.com/telecom.mp3", 205L, "/ˈtelɪkɒm/")
+                        ),
+                        "telecom"
+                ),
+                new WordModel(
+                        5L,
+                        Arrays.asList(
+                                new MeaningModel(107L, "máy điện báo", "Noun"),
+                                new MeaningModel(108L, "gửi điện tín", "Verb")
+                        ),
+                        Arrays.asList(
+                                new PhoneticModel("https://audio-url.com/telegraph.mp3", 206L, "/ˈtelɪɡræf/")
+                        ),
+                        "telegraph"
+                ),
+                new WordModel(
+                        6L,
+                        Arrays.asList(
+                                new MeaningModel(109L, "điện thoại", "Noun"),
+                                new MeaningModel(110L, "gọi điện", "Verb")
+                        ),
+                        Arrays.asList(
+                                new PhoneticModel("https://audio-url.com/telephone.mp3", 207L, "/ˈtelɪfəʊn/"),
+                                new PhoneticModel("https://audio-url.com/telephone2.mp3", 208L, "/ˈtɛlɪfəʊn/")
+                        ),
+                        "telephone"
+                ),
+                new WordModel(
+                        7L,
+                        Arrays.asList(
+                                new MeaningModel(111L, "thần giao cách cảm", "Noun")
+                        ),
+                        Arrays.asList(
+                                new PhoneticModel("https://audio-url.com/telepathy.mp3", 209L, "/təˈlepəθi/")
+                        ),
+                        "telepathy"
+                ),
+                new WordModel(
+                        8L,
+                        Arrays.asList(
+                                new MeaningModel(112L, "ống kính tele", "Noun")
+                        ),
+                        Arrays.asList(
+                                new PhoneticModel("https://audio-url.com/telephoto.mp3", 210L, "/ˌtelɪˈfəʊtəʊ/")
+                        ),
+                        "telephoto"
+                ),
+                new WordModel(
+                        9L,
+                        Arrays.asList(
+                                new MeaningModel(113L, "nhân viên tiếp thị qua điện thoại", "Noun")
+                        ),
+                        Arrays.asList(
+                                new PhoneticModel("https://audio-url.com/telemarketer.mp3", 211L, "/ˈtelimɑːkɪtə(r)/")
+                        ),
+                        "telemarketer"
+                ),
+                new WordModel(
+                        10L,
+                        Arrays.asList(
+                                new MeaningModel(114L, "người điều khiển từ xa", "Noun"),
+                                new MeaningModel(115L, "lái từ xa", "Verb")
+                        ),
+                        Arrays.asList(
+                                new PhoneticModel("https://audio-url.com/teledrive.mp3", 212L, "/ˈtɛlɪdraɪv/")
+                        ),
+                        "teledrive"
+                )
         );
 
         btnVoice.setOnClickListener(v -> startVoiceInput());
