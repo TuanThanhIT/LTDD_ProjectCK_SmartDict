@@ -3,13 +3,14 @@ package com.example.project_ltdd.adapter;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,22 +25,27 @@ import com.example.project_ltdd.models.WordModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WordFavoriteAdapter extends RecyclerView.Adapter<WordFavoriteAdapter.WordViewHolder> {
+public class WordLookedUpAdapter extends RecyclerView.Adapter<WordLookedUpAdapter.WordViewHolder> implements Filterable{
 
-    private final List<WordModel> wordList;
+    private List<WordModel> wordList;
+    private List<WordModel> wordListFiltered;
     private Context context;
+
+    Boolean checkFavorite = false;
 
     public List<WordModel> selectedWords = new ArrayList<>(); // Xu ly viec chon CheckBox
 
-    public WordFavoriteAdapter(List<WordModel> wordList, Context context) {
+    public WordLookedUpAdapter(List<WordModel> wordList, Context context) {
         this.wordList = wordList;
         this.context = context;
+        this.wordListFiltered = new ArrayList<>(wordList);
     }
+
 
     @NonNull
     @Override
     public WordViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_favorite_word, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_lookedup_word, parent, false);
         return new WordViewHolder(view);
     }
 
@@ -49,15 +55,15 @@ public class WordFavoriteAdapter extends RecyclerView.Adapter<WordFavoriteAdapte
         void onItemUnchecked(WordModel word); // Optional
     }
 
-    private WordFavoriteAdapter.OnItemCheckListener listener;
+    private OnItemCheckListener listener;
 
-    public void setOnItemCheckListener(WordFavoriteAdapter.OnItemCheckListener listener) {
+    public void setOnItemCheckListener(OnItemCheckListener listener) {
         this.listener = listener;
     }
 
     @Override
     public void onBindViewHolder(@NonNull WordViewHolder holder, int position) {
-        WordModel word = wordList.get(position);
+        WordModel word = wordListFiltered.get(position);
         holder.txvWord.setText(word.getWord());
         StringBuilder phoneticText = new StringBuilder("[");
         if (word.getPhonetics() != null && !word.getPhonetics().isEmpty()) {
@@ -149,31 +155,21 @@ public class WordFavoriteAdapter extends RecyclerView.Adapter<WordFavoriteAdapte
             }
         });
 
-        holder.btnMenu.setOnClickListener(new View.OnClickListener() {
+        holder.btnFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(context, holder.btnMenu);
-                popupMenu.getMenuInflater().inflate(R.menu.favorite_word_menu, popupMenu.getMenu());
+            public void onClick(View view) {
+                if(!checkFavorite){
+                    // Xu ly them vao tu cua ban
+                    holder.btnFavorite.setImageResource(R.drawable.ic_heart2);
+                    Toast.makeText(context," Da them tu vung nay vao Tu cua ban", Toast.LENGTH_SHORT).show();
+                    checkFavorite = true;
+                }
+                else{
+                    holder.btnFavorite.setImageResource(R.drawable.ic_heart1);
+                    Toast.makeText(context,"Tu nay da bi xoa khoi Tu cua ban", Toast.LENGTH_SHORT).show();
+                }
 
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        int id = item.getItemId();
-                        if (id == R.id.action_remove) {
-                            // TODO: Xử lý xóa từ
-                            return true;
-                        } else if (id == R.id.action_move_top) {
-                            // TODO: Chuyển lên đầu
-                            return true;
-                        } else if (id == R.id.action_move_folder) {
-                            // TODO: Chuyển đến thư mục khác
-                            return true;
-                        }
-                        return false;
-                    }
-                });
 
-                popupMenu.show();
             }
         });
 
@@ -194,20 +190,22 @@ public class WordFavoriteAdapter extends RecyclerView.Adapter<WordFavoriteAdapte
                 if (listener != null) listener.onItemUnchecked(word); // Gửi callback
             }
         });
+
     }
 
-        @Override
+    @Override
     public int getItemCount() {
-        return wordList.size();
+        return wordListFiltered.size();
     }
 
     public WordModel getWordAt(int position) {
-        return wordList.get(position);
+        return wordListFiltered.get(position);
     }
 
     public static class WordViewHolder extends RecyclerView.ViewHolder {
         TextView txvWord, txvPhonetic, txvMeaning, txvPartOfSpeech;
-        ImageView btnPlayAudio, btnMenu;
+        ImageView btnPlayAudio, btnFavorite;
+
         CheckBox chbSelect;
 
         public WordViewHolder(@NonNull View itemView) {
@@ -217,10 +215,42 @@ public class WordFavoriteAdapter extends RecyclerView.Adapter<WordFavoriteAdapte
             txvMeaning = itemView.findViewById(R.id.txvMeaning);
             txvPartOfSpeech = itemView.findViewById(R.id.txvPartOfSpeech);
             btnPlayAudio = itemView.findViewById(R.id.btnSound);
-            btnMenu = itemView.findViewById(R.id.btnMenu);
-            chbSelect = itemView.findViewById(R.id.cbFavorite);
+            btnFavorite = itemView.findViewById(R.id.btnFavorite);
+            chbSelect = itemView.findViewById(R.id.chbLookedUp);
         }
     }
 
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                List<WordModel> filtered = new ArrayList<>();
+                String keyword = constraint.toString().toLowerCase().trim();
 
+                // Kiểm tra xem từ khóa có hợp lệ không
+                if (keyword.isEmpty()) {
+                    filtered.addAll(wordList); // Nếu không có từ khóa, hiển thị tất cả
+                } else {
+                    for (WordModel v : wordList) {
+                        // Kiểm tra từ khóa xuất hiện ở bất kỳ vị trí nào trong từ (dùng contains thay vì startsWith)
+                        if (v.getWord().toLowerCase().startsWith(keyword)) {
+                            filtered.add(v);
+                        }
+                    }
+                }
+
+                FilterResults results = new FilterResults();
+                results.values = filtered;
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                wordListFiltered.clear(); // Xóa các kết quả trước đó
+                wordListFiltered.addAll((List<WordModel>) results.values); // Thêm kết quả mới
+                notifyDataSetChanged();
+            }
+        };
+    }
 }

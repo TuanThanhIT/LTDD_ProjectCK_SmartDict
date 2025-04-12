@@ -6,7 +6,9 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
@@ -16,8 +18,11 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.project_ltdd.R;
+import com.example.project_ltdd.adapter.WordFavoriteAdapter;
+import com.example.project_ltdd.adapter.WordLookedUpAdapter;
 import com.example.project_ltdd.adapter.YourWordPagerAdapter;
 import com.example.project_ltdd.models.FolderModel;
+import com.example.project_ltdd.models.WordModel;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -31,6 +36,7 @@ public class YourWordFragment extends Fragment {
     private ArrayList<FolderModel> folderList;
 
     private ImageView btnMenu;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -135,7 +141,6 @@ public class YourWordFragment extends Fragment {
                 tabText.animate().alpha(1f).setDuration(200).start();
             }
         });
-
         return view;
     }
 

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:orientation="horizontal"
+    android:background="@drawable/bg_item_favorite">
+
+    <CheckBox
+        android:id="@+id/chbLookedUp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="12dp" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txvWord"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="telecast"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                />
+
+            <!-- View rỗng để đẩy phần tử cuối sang phải -->
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/btnSound"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_sound"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="20dp"
+                />
+
+            <ImageView
+                android:id="@+id/btnFavorite"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_heart1"
+                android:layout_gravity="center_vertical"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txvPhonetic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="[ˈtelikæst]"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:layout_marginRight="40dp"
+                />
+            <TextView
+                android:id="@+id/txvPartOfSpeech"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Noun"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:layout_marginRight="70dp"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txvMeaning"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="chương trình truyền hình"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -28,7 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.project_ltdd.R;
-import com.example.project_ltdd.adapter.WordAdapter;
+import com.example.project_ltdd.adapter.WordSearchAdapter;
 import com.example.project_ltdd.models.MeaningModel;
 import com.example.project_ltdd.models.PhoneticModel;
 import com.example.project_ltdd.models.WordModel;
@@ -48,7 +48,7 @@ public class SearchFragment extends Fragment {
     private EditText edtSearch;
     private ImageView btnClear;
     private RecyclerView rvSuggestions;
-    private WordAdapter adapter;
+    private WordSearchAdapter adapter;
     private List<WordModel> fakeData;
     private ImageView btnVoice;
 
@@ -190,7 +190,7 @@ public class SearchFragment extends Fragment {
 
         btnVoice.setOnClickListener(v -> startVoiceInput());
 
-        adapter = new WordAdapter(fakeData);
+        adapter = new WordSearchAdapter(fakeData);
         rvSuggestions.setLayoutManager(new LinearLayoutManager(requireContext()));
         rvSuggestions.setAdapter(adapter);
         rvSuggestions.setLayoutAnimation(

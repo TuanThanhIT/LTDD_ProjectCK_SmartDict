@@ -4,13 +4,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_ltdd.R;
-import com.example.project_ltdd.adapter.WordAdapter;
 import com.example.project_ltdd.adapter.WordFavoriteAdapter;
 import com.example.project_ltdd.models.MeaningModel;
 import com.example.project_ltdd.models.PhoneticModel;
@@ -24,6 +25,11 @@ public class WordFavoriteFragment extends Fragment {
     private static final String ARG_FOLDER_ID = "folderId";
     private static final String ARG_FOLDER_NAME = "folderName";
     List<WordModel> listWord;
+    private WordFavoriteAdapter adapter;
+
+    private LinearLayout layoutWordActions;
+    private Button btnJumpTo, btnDeleteWord, btnSelectAll, btnClearAll;
+    private WordModel selectedWord = null;
 
     public static WordFavoriteFragment newInstance(int folderId, String folderName) {
         WordFavoriteFragment fragment = new WordFavoriteFragment();
@@ -86,9 +92,67 @@ public class WordFavoriteFragment extends Fragment {
 
         //         Load từ vựng từ database theo folderId
 
-        WordFavoriteAdapter adapter = new WordFavoriteAdapter(listWord, requireContext());
+        adapter = new WordFavoriteAdapter(listWord, requireContext());
         rvFavoriteWords.setAdapter(adapter);
+
+        layoutWordActions = view.findViewById(R.id.layoutButtons);
+        btnJumpTo = view.findViewById(R.id.btnJump);
+        btnDeleteWord = view.findViewById(R.id.btnDelete);
+        btnSelectAll = view.findViewById(R.id.btnSelectAll);
+        btnClearAll = view.findViewById(R.id.btnClearAll);
+
+        adapter.setOnItemCheckListener(new WordFavoriteAdapter.OnItemCheckListener() {
+            @Override
+            public void onItemChecked(WordModel word) {
+                layoutWordActions.setVisibility(View.VISIBLE); // Hiện LinearLayout khi có từ được chọn
+                if(adapter.selectedWords.size() == adapter.getItemCount()){
+                    btnSelectAll.setVisibility(View.GONE);
+                    btnClearAll.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onItemUnchecked(WordModel word) {
+                // Kiểm tra nếu không còn từ nào được chọn
+                if (adapter.selectedWords.isEmpty()) {
+                    layoutWordActions.setVisibility(View.GONE); // Ẩn LinearLayout nếu không còn từ nào được chọn
+                }
+            }
+        });
+
+        // Xu ly button chon tat ca
+        btnSelectAll.setOnClickListener(v -> {
+            selectAllItems(true);// Gọi phương thức để chọn tất cả
+            btnClearAll.setVisibility(View.VISIBLE);
+            v.setVisibility(View.GONE);
+        });
+
+        btnClearAll.setOnClickListener(v -> {
+            selectAllItems(false);
+            btnSelectAll.setVisibility(View.VISIBLE);
+            v.setVisibility(View.GONE);
+        });
+
         return view;
+    }
+
+    private void selectAllItems(boolean select) {
+        if (select) {
+            // Chọn tất cả từ
+            adapter.selectedWords.clear();
+            for (int i = 0; i < adapter.getItemCount(); i++) {
+                WordModel word = adapter.getWordAt(i);
+                adapter.selectedWords.add(word);
+            }
+        } else {
+            // Bỏ chọn tất cả từ
+            adapter.selectedWords.clear();
+        }
+
+        adapter.notifyDataSetChanged(); // Cập nhật toàn bộ list
+
+        // Cập nhật layout chứa nút chức năng
+        layoutWordActions.setVisibility(select ? View.VISIBLE : View.GONE);
     }
 
 }
