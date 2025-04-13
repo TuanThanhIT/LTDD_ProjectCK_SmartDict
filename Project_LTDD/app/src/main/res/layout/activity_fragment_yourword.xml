@@ -4,19 +4,15 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_color"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingBottom="16dp">
+    android:background="@color/white"
+    android:padding="10dp">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="@drawable/bg_gradient_title"
-        android:padding="10dp"
-        android:layout_marginTop="10dp">
+        android:padding="10dp">
 
         <!-- Tiêu đề -->
         <TextView
@@ -27,7 +23,7 @@
             android:textSize="25sp"
             android:textStyle="bold"
             android:gravity="center"
-            android:textColor="@color/white"
+            android:textColor="@color/brightblue"
             android:layout_marginTop="2dp" />
         <View
             android:layout_width="0dp"
@@ -41,7 +37,7 @@
             android:layout_height="25dp"
             android:layout_gravity="center_vertical"
             android:src="@drawable/ic_folder"
-            android:layout_marginRight="20dp"/>
+            android:layout_marginRight="15dp"/>
 
         <!-- Nút Folder -->
         <ImageView
@@ -52,6 +48,13 @@
             android:src="@drawable/ic_menu" />
     </LinearLayout>
 
+    <View
+        android:id="@+id/dividerQuiz"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="4dp"
+        android:background="@color/brightblue"
+        android:layout_marginBottom="10dp"/>
 
 
     <!-- Tab layout với khoảng cách và hiệu ứng đẹp -->
@@ -63,7 +66,7 @@
         app:tabGravity="center"
         android:layout_marginTop="10dp"
         android:background="@color/main_color"
-        app:tabIndicatorColor="@android:color/transparent" />
+        app:tabIndicatorColor="@color/black" />
 
 
     <!-- ViewPager2 -->

@@ -1,4 +1,7 @@
 package com.example.project_ltdd.activities;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -122,7 +125,9 @@ public class MainActivity extends AppCompatActivity {
                 selectedFragment = new YourWordFragment();
             } else if(itemId == R.id.nav_term) {
                 selectedFragment = new TermFragment();
-            } else{
+            } else if(itemId == R.id.nav_facebook){
+                openFacebookPage(MainActivity.this);
+            } else {
                 selectedFragment = new SecurityPolicyFragment();
             }
 
@@ -181,5 +186,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    private void openFacebookPage(Context context) {
+        String facebookUrl = "https://www.facebook.com/share/164Z1MWcDM/";
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(facebookUrl));
+        context.startActivity(intent);
+    }
 }
