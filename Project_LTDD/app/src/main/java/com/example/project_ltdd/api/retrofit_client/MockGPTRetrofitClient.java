@@ -1,4 +1,4 @@
-package com.example.project_ltdd.api.services.retrofit_client;
+package com.example.project_ltdd.api.retrofit_client;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

@@ -6,9 +6,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
@@ -18,11 +16,8 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.project_ltdd.R;
-import com.example.project_ltdd.adapter.WordFavoriteAdapter;
-import com.example.project_ltdd.adapter.WordLookedUpAdapter;
-import com.example.project_ltdd.adapter.YourWordPagerAdapter;
+import com.example.project_ltdd.adapters.YourWordPagerAdapter;
 import com.example.project_ltdd.models.FolderModel;
-import com.example.project_ltdd.models.WordModel;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -44,7 +39,11 @@ public class YourWordFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.activity_fragment_yourword, container, false);
+        initViews(view);
+        return view;
+    }
 
+    private void initViews(View view){
         tabLayout = view.findViewById(R.id.tabLayout);
         viewPager = view.findViewById(R.id.viewPager);
         btnMenu = view.findViewById(R.id.btnMenu);
@@ -141,7 +140,6 @@ public class YourWordFragment extends Fragment {
                 tabText.animate().alpha(1f).setDuration(200).start();
             }
         });
-        return view;
     }
 
 }

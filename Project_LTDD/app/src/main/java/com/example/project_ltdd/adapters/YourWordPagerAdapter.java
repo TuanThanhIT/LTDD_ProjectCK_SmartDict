@@ -1,4 +1,4 @@
-package com.example.project_ltdd.adapter;
+package com.example.project_ltdd.adapters;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

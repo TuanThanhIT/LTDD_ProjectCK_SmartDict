@@ -22,6 +22,12 @@ public class ResultExamFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_fragment_result_exam, container, false);
+
+
+        return view;
+    }
+
+    private void initViews(View view){
         btnExit = view.findViewById(R.id.btnResultExit);
 
         btnExit.setOnClickListener(new View.OnClickListener() {
@@ -33,8 +39,6 @@ public class ResultExamFragment extends Fragment {
                 transaction.commit();
             }
         });
-
-        return view;
     }
 
 

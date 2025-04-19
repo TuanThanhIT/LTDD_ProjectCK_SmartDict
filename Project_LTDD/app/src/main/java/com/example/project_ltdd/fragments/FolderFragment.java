@@ -19,10 +19,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_ltdd.R;
-import com.example.project_ltdd.adapter.FolderAdapter;
+import com.example.project_ltdd.adapters.FolderAdapter;
 import com.example.project_ltdd.models.FolderModel;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +40,10 @@ public class FolderFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.activity_fragment_folder, container, false);
-
+        initViews(view);
+        return view;
+    }
+    private void initViews(View view){
         txvQuantityFolder = view.findViewById(R.id.txvQuantityFolder);
         btnAddFolder = view.findViewById(R.id.btnAddFolder);
 
@@ -53,6 +55,7 @@ public class FolderFragment extends Fragment {
         toolbar.setNavigationOnClickListener(v -> {
             requireActivity().getSupportFragmentManager().popBackStack();
         });
+
 
         // Setup RecyclerView
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewFolders);
@@ -117,6 +120,5 @@ public class FolderFragment extends Fragment {
                 builder.show();
             }
         });
-        return view;
     }
 }

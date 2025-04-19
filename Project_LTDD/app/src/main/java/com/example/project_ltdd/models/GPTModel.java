@@ -1,8 +1,6 @@
-package com.example.project_ltdd.api.responses;
+package com.example.project_ltdd.models;
 
-import java.util.List;
-
-public class GPTResponse {
+public class GPTModel {
     private String input;
     private String response;
 
@@ -22,4 +20,3 @@ public class GPTResponse {
         this.response = response;
     }
 }
-

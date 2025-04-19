@@ -1,11 +1,9 @@
 package com.example.project_ltdd.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,8 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_ltdd.R;
-import com.example.project_ltdd.adapter.QuizAdapter;
-import com.example.project_ltdd.adapter.QuizHistoryAdapter;
+import com.example.project_ltdd.adapters.QuizAdapter;
+import com.example.project_ltdd.adapters.QuizHistoryAdapter;
 import com.example.project_ltdd.models.QuizHistoryModel;
 import com.example.project_ltdd.models.QuizModel;
 
@@ -40,13 +38,17 @@ public class QuizFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_fragment_quiz, container, false);
+        initViews(view);
+        return view;
+    }
 
+    private void initViews(View view){
         // Hiển thị bài quiz
         rvQuizList = view.findViewById(R.id.rvQuizList);
         quizList = new ArrayList<>();
-        quizList.add(new QuizModel("Quiz số 1", 600, 10));
-        quizList.add(new QuizModel("Quiz số 2", 600, 15));
-        quizList.add(new QuizModel("Quiz số 3", 1200, 20));
+        quizList.add(new QuizModel("Quiz số 1", 20, 10, "https://tesolcourse.edu.vn/wp-content/uploads/2022/02/2-2.jpg"));
+        quizList.add(new QuizModel("Quiz số 2", 600, 15, "https://img.freepik.com/premium-vector/quiz-comic-pop-art-style-quiz-brainy-game-word-vector-illustration-design_180786-81.jpg"));
+        quizList.add(new QuizModel("Quiz số 3", 1200, 20, "https://static.vecteezy.com/system/resources/thumbnails/012/552/383/small_2x/hand-drawn-doodle-style-cartoon-quiz-symbol-free-vector.jpg"));
 
         mQuizAdapter = new QuizAdapter(requireContext(), quizList, requireActivity().getSupportFragmentManager());
         rvQuizList.setAdapter(mQuizAdapter);
@@ -56,7 +58,7 @@ public class QuizFragment extends Fragment {
         // Hiển thị lịch sử làm quiz
         rvHistoryQuizList = view.findViewById(R.id.rvHistoryQuizTest);
         quizHistoryList = new ArrayList<>();
-        quizHistoryList.add(new QuizHistoryModel("Quiz số 1", 1, 50, 500));
+        quizHistoryList.add(new QuizHistoryModel("Quiz số 1", 1, 50, 20));
         quizHistoryList.add(new QuizHistoryModel("Quiz số 2", 1, 80, 1300));
         quizHistoryList.add(new QuizHistoryModel("Quiz số 3", 1, 100, 1000));
         quizHistoryList.add(new QuizHistoryModel("Quiz số 4", 1, 50, 500));
@@ -69,6 +71,5 @@ public class QuizFragment extends Fragment {
         mQuizHistoryAdapter =  new QuizHistoryAdapter(requireContext(), quizHistoryList);
         rvHistoryQuizList.setAdapter(mQuizHistoryAdapter);
         rvHistoryQuizList.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
-        return view;
     }
 }
