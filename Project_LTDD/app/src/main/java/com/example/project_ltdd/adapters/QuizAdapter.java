@@ -1,20 +1,21 @@
-package com.example.project_ltdd.adapter;
+package com.example.project_ltdd.adapters;
 
 import android.content.Context;
-import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.project_ltdd.R;
 import com.example.project_ltdd.fragments.ExamFragment;
 import com.example.project_ltdd.models.QuizModel;
@@ -50,8 +51,20 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
         int minutes = time / 60;
         int seconds = time % 60;
         holder.tvQuizTime.setText("Thời gian: "+ minutes + " phút " + seconds + " giây"); // Hiển thị thời gian làm bà
+        // Ví dụ trong adapter hoặc activity/fragment:
+        Glide.with(mContext)
+                .load(quiz.getQuizImage())
+                .placeholder(R.drawable.sample_image) // ảnh hiển thị trong lúc chờ load
+                .error(R.drawable.error_image)   // ảnh nếu load lỗi
+                .into(holder.imgQuiz);
         holder.btnStartQuiz.setOnClickListener(view -> {
             ExamFragment examFragment = new ExamFragment();
+
+            // Gói dữ liệu vào Bundle
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("quizModel", quiz);// key: "timeSpent"
+            examFragment.setArguments(bundle);
+
 
             // Chuyển sang ExamFragment
             FragmentTransaction transaction = mFragmentManager.beginTransaction();
@@ -73,12 +86,15 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
 
         private Button btnStartQuiz;
 
+        private ImageView imgQuiz;
+
 
         public QuizViewHolder(View itemView){
             super(itemView);
             tvQuizName = (TextView) itemView.findViewById(R.id.txvQuizTitle);
             tvQuestionCount = (TextView) itemView.findViewById(R.id.txvQuestionCount);
             tvQuizTime = (TextView) itemView.findViewById(R.id.txvQuizTime);
+            imgQuiz = (ImageView) itemView.findViewById(R.id.imgQuiz);
             btnStartQuiz = (Button) itemView.findViewById(R.id.btnStartQuiz);
 
             itemView.setOnClickListener(new View.OnClickListener(){

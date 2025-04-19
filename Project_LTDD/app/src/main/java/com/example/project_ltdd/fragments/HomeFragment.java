@@ -11,8 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.project_ltdd.R;
-import com.example.project_ltdd.adapter.BannerViewPager2Adapter;
-import com.example.project_ltdd.adapter.TopViewPager2Adapter;
+import com.example.project_ltdd.adapters.BannerViewPager2Adapter;
+import com.example.project_ltdd.adapters.TopViewPager2Adapter;
 import com.example.project_ltdd.models.BannerModel;
 import com.example.project_ltdd.utils.AutoScrollViewPager2;
 
@@ -38,7 +38,11 @@ public class HomeFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_fragment_home, container, false);
+        initViews(view);
+        return view;
+    }
 
+    private void initViews(View view){
         // Banner quảng cáo
         viewPager2Banner = view.findViewById(R.id.viewPager2Banner);
         circleIndicator33 = view.findViewById(R.id.circle_indicator33);
@@ -93,9 +97,7 @@ public class HomeFragment extends Fragment {
                 autoScrollTop.start(); //Đặt lại bộ đếm thời gian để tự động chuyển trang sau 3 giây.
             }
         });
-        return view;
     }
-
     private List<BannerModel> getListBanners() {
         List<BannerModel> list = new ArrayList<>();
         list.add(new BannerModel(R.drawable.img_banner1));

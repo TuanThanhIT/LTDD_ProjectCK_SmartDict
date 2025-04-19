@@ -12,9 +12,9 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.example.project_ltdd.R;
-import com.example.project_ltdd.api.responses.GPTResponse;
-import com.example.project_ltdd.api.services.retrofit_client.MockGPTRetrofitClient;
+import com.example.project_ltdd.api.retrofit_client.MockGPTRetrofitClient;
 import com.example.project_ltdd.api.services.MockGPTService;
+import com.example.project_ltdd.models.GPTModel;
 
 import java.util.List;
 
@@ -36,7 +36,11 @@ public class AIFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_fragment_ai, container, false);
+        initViews(view);
+        return view;
+    }
 
+    private void initViews(View view){
         editTextInput = view.findViewById(R.id.editTextInput);
         buttonTranslate = view.findViewById(R.id.buttonTranslate);
         textViewResult = view.findViewById(R.id.textViewResult);
@@ -54,19 +58,17 @@ public class AIFragment extends Fragment {
                 }
             }
         });
-
-        return view;
     }
 
     private void fetchGptResponse(String input) {
         MockGPTService api = MockGPTRetrofitClient.getClient().create(MockGPTService.class);
-        Call<List<GPTResponse>> call = api.getGptResponse(input);
+        Call<List<GPTModel>> call = api.getGptResponse(input);
 
-        call.enqueue(new Callback<List<GPTResponse>>() {
+        call.enqueue(new Callback<List<GPTModel>>() {
             @Override
-            public void onResponse(Call<List<GPTResponse>> call, Response<List<GPTResponse>> response) {
+            public void onResponse(Call<List<GPTModel>> call, Response<List<GPTModel>> response) {
                 if (response.isSuccessful() && response.body() != null && !response.body().isEmpty()) {
-                    GPTResponse gptResponse = response.body().get(0); // lấy kết quả đầu tiên
+                    GPTModel gptResponse = response.body().get(0); // lấy kết quả đầu tiên
                     textViewResult.setText(gptResponse.getResponse());
                 } else {
                     textViewResult.setText("Không có kết quả.");
@@ -74,7 +76,7 @@ public class AIFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<List<GPTResponse>> call, Throwable t) {
+            public void onFailure(Call<List<GPTModel>> call, Throwable t) {
                 textViewResult.setText("Lỗi kết nối: " + t.getMessage());
             }
         });

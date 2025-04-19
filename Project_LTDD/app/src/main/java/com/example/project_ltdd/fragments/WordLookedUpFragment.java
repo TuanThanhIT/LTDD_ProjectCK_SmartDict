@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_ltdd.R;
-import com.example.project_ltdd.adapter.WordLookedUpAdapter;
+import com.example.project_ltdd.adapters.WordLookedUpAdapter;
 import com.example.project_ltdd.models.MeaningModel;
 import com.example.project_ltdd.models.PhoneticModel;
 import com.example.project_ltdd.models.WordModel;
@@ -49,6 +49,11 @@ public class WordLookedUpFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_fragment_wordlookedup, container, false);
+        initViews(view);
+        return view;
+    }
+
+    private void initViews(View view){
         rcvLookedUpWord = view.findViewById(R.id.rcvLookedUpWord);
         edtLookedUp = view.findViewById(R.id.edtLookedUp);
         btnClearLookedUp = view.findViewById(R.id.btnClearLookUp);
@@ -65,19 +70,8 @@ public class WordLookedUpFragment extends Fragment {
                 ),
                 "cat"
         ));
-        listWord.add(new WordModel(
-                1L,
-                Arrays.asList(
-                        new MeaningModel(1L, "con mèo", "Noun"),
-                        new MeaningModel(2L, "người khó chịu", "Noun")
-                ),
-                Arrays.asList(
-                        new PhoneticModel("https://api.dictionaryapi.dev/media/pronunciations/en/cat-uk.mp3", 1L, "/kæt/"),
-                        new PhoneticModel("https://api.dictionaryapi.dev/media/pronunciations/en/cat-us.mp3", 1L, "/kat/")
-                ),
-                "cat"
-        ));
-        adapter = new WordLookedUpAdapter(listWord, requireContext());
+
+        adapter = new WordLookedUpAdapter(listWord, requireContext(), getParentFragmentManager());
         rcvLookedUpWord.setAdapter(adapter);
         rcvLookedUpWord.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
         rcvLookedUpWord.setLayoutAnimation(
@@ -143,8 +137,8 @@ public class WordLookedUpFragment extends Fragment {
             btnSelectAll.setVisibility(View.VISIBLE);
             v.setVisibility(View.GONE);
         });
-        return view;
     }
+
     private void filterResults() {
         adapter.getFilter().filter(currentSearchQuery, new Filter.FilterListener() {
             @Override

@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.project_ltdd.R;
+import com.example.project_ltdd.models.AnswerModel;
 import com.example.project_ltdd.models.QuestionModel;
 
 public class QuestionFragment extends Fragment {
@@ -37,18 +38,22 @@ public class QuestionFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.item_exam, container, false);
+        initViews(view);
+        return view;
+    }
+
+    private void initViews(View view){
         TextView tvQuestion = view.findViewById(R.id.txvQuestion);
         RadioGroup radioGroup = view.findViewById(R.id.radioGroup);
 
         tvQuestion.setText(question.getQuestionText());
 
         // Tạo danh sách đáp án
-        for (String option : question.getOptions()) {
+        for (AnswerModel option : question.getOptions()) {
             RadioButton radioButton = new RadioButton(getContext());
-            radioButton.setText(option);
+            radioButton.setText(option.getAnswerText());
             radioGroup.addView(radioButton);
         }
 
-        return view;
     }
 }

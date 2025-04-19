@@ -18,11 +18,9 @@ import androidx.fragment.app.Fragment;
 
 import com.example.project_ltdd.R;
 import com.example.project_ltdd.fragments.HomeFragment;
-import com.example.project_ltdd.fragments.LoginFragment;
 import com.example.project_ltdd.fragments.AIFragment;
 import com.example.project_ltdd.fragments.QuizFragment;
-import com.example.project_ltdd.fragments.RegisterFragment;
-import com.example.project_ltdd.fragments.SearchFragment;
+import com.example.project_ltdd.fragments.WordSearchFragment;
 import com.example.project_ltdd.fragments.SecurityPolicyFragment;
 import com.example.project_ltdd.fragments.SettingFragment;
 import com.example.project_ltdd.fragments.TermFragment;
@@ -114,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
             } else if(itemId == R.id.nav_quizz){
                 selectedFragment = new QuizFragment();
             } else if(itemId == R.id.nav_search){
-                selectedFragment = new SearchFragment();
+                selectedFragment = new WordSearchFragment();
             } else if(itemId == R.id.nav_settings){
                 selectedFragment = new SettingFragment();
             } else if(itemId == R.id.nav_textTranslation){
@@ -164,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
             if(itemId == R.id.nav_bottomHome){
                 selectedFragment = new HomeFragment();
             } else if(itemId == R.id.nav_bottomSearch){
-                selectedFragment = new SearchFragment();
+                selectedFragment = new WordSearchFragment();
             } else if(itemId == R.id.nav_bottomYourWord) {
                 selectedFragment = new YourWordFragment();
             } else if(itemId == R.id.nav_bottomAI){

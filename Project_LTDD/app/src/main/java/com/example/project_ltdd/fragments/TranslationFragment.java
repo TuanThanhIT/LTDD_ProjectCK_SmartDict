@@ -15,9 +15,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.project_ltdd.R;
-import com.example.project_ltdd.api.requests.TranslateRequest;
-import com.example.project_ltdd.api.responses.TranslateResponse;
+import com.example.project_ltdd.api.retrofit_client.TranslateRetrofitClient;
 import com.example.project_ltdd.api.services.TranslateService;
+import com.example.project_ltdd.models.TranslateModel;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,18 +39,19 @@ public class TranslationFragment extends Fragment {
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_fragment_translation, container, false);
+        initViews(view);
+        return view;
+    }
+
+    private void initViews(View view){
         editTextInput = view.findViewById(R.id.editTextInput);
         radioEnToVi = view.findViewById(R.id.radioEnToVi);
         radioViToEn = view.findViewById(R.id.radioViToEn);
         buttonTranslate = view.findViewById(R.id.buttonTranslate);
         textViewResult = view.findViewById(R.id.textViewResult);
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://libretranslate.com/") // Đúng
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
 
-        translateService = retrofit.create(TranslateService.class);
+        translateService = TranslateRetrofitClient.getClient();
 
         buttonTranslate.setOnClickListener(v -> {
             String text = editTextInput.getText().toString();
@@ -62,12 +63,11 @@ public class TranslationFragment extends Fragment {
             String source = radioEnToVi.isChecked() ? "en" : "vi";
             String target = radioEnToVi.isChecked() ? "vi" : "en";
 
-            TranslateRequest request = new TranslateRequest(text, source, target);
+            TranslateModel model = new TranslateModel(text, source, target);
 
-
-            translateService.translate(request).enqueue(new Callback<TranslateResponse>() {
+            translateService.translate(model).enqueue(new Callback<TranslateModel>() {
                 @Override
-                public void onResponse(Call<TranslateResponse> call, Response<TranslateResponse> response) {
+                public void onResponse(Call<TranslateModel> call, Response<TranslateModel> response) {
                     if (response.isSuccessful() && response.body() != null) {
                         textViewResult.setText(response.body().getTranslatedText());
                     } else {
@@ -76,11 +76,10 @@ public class TranslationFragment extends Fragment {
                 }
 
                 @Override
-                public void onFailure(Call<TranslateResponse> call, Throwable t) {
+                public void onFailure(Call<TranslateModel> call, Throwable t) {
                     textViewResult.setText("Lỗi kết nối: " + t.getMessage());
                 }
             });
         });
-        return view;
     }
 }
