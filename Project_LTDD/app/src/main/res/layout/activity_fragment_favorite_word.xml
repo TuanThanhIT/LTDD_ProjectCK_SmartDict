@@ -22,7 +22,7 @@
         android:gravity="center"
         android:padding="8dp"
         android:visibility="gone"
-        android:background="@color/main_color">
+        android:background="@color/white">
 
         <Button
             android:id="@+id/btnJump"

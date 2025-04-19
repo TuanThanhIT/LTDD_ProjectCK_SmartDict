@@ -1,4 +1,7 @@
 package com.example.project_ltdd.activities;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.Animation;
@@ -15,11 +18,9 @@ import androidx.fragment.app.Fragment;
 
 import com.example.project_ltdd.R;
 import com.example.project_ltdd.fragments.HomeFragment;
-import com.example.project_ltdd.fragments.LoginFragment;
 import com.example.project_ltdd.fragments.AIFragment;
 import com.example.project_ltdd.fragments.QuizFragment;
-import com.example.project_ltdd.fragments.RegisterFragment;
-import com.example.project_ltdd.fragments.SearchFragment;
+import com.example.project_ltdd.fragments.WordSearchFragment;
 import com.example.project_ltdd.fragments.SecurityPolicyFragment;
 import com.example.project_ltdd.fragments.SettingFragment;
 import com.example.project_ltdd.fragments.TermFragment;
@@ -111,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
             } else if(itemId == R.id.nav_quizz){
                 selectedFragment = new QuizFragment();
             } else if(itemId == R.id.nav_search){
-                selectedFragment = new SearchFragment();
+                selectedFragment = new WordSearchFragment();
             } else if(itemId == R.id.nav_settings){
                 selectedFragment = new SettingFragment();
             } else if(itemId == R.id.nav_textTranslation){
@@ -122,7 +123,9 @@ public class MainActivity extends AppCompatActivity {
                 selectedFragment = new YourWordFragment();
             } else if(itemId == R.id.nav_term) {
                 selectedFragment = new TermFragment();
-            } else{
+            } else if(itemId == R.id.nav_facebook){
+                openFacebookPage(MainActivity.this);
+            } else {
                 selectedFragment = new SecurityPolicyFragment();
             }
 
@@ -159,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
             if(itemId == R.id.nav_bottomHome){
                 selectedFragment = new HomeFragment();
             } else if(itemId == R.id.nav_bottomSearch){
-                selectedFragment = new SearchFragment();
+                selectedFragment = new WordSearchFragment();
             } else if(itemId == R.id.nav_bottomYourWord) {
                 selectedFragment = new YourWordFragment();
             } else if(itemId == R.id.nav_bottomAI){
@@ -181,5 +184,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
+    private void openFacebookPage(Context context) {
+        String facebookUrl = "https://www.facebook.com/share/164Z1MWcDM/";
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(facebookUrl));
+        context.startActivity(intent);
+    }
 }

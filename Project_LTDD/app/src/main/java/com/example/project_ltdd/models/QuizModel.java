@@ -1,10 +1,24 @@
 package com.example.project_ltdd.models;
 
-public class QuizModel {
+import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
+
+public class QuizModel implements Serializable {
 
     private String nameQuiz;
     private int questionCount;
     private int quizTime;
+
+    private String quizImage;
+
+    public String getQuizImage() {
+        return quizImage;
+    }
+
+    public void setQuizImage(String quizImage) {
+        this.quizImage = quizImage;
+    }
 
     public QuizModel() {
     }
@@ -29,10 +43,11 @@ public class QuizModel {
         return questionCount;
     }
 
-    public QuizModel(String nameQuiz, int quizTime, int questionCount) {
-        this.nameQuiz = nameQuiz;
+    public QuizModel(String nameQuiz, int quizTime, int questionCount, String quizImage) {
+        this.quizImage = quizImage;
         this.quizTime = quizTime;
         this.questionCount = questionCount;
+        this.nameQuiz = nameQuiz;
     }
 
     public void setQuestionCount(int questionCount) {

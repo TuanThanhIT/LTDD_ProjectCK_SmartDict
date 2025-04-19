@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_ltdd.R;
-import com.example.project_ltdd.adapter.WordFavoriteAdapter;
+import com.example.project_ltdd.adapters.WordFavoriteAdapter;
 import com.example.project_ltdd.models.MeaningModel;
 import com.example.project_ltdd.models.PhoneticModel;
 import com.example.project_ltdd.models.WordModel;
@@ -43,7 +43,11 @@ public class WordFavoriteFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_fragment_favorite_word, container, false);
+        initViews(view);
+        return view;
+    }
 
+    private void initViews(View view){
         int folderId = getArguments().getInt(ARG_FOLDER_ID);
         String folderName = getArguments().getString(ARG_FOLDER_NAME);
         RecyclerView rvFavoriteWords = view.findViewById(R.id.rvFavoriteWords);
@@ -92,7 +96,7 @@ public class WordFavoriteFragment extends Fragment {
 
         //         Load từ vựng từ database theo folderId
 
-        adapter = new WordFavoriteAdapter(listWord, requireContext());
+        adapter = new WordFavoriteAdapter(listWord, requireContext(), getParentFragmentManager());
         rvFavoriteWords.setAdapter(adapter);
 
         layoutWordActions = view.findViewById(R.id.layoutButtons);
@@ -132,8 +136,6 @@ public class WordFavoriteFragment extends Fragment {
             btnSelectAll.setVisibility(View.VISIBLE);
             v.setVisibility(View.GONE);
         });
-
-        return view;
     }
 
     private void selectAllItems(boolean select) {

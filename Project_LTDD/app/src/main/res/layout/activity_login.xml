@@ -13,7 +13,7 @@
             android:id="@+id/top_linearLayout"
             android:layout_width="match_parent"
             android:layout_height="240dp"
-            android:background="@drawable/top_background"
+            android:background="@drawable/bg_top_background"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -58,7 +58,7 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/logo">
+                    android:src="@drawable/ic_logo">
 
                 </ImageView>
 
@@ -101,7 +101,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="20dp"
-                    android:background="@drawable/edit_text_background"
+                    android:background="@drawable/bg_edittext_background"
                     android:drawableStart="@drawable/ico_email"
                     android:inputType="textEmailAddress"
                     android:drawablePadding="10dp"
@@ -115,7 +115,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="20dp"
-                    android:background="@drawable/edit_text_background"
+                    android:background="@drawable/bg_edittext_background"
                     android:drawableStart="@drawable/ico_lock"
                     android:drawablePadding="10dp"
                     android:hint="Password"
@@ -244,7 +244,7 @@
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
             android:visibility="invisible"
-            android:background="@drawable/register_button_background"
+            android:background="@drawable/bg_register_button"
             app:layout_constraintEnd_toEndOf="@+id/cardViewContain"
             app:layout_constraintStart_toStartOf="@+id/cardViewContain"
             app:layout_constraintTop_toBottomOf="@+id/cardView2">

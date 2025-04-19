@@ -1,4 +1,4 @@
-package com.example.project_ltdd.adapter;
+package com.example.project_ltdd.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,7 +7,6 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.PagerAdapter;
 
 import com.example.project_ltdd.R;
 import com.example.project_ltdd.models.BannerModel;

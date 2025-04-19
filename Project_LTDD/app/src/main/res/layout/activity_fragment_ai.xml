@@ -1,14 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:background="@color/main_color">
+    android:padding="10dp"
+    android:background="#FFFFFF">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Business AI Fragment"
-        android:textSize="24sp"/>
-</LinearLayout>
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="🤖 Tra từ bằng GPT"
+            android:textColor="#1E88E5"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/dividerAI"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/brightblue"
+            android:layout_marginBottom="10dp"/>
+
+        <EditText
+            android:id="@+id/editTextInput"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:hint="Nhập từ hoặc câu cần tra"
+            android:padding="12dp"
+            android:background="@android:drawable/edit_text"
+            android:textSize="16sp"
+            android:gravity="top|start"
+            android:layout_marginBottom="16dp" />
+
+        <Button
+            android:id="@+id/buttonTranslate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tra bằng GPT"
+            android:backgroundTint="#1E88E5"
+            android:textColor="#FFFFFF"
+            android:padding="12dp" />
+
+        <TextView
+            android:id="@+id/textViewResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Kết quả sẽ hiển thị ở đây..."
+            android:textSize="16sp"
+            android:textColor="#333333" />
+    </LinearLayout>
+</ScrollView>

@@ -1,14 +1,25 @@
 package com.example.project_ltdd.models;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class MeaningModel implements Serializable {
     private Long meaningId;
     private String partOfSpeech;
     private String vietnameseMeaning;
 
+    private List<DefinitionModel> definitions;
+
     // Getter & Setter
 
+
+    public List<DefinitionModel> getDefinitions() {
+        return definitions;
+    }
+
+    public void setDefinitions(List<DefinitionModel> definitions) {
+        this.definitions = definitions;
+    }
 
     public Long getMeaningId() {
         return meaningId;

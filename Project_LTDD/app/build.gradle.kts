@@ -33,6 +33,8 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
+
 }
 
 dependencies {
@@ -51,7 +53,9 @@ dependencies {
     implementation("com.google.mlkit:text-recognition:16.0.0")
     implementation("com.github.bumptech.glide:glide:4.13.2") // Kiểm tra phiên bản mới nhất của Glide
     annotationProcessor("com.github.bumptech.glide:compiler:4.13.2")
-    implementation ("io.github.chaosleung:pinview:1.4.4")
-    implementation(libs.lottie)
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+	implementation(libs.lottie)
+	implementation ("io.github.chaosleung:pinview:1.4.4")
     implementation(libs.pinview)
 }

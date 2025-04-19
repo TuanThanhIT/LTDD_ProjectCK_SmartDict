@@ -1,5 +1,7 @@
-package com.example.project_ltdd.adapter;
+package com.example.project_ltdd.adapters;
 
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,9 +10,15 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_ltdd.R;
+import com.example.project_ltdd.commons.WordCommon;
+import com.example.project_ltdd.fragments.ExamFragment;
+import com.example.project_ltdd.fragments.WordDetailFragment;
 import com.example.project_ltdd.models.MeaningModel;
 import com.example.project_ltdd.models.PhoneticModel;
 import com.example.project_ltdd.models.WordModel;
@@ -22,9 +30,11 @@ public class WordSearchAdapter extends RecyclerView.Adapter<WordSearchAdapter.Vo
 
     private List<WordModel> vocabList;
     private List<WordModel> vocabListFiltered = new ArrayList<>();
-
-    public WordSearchAdapter(List<WordModel> vocabList) {
+    private FragmentManager mFragmentManager;
+    WordCommon wordCommon = new WordCommon();
+    public WordSearchAdapter(List<WordModel> vocabList, FragmentManager mFragmentManager) {
         this.vocabList = vocabList;
+        this.mFragmentManager = mFragmentManager;
     }
 
     @NonNull
@@ -39,35 +49,34 @@ public class WordSearchAdapter extends RecyclerView.Adapter<WordSearchAdapter.Vo
         WordModel vocab = vocabListFiltered.get(position);
         holder.txvWord.setText(vocab.getWord());
 
-        StringBuilder phoneticText = new StringBuilder("[");
-        if (vocab.getPhonetics() != null && !vocab.getPhonetics().isEmpty()) {
-            for (int i = 0; i < vocab.getPhonetics().size(); i++) {
-                PhoneticModel p = vocab.getPhonetics().get(i);
-                phoneticText.append(p.getText());
-                if (i < vocab.getPhonetics().size() - 1) {
-                    phoneticText.append(", ");
-                }
-            }
-        }
-        phoneticText.append("]");
+        StringBuilder phoneticText = wordCommon.setPhoneticText(vocab.getPhonetics());
         holder.txvPhonetic.setText(phoneticText.toString());
 
-        StringBuilder partOfSpeechText = new StringBuilder("[");
-        StringBuilder vietNameseText = new StringBuilder();
-        if (vocab.getMeanings() != null && !vocab.getMeanings().isEmpty()) {
-            for (int i = 0; i < vocab.getMeanings().size(); i++) {
-                MeaningModel m = vocab.getMeanings().get(i);
-                partOfSpeechText.append(m.getPartOfSpeech());
-                vietNameseText.append(m.getVietnameseMeaning());
-                if (i < vocab.getMeanings().size() - 1) {
-                    partOfSpeechText.append(", ");
-                    vietNameseText.append(", ");
-                }
-            }
-        }
-        partOfSpeechText.append("]");
+        StringBuilder partOfSpeechText = wordCommon.setMeaningPartOfSpeech(vocab.getMeanings());
+        StringBuilder vietNameseText = wordCommon.setMeaningVietNamese(vocab.getMeanings());
+
         holder.txvPartOfSpeech.setText(partOfSpeechText.toString());
         holder.txvMeaning.setText(vietNameseText.toString());
+
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                WordDetailFragment detailFragment = new WordDetailFragment();
+
+                Bundle result = new Bundle();
+                result.putSerializable("wordDetail", vocab);
+
+                mFragmentManager.setFragmentResult("request_word", result);
+
+                FragmentTransaction transaction = mFragmentManager.beginTransaction();
+                transaction.replace(R.id.fragment_container, detailFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+
     }
 
     @Override

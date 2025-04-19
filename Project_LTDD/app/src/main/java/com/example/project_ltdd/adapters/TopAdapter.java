@@ -1,4 +1,4 @@
-package com.example.project_ltdd.adapter;
+package com.example.project_ltdd.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;

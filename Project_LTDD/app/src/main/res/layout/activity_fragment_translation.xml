@@ -1,14 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:background="@color/main_color">
+    android:background="@color/white"
+    android:padding="10dp">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Text Translation Fragment"
-        android:textSize="24sp"/>
-</LinearLayout>
+        android:orientation="vertical">
+
+        <!-- Tiêu đề -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🌍  Dịch Văn Bản"
+            android:textSize="30sp"
+            android:padding="10dp"
+            android:textStyle="bold"
+            android:textColor="@color/brightblue"
+            android:gravity="center" />
+
+        <View
+            android:id="@+id/dividerQuiz"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="4dp"
+            android:background="@color/brightblue"
+            android:layout_marginBottom="10dp"/>
+
+        <!-- Khung nhập -->
+        <EditText
+            android:id="@+id/editTextInput"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="@drawable/bg_translate_edittext"
+            android:padding="12dp"
+            android:gravity="top|start"
+            android:hint="Nhập văn bản cần dịch..."
+            android:textSize="16sp"
+            android:inputType="textMultiLine"
+            android:minLines="5"
+            android:maxLines="10"
+            android:layout_marginTop="10dp"/>
+
+        <!-- Lựa chọn ngôn ngữ -->
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            android:gravity="center">
+
+            <RadioButton
+                android:id="@+id/radioEnToVi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Anh → Việt"
+                android:checked="true" />
+
+            <RadioButton
+                android:id="@+id/radioViToEn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Việt → Anh"
+                android:layout_marginStart="16dp" />
+        </RadioGroup>
+
+        <!-- Nút dịch -->
+        <Button
+            android:id="@+id/buttonTranslate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🔄 Dịch"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#1E88E5"
+            android:layout_marginTop="16dp" />
+
+        <!-- Kết quả -->
+        <TextView
+            android:id="@+id/textViewResult"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Kết quả sẽ hiển thị ở đây"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:padding="12dp"
+            android:background="@drawable/bg_translate_result"
+            android:layout_marginTop="16dp" />
+    </LinearLayout>
+</ScrollView>

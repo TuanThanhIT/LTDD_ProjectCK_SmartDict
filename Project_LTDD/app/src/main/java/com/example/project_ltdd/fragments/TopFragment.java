@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_ltdd.R;
-import com.example.project_ltdd.adapter.TopAdapter;
+import com.example.project_ltdd.adapters.TopAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +32,11 @@ public class TopFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_fragment_top, container, false);
+        initViews(view);
+        return view;
+    }
+
+    private void initViews(View view){
         TextView txtTitle = view.findViewById(R.id.txtTitle);
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
 
@@ -45,7 +50,6 @@ public class TopFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(new TopAdapter(data));
 
-        return view;
     }
 }
 //👉 Nhận dữ liệu: Dùng Bundle để truyền tiêu đề và danh sách.
