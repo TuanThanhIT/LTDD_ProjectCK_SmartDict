@@ -6,14 +6,17 @@ import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.transaction.Transactional;
 import vn.iotstar.entity.OtpEntity;
 import vn.iotstar.entity.UserEntity;
 import vn.iotstar.model.OTPVerificationDTO;
+import vn.iotstar.model.UserLoginDTO;
 import vn.iotstar.model.UserRegisterDTO;
 import vn.iotstar.repository.OtpRepository;
 import vn.iotstar.repository.UserRepository;
@@ -30,7 +33,11 @@ public class AuthController {
 
     @Autowired
     private EmailServiceImpl emailService;
-
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    
+    @Transactional
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody UserRegisterDTO userDTO) {
         if (userRepository.findByEmail(userDTO.getEmail()).isPresent()) {
@@ -54,7 +61,8 @@ public class AuthController {
 
         return ResponseEntity.ok("Đã gửi OTP đến email!");
     }
-
+    
+    @Transactional
     @PostMapping("/verify-otp")
     public ResponseEntity<?> verifyOtp(@RequestBody OTPVerificationDTO dto) {
         Optional<OtpEntity> otpData = otpRepo.findByEmail(dto.getEmail());
@@ -72,12 +80,29 @@ public class AuthController {
         // Nếu đúng OTP → tạo user
         UserEntity user = new UserEntity();
         user.setEmail(dto.getEmail());
-        user.setFullname("Tên demo"); // bạn có thể truyền fullname & password từ DTO hoặc lưu tạm
-        user.setPassword("mật khẩu mã hóa");
+        user.setFullname(dto.getFullname());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         userRepository.save(user);
         otpRepo.deleteByEmail(dto.getEmail());
 
         return ResponseEntity.ok("Xác thực thành công. Tài khoản đã được tạo.");
+    }
+    
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody UserLoginDTO loginDTO) {
+        Optional<UserEntity> optionalUser = userRepository.findByEmail(loginDTO.getEmail());
+
+        if (optionalUser.isEmpty()) {
+            return ResponseEntity.badRequest().body("Email không tồn tại!");
+        }
+
+        UserEntity user = optionalUser.get();
+
+        if (!passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
+            return ResponseEntity.badRequest().body("Sai mật khẩu!");
+        }
+
+        return ResponseEntity.ok("Đăng nhập thành công!");
     }
 }

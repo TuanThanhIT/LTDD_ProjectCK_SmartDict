@@ -1,7 +1,7 @@
 package com.example.project_ltdd.api.services;
 
-import com.example.project_ltdd.api.requests.TranslateRequest;
-import com.example.project_ltdd.api.responses.TranslateResponse;
+/*import com.example.project_ltdd.api.requests.TranslateRequest;
+import com.example.project_ltdd.api.responses.TranslateResponse;*/
 import com.example.project_ltdd.models.TranslateModel;
 
 import retrofit2.Call;

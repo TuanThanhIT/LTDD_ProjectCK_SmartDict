@@ -9,16 +9,12 @@
     >
 
 
-    <ImageView
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:src="@drawable/ic_arrowgray" />
-
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nhập mã OTP"
+        android:textColor="@color/primary"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_centerHorizontal="true"
@@ -28,7 +24,7 @@
         android:id="@+id/tvDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Chúng tôi đã gửi mã OTP đến mail của bạn."
+        android:text="OTP được gửi đến mail của bạn."
         android:textSize="16sp"
         android:layout_below="@id/tvTitle"
         android:layout_centerHorizontal="true"
@@ -43,7 +39,7 @@
         android:layout_marginTop="20dp"
         app:itemBackground="@android:drawable/editbox_background"
         app:itemCount="6"
-        app:itemWidth="40dp"
+        app:itemWidth="35dp"
         app:itemHeight="40dp"
         app:itemSpacing="10dp"
         app:itemRadius="6dp"
@@ -106,24 +102,17 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btnConfirmOtp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/layout_bottom_otp"
-        android:layout_marginTop="20dp"
-        android:text="Xác nhận"
-        android:textSize="16sp"
-        android:textColor="@android:color/white"
 
-        android:padding="10dp"/>
     <!--app:backgroundTint="@null"-->
 
     <ImageView
-        android:layout_width="350dp"
-        android:layout_height="265dp"
-        android:layout_below="@+id/btnConfirmOtp"
-        android:layout_centerHorizontal="true"
+        android:layout_width="370dp"
+        android:layout_height="285dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="38dp"
+        android:layout_marginEnd="43dp"
+        android:layout_marginTop="230dp"
         android:src="@drawable/send_mail" />
 
 
