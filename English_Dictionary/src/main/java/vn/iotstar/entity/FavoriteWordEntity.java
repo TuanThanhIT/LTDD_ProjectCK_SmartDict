@@ -33,5 +33,5 @@ public class FavoriteWordEntity {
     @ManyToOne
     @JoinColumn(name = "folder_id", nullable = false)
     private FolderFavorEntity folder;
-	
+    
 }

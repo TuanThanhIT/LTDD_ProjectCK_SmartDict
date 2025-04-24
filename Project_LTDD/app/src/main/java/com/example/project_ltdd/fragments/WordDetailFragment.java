@@ -23,15 +23,25 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.project_ltdd.R;
+import com.example.project_ltdd.api.retrofit_client.UserRetrofitClient;
+import com.example.project_ltdd.api.services.UserService;
 import com.example.project_ltdd.commons.WordCommon;
 import com.example.project_ltdd.models.DefinitionModel;
+import com.example.project_ltdd.models.FavoriteWordModel;
+import com.example.project_ltdd.models.FolderModel;
 import com.example.project_ltdd.models.MeaningModel;
 import com.example.project_ltdd.models.PhoneticModel;
 import com.example.project_ltdd.models.WordModel;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class WordDetailFragment extends Fragment {
 
@@ -43,12 +53,20 @@ public class WordDetailFragment extends Fragment {
 
     private ImageView btnFavoriteMenu;
 
+    UserService userService = UserRetrofitClient.getClient();
+
+    // Danh sách tùy chọn truyền vào
+    List<FolderModel> menuItems = new ArrayList<>();
+
+    private boolean isFolderSelected = false;
+
     WordCommon wordCommon = new WordCommon();
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_fragment_word_details, container, false);
         initViews(view);
+        getFoldersFromApi();
 
         // Nhận dữ liệu từ Fragment khác
         getParentFragmentManager().setFragmentResultListener("request_word", this, (key, bundle) -> {
@@ -59,6 +77,7 @@ public class WordDetailFragment extends Fragment {
             }
             bindWordDetail(wordDetail);
         });
+
 
         return view;
     }
@@ -107,32 +126,37 @@ public class WordDetailFragment extends Fragment {
         btnFavoriteMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopupMenu popupMenu = new PopupMenu(requireContext(), btnFavoriteMenu);
+                if(isFolderSelected == false)
+                {
+                    PopupMenu popupMenu = new PopupMenu(requireContext(), btnFavoriteMenu);
 
-                // Danh sách tùy chọn truyền vào
-                List<String> menuItems = new ArrayList<>();
-                menuItems.add(">Thư mục [TỪ ĐÃ LƯU]");
-                menuItems.add(">Thư mục [TỪ ĐANG HỌC]");
-                menuItems.add("Xóa đánh dấu");
+                    // Thêm các mục vào menu
+                    for (int i = 0; i < menuItems.size(); i++) {
+                        popupMenu.getMenu().add(Menu.NONE, i, i,">Thư mục ["+ menuItems.get(i).getFolderName()+"]");
+                    }
 
-                // Thêm các mục vào menu
-                for (int i = 0; i < menuItems.size(); i++) {
-                    popupMenu.getMenu().add(Menu.NONE, i, i, menuItems.get(i));
+                    // Xử lý khi chọn item
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
+                            int itemId = menuItem.getItemId(); // ID chính là index trong danh sách
+                            String title = menuItems.get(itemId).getFolderName(); // Lấy lại tên tương ứng
+                            addFavoriteWord(itemId);
+                            btnFavoriteMenu.setImageResource(R.drawable.ic_heart2);
+                            txvFolder.setText(title);
+                            return true;
+                        }
+                    });
+
+                    popupMenu.show();
+                    isFolderSelected = true;
+                }
+                else {
+                    txvFolder.setText("TỪ ĐÃ TRA");
+                    btnFavoriteMenu.setImageResource(R.drawable.ic_heart1);
+                    Toast.makeText(requireContext(), "Từ này đã bị xóa khỏi danh sách Từ của bạn", Toast.LENGTH_SHORT).show();
                 }
 
-                // Xử lý khi chọn item
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
-                        int itemId = menuItem.getItemId(); // ID chính là index trong danh sách
-                        String title = menuItems.get(itemId); // Lấy lại tên tương ứng
-                        Toast.makeText(requireContext(), "Bạn chọn: " + title, Toast.LENGTH_SHORT).show();
-                        // TODO: Xử lý thêm logic theo title hoặc itemId nếu cần
-                        return true;
-                    }
-                });
-
-                popupMenu.show();
             }
         });
 
@@ -177,5 +201,49 @@ public class WordDetailFragment extends Fragment {
         }
     }
 
+    private void getFoldersFromApi() {
+        int userId = 1;
+        userService.getFolders(userId).enqueue(new Callback<List<FolderModel>>() {
+            @Override
+            public void onResponse(Call<List<FolderModel>> call, Response<List<FolderModel>> response) {
+                if (response.isSuccessful()) {
+                    menuItems = response.body();
+                } else {
+                    Toast.makeText(requireContext(), "Không thể hiển thị danh sách Thư mục của bạn! Lỗi: " + response.code(), Toast.LENGTH_SHORT).show();
+                }
+            }
 
+            @Override
+            public void onFailure(Call<List<FolderModel>> call, Throwable t) {
+                Toast.makeText(requireContext(), "Lỗi: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void addFavoriteWord(int folderId){
+        int userId = 1;
+        userService.addFavoriteWord(userId, folderId, wordDetail.getWordId()).enqueue(new Callback<FavoriteWordModel>() {
+            @Override
+            public void onResponse(Call<FavoriteWordModel> call, Response<FavoriteWordModel> response) {
+                if (response.isSuccessful()) {
+                    FavoriteWordModel  favoriteWordModel = response.body(); // Lấy nội dung thực tế từ body
+                    Toast.makeText(requireContext(), "Từ vựng được thêm vào thư mục thành công!", Toast.LENGTH_SHORT).show();
+                } else {
+                    try {
+                        String errorJson = response.errorBody().string();
+                        JSONObject jsonObject = new JSONObject(errorJson);
+                        String errorMessage = jsonObject.optString("error", "Lỗi không xác định");
+                        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        Toast.makeText(requireContext(), "Lỗi phản hồi máy chủ", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FavoriteWordModel> call, Throwable t) {
+                Toast.makeText(requireContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

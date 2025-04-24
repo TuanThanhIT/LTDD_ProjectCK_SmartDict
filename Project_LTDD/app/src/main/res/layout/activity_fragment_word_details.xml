@@ -50,7 +50,7 @@
                         android:id="@+id/txvFolder"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Từ đã tra"
+                        android:text="TỪ ĐÃ TRA"
                         android:textColor="@android:color/white"
                         android:textSize="16sp"
                         android:textStyle="bold"
@@ -61,7 +61,7 @@
                         android:id="@+id/imgFavorite"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_heart3" />
+                        android:src="@drawable/ic_heart1" />
                 </LinearLayout>
 
             </LinearLayout>

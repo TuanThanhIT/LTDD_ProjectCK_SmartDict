@@ -11,4 +11,6 @@ import vn.iotstar.entity.WordEntity;
 public interface WordRepository extends JpaRepository<WordEntity, Long>{
 	
 	Optional<WordEntity> findByWord(String word);
+	
+
 }

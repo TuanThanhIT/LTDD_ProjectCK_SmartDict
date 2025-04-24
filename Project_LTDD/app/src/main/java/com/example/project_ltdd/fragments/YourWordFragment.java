@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,18 +18,26 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.project_ltdd.R;
 import com.example.project_ltdd.adapters.YourWordPagerAdapter;
+import com.example.project_ltdd.api.retrofit_client.UserRetrofitClient;
+import com.example.project_ltdd.api.services.UserService;
 import com.example.project_ltdd.models.FolderModel;
+import com.example.project_ltdd.models.WordModel;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class YourWordFragment extends Fragment {
 
     private TabLayout tabLayout;
     private ViewPager2 viewPager;
     private YourWordPagerAdapter pagerAdapter;
-    private ArrayList<FolderModel> folderList;
+    private List<FolderModel> folderList = new ArrayList<>();
 
     private ImageView btnMenu;
 
@@ -40,6 +49,7 @@ public class YourWordFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.activity_fragment_yourword, container, false);
         initViews(view);
+        getFoldersFromApi();
         return view;
     }
 
@@ -85,12 +95,10 @@ public class YourWordFragment extends Fragment {
             }
         });
 
-        // Giả sử lấy danh sách folder từ Fragment Folder truyền qua
-        // Sample data
-        folderList = new ArrayList<>();
-        folderList.add(new FolderModel(1, "TỪ ĐÃ LƯU"));
-        folderList.add(new FolderModel(2, "TỪ ĐANG HỌC"));
-        folderList.add(new FolderModel(3, "TỪ ĐÃ HỌC"));
+    }
+
+    private void setUpAdapter()
+    {
         pagerAdapter = new YourWordPagerAdapter(getActivity(), folderList);
         viewPager.setAdapter(pagerAdapter);
 
@@ -141,5 +149,30 @@ public class YourWordFragment extends Fragment {
             }
         });
     }
+    private void getFoldersFromApi(){
+        UserService userService = UserRetrofitClient.getClient();
+        int userId = 1;
+        userService.getFolders(userId).enqueue(new Callback<List<FolderModel>>() {
+            @Override
+            public void onResponse(Call<List<FolderModel>> call, Response<List<FolderModel>> response) {
+                if(response.isSuccessful())
+                {
+                    folderList = response.body();
+                    setUpAdapter();
+                    Toast.makeText(requireContext(), "Từ của bạn!", Toast.LENGTH_SHORT).show();
 
+                }
+                else
+                {
+                    Toast.makeText(requireContext(), "Không thể hiển thị danh sách Thư mục của bạn! Lỗi: "+response.code(), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<FolderModel>> call, Throwable t) {
+                Toast.makeText(requireContext(), "Lỗi: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 }

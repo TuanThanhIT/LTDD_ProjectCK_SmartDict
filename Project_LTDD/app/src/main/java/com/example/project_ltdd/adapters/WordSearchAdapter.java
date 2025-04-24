@@ -1,5 +1,6 @@
 package com.example.project_ltdd.adapters;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -16,6 +18,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_ltdd.R;
+import com.example.project_ltdd.api.retrofit_client.UserRetrofitClient;
+import com.example.project_ltdd.api.services.UserService;
 import com.example.project_ltdd.commons.WordCommon;
 import com.example.project_ltdd.fragments.ExamFragment;
 import com.example.project_ltdd.fragments.WordDetailFragment;
@@ -23,18 +27,32 @@ import com.example.project_ltdd.models.MeaningModel;
 import com.example.project_ltdd.models.PhoneticModel;
 import com.example.project_ltdd.models.WordModel;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class WordSearchAdapter extends RecyclerView.Adapter<WordSearchAdapter.VocabViewHolder> implements Filterable {
 
     private List<WordModel> vocabList;
     private List<WordModel> vocabListFiltered = new ArrayList<>();
     private FragmentManager mFragmentManager;
+
+    private Context context;
+
+    private WordModel vocab;
     WordCommon wordCommon = new WordCommon();
-    public WordSearchAdapter(List<WordModel> vocabList, FragmentManager mFragmentManager) {
+    public WordSearchAdapter(List<WordModel> vocabList, FragmentManager mFragmentManager, Context context) {
         this.vocabList = vocabList;
         this.mFragmentManager = mFragmentManager;
+        this.context = context;
     }
 
     @NonNull
@@ -46,7 +64,7 @@ public class WordSearchAdapter extends RecyclerView.Adapter<WordSearchAdapter.Vo
 
     @Override
     public void onBindViewHolder(@NonNull VocabViewHolder holder, int position) {
-        WordModel vocab = vocabListFiltered.get(position);
+        vocab = vocabListFiltered.get(position);
         holder.txvWord.setText(vocab.getWord());
 
         StringBuilder phoneticText = wordCommon.setPhoneticText(vocab.getPhonetics());
@@ -69,6 +87,8 @@ public class WordSearchAdapter extends RecyclerView.Adapter<WordSearchAdapter.Vo
                 result.putSerializable("wordDetail", vocab);
 
                 mFragmentManager.setFragmentResult("request_word", result);
+
+                postUserSearchWordFromApi();
 
                 FragmentTransaction transaction = mFragmentManager.beginTransaction();
                 transaction.replace(R.id.fragment_container, detailFragment);
@@ -129,4 +149,44 @@ public class WordSearchAdapter extends RecyclerView.Adapter<WordSearchAdapter.Vo
             }
         };
     }
+
+    private void postUserSearchWordFromApi(){
+        UserService userService;
+        userService = UserRetrofitClient.getClient();
+
+        Long wordId = vocab.getWordId();
+        int userId = 1;
+        userService.addWordSearch(1, wordId).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        String message = response.body().string(); // Lấy nội dung thực tế từ body
+                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Toast.makeText(context, "Lỗi khi đọc phản hồi từ máy chủ", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    try {
+                        String errorJson = response.errorBody().string();
+                        JSONObject jsonObject = new JSONObject(errorJson);
+                        String errorMessage = jsonObject.optString("error", "Lỗi không xác định");
+                        Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show();
+                    } catch (IOException e) {
+                        Toast.makeText(context, "Lỗi khi đọc lỗi từ phản hồi", Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        Toast.makeText(context, "Lỗi phản hồi máy chủ", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(context, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+
 }

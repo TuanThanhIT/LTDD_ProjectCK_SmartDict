@@ -13,6 +13,7 @@ import vn.iotstar.repository.WordRepository;
 import vn.iotstar.service.WordService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,8 +39,22 @@ public class WordServiceImpl implements WordService{
         }
         throw new IllegalArgumentException("Không tìm thấy từ này trên API!");
     }
+    
+        
+    @Override
+	public List<WordEntity> findAll() {
+		return wordRepository.findAll();
+	}
+    
+    
+    @Override
+	public Optional<WordEntity> findById(Long id) {
+		return wordRepository.findById(id);
+	}
 
-    private DictionaryResponse[] fetchFromApi(String word) {
+    
+
+	private DictionaryResponse[] fetchFromApi(String word) {
         try {
             return restTemplate.getForObject(API_URL + word, DictionaryResponse[].class);
         } catch (Exception e) {
@@ -87,4 +102,6 @@ public class WordServiceImpl implements WordService{
 
         return wordRepository.save(wordEntity);
     }
+    
+    
 }

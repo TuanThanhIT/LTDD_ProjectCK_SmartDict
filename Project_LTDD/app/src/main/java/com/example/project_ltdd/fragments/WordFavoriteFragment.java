@@ -157,4 +157,6 @@ public class WordFavoriteFragment extends Fragment {
         layoutWordActions.setVisibility(select ? View.VISIBLE : View.GONE);
     }
 
+
+
 }

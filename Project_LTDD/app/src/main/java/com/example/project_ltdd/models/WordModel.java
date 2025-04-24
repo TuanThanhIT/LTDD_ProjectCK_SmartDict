@@ -5,17 +5,17 @@ import java.util.List;
 
 public class WordModel implements Serializable {
 
-    private Long wordId;
+    private Long word_id;
     private String word;
     private List<PhoneticModel> phonetics;
     private List<MeaningModel> meanings;
 
     public Long getWordId() {
-        return wordId;
+        return word_id;
     }
 
     public void setWordId(Long wordId) {
-        this.wordId = wordId;
+        this.word_id = wordId;
     }
 
     public String getWord() {
@@ -43,7 +43,7 @@ public class WordModel implements Serializable {
     }
 
     public WordModel(Long wordId, List<MeaningModel> meanings, List<PhoneticModel> phonetics, String word) {
-        this.wordId = wordId;
+        this.word_id = wordId;
         this.meanings = meanings;
         this.phonetics = phonetics;
         this.word = word;

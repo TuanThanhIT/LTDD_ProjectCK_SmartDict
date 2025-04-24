@@ -2,6 +2,8 @@ package vn.iotstar.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -35,6 +37,7 @@ public class MeaningEntity {
 	
 	@ManyToOne
 	@JoinColumn(name = "word_id", nullable = false)
+	@JsonBackReference
 	private WordEntity word;
 	
 	@OneToMany(mappedBy = "meaning", cascade = CascadeType.ALL, orphanRemoval = true)
