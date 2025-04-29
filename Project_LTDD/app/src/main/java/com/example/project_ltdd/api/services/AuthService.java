@@ -14,6 +14,6 @@ public interface AuthService {
 
     @POST("/api/auth/verify-otp")
     Call<String> verifyOtp(@Body OTPVerificationModel dto);
-    @POST("/api/login")
+    @POST("/api/auth/login")
     Call<LoginResponse> login(@Body LoginRequest request);
 }

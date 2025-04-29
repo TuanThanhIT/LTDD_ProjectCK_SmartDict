@@ -10,15 +10,27 @@ public class LoginResponse {
 
     public class Data {
         private int userId;
-        private String name;
+        private String fullname;
         private String email;
+
+        public void setUserId(int userId) {
+            this.userId = userId;
+        }
+
+        public void setFullname(String fullname) {
+            this.fullname = fullname;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
 
         public int getUserId() {
             return userId;
         }
 
-        public String getName() {
-            return name;
+        public String getFullName() {
+            return fullname;
         }
 
         public String getEmail() {

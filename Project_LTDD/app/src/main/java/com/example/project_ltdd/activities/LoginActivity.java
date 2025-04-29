@@ -21,6 +21,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
+    public static String usLoginFullname;
+    public static int usLoginId;
     private ActivityLoginBinding binding;
     EditText edt_Email, edt_Password;
 
@@ -75,7 +77,10 @@ public class LoginActivity extends AppCompatActivity {
                     if (response.isSuccessful() && response.body() != null) {
                         LoginResponse res = response.body();
                         if (res.isSuccess()) {
-                            Toast.makeText(LoginActivity.this, "Welcome " + res.getData().getName(), Toast.LENGTH_SHORT).show();
+                            usLoginFullname = res.getData().getFullName();
+                            usLoginId = res.getData().getUserId();
+                            Toast.makeText(LoginActivity.this, "Welcome " + usLoginFullname, Toast.LENGTH_SHORT).show();
+
                             // TODO: Chuyển sang màn hình chính
                         } else {
                             Toast.makeText(LoginActivity.this, "Sai tài khoản hoặc mật khẩu", Toast.LENGTH_SHORT).show();

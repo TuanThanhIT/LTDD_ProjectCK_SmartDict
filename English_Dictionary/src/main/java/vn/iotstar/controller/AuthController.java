@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.transaction.Transactional;
 import vn.iotstar.entity.OtpEntity;
 import vn.iotstar.entity.UserEntity;
+import vn.iotstar.model.LoginResponse;
 import vn.iotstar.model.OTPVerificationDTO;
 import vn.iotstar.model.UserLoginDTO;
 import vn.iotstar.model.UserRegisterDTO;
@@ -90,19 +91,23 @@ public class AuthController {
     }
     
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserLoginDTO loginDTO) {
+    public ResponseEntity<LoginResponse> login(@RequestBody UserLoginDTO loginDTO) {
         Optional<UserEntity> optionalUser = userRepository.findByEmail(loginDTO.getEmail());
 
         if (optionalUser.isEmpty()) {
-            return ResponseEntity.badRequest().body("Email không tồn tại!");
+            return ResponseEntity.badRequest()
+                .body(new LoginResponse(false, "Email không tồn tại!", null));
         }
 
         UserEntity user = optionalUser.get();
 
         if (!passwordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
-            return ResponseEntity.badRequest().body("Sai mật khẩu!");
+            return ResponseEntity.badRequest()
+                .body(new LoginResponse(false, "Sai mật khẩu!", null));
         }
 
-        return ResponseEntity.ok("Đăng nhập thành công!");
+        UserLoginDTO data = new UserLoginDTO(user.getFullname(), user.getEmail(), user.getUser_id(), user.getFullname());
+        return ResponseEntity.ok(new LoginResponse(true, "Đăng nhập thành công!", data));
     }
+
 }

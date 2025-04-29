@@ -7,12 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserLoginDTO {
-    private String email;
-    private String password;
-    private int userId;
-    private String fullname;
-	
-	
-    
+public class LoginResponse {
+	private boolean success;
+    private String message;
+    private UserLoginDTO data;
+
+
 }
