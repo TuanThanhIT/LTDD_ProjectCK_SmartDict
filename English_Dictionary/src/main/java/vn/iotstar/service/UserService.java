@@ -3,10 +3,12 @@ package vn.iotstar.service;
 import java.util.List;
 import java.util.Optional;
 
+import jakarta.transaction.Transactional;
+import vn.iotstar.entity.FolderFavorEntity;
 import vn.iotstar.entity.UserEntity;
-import vn.iotstar.entity.WordEntity;
 import vn.iotstar.model.FavoriteWordDTO;
 import vn.iotstar.model.FolderDTO;
+import vn.iotstar.model.WordDTO;
 
 public interface UserService {
 
@@ -14,7 +16,7 @@ public interface UserService {
 
 	<S extends UserEntity> S save(S entity);
 
-	List<WordEntity> findWordSearchByUser(int userId);
+	List<WordDTO> findWordSearchByUser(int userId);
 
 
 	UserEntity addWordSearchByUser(int userId, Long wordId);
@@ -28,5 +30,25 @@ public interface UserService {
 	FolderDTO updateFolderByUser(String folderName, int folderId);
 
 	FavoriteWordDTO addFavoriteWord(int userId, int folderId, Long wordId);
+
+	List<WordDTO> getWordsByFolder(int folderId);
+
+	FolderDTO getFolderByWord(Long wordId);
+
+	void deleteByWordId(Long wordId);
+
+	boolean existsByUserIdAndWordId(int userId, Long wordId);
+
+	List<FolderDTO> findOtherFoldersByUserIdAndWordId(int userId, Long wordId);
+
+	void deleteByUserIdAndWordId(Long wordId, int userId);
+
+	void updateFolderForWords(int folderId, int userId, List<Long> wordIds);
+
+	void updateFolderForWord(int folderId, int userId, Long wordId);
+
+	void deleteWordsByUserIdAndWordId(int userId, List<Long> wordIds);
+
+	void addOrUpdateFavoriteWords(int userId, int folderId, List<Long> listWordId);
 
 }

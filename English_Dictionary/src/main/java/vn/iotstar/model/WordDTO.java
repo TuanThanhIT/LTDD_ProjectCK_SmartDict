@@ -9,9 +9,14 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MeaningDTO {
-	 private Long meaning_id;
-	 private String partOfSpeech;
-	 private  String vietNamese;
-	 private List<DefinitionDTO> definitions;
+public class WordDTO {
+	
+	private Long word_id;
+	
+	private String word;
+	
+	private List<MeaningDTO> meanings;
+	
+	private List<PhoneticDTO> phonetics;
+	
 }

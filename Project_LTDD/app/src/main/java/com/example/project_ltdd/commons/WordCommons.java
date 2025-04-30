@@ -1,6 +1,6 @@
 package com.example.project_ltdd.commons;
 
-import android.content.Context;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.View;
@@ -14,9 +14,11 @@ import com.example.project_ltdd.models.WordModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WordCommon {
+public class WordCommons {
 
-    public WordCommon() {
+    private static MediaPlayer mediaPlayer;
+
+    public WordCommons() {
     }
 
     public StringBuilder setPhoneticText(List<PhoneticModel> phonetics) {
@@ -55,7 +57,13 @@ public class WordCommon {
         if (meanings != null && !meanings.isEmpty()) {
             for (int i = 0; i < meanings.size(); i++) {
                 vietNameseText.append(meanings.get(i).getVietnameseMeaning());
-                vietNameseText.append(", ");
+                if(i == meanings.size() -1)
+                {
+                    vietNameseText.append("");
+                }
+                else{
+                    vietNameseText.append(", ");
+                }
             }
         }
         return vietNameseText;
@@ -79,15 +87,18 @@ public class WordCommon {
             return;
         }
 
+        Log.d("AUDIO_URL", url);
+
         view.animate().scaleX(1.2f).scaleY(1.2f).setDuration(100).withEndAction(() -> {
             view.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
         }).start();
 
         try {
-            MediaPlayer mediaPlayer = new MediaPlayer();
+            mediaPlayer = new MediaPlayer();
             mediaPlayer.setDataSource(url);
             mediaPlayer.prepareAsync();
             mediaPlayer.setOnPreparedListener(MediaPlayer::start);
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         } catch (Exception e) {
             Log.e("AUDIO_ERROR", "Không thể phát audio: " + e.getMessage());
             Toast.makeText(view.getContext(), "Lỗi phát âm thanh", Toast.LENGTH_SHORT).show();

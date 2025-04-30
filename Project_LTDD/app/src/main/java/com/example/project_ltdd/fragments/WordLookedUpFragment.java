@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,14 +26,18 @@ import com.example.project_ltdd.R;
 import com.example.project_ltdd.adapters.WordLookedUpAdapter;
 import com.example.project_ltdd.api.retrofit_client.UserRetrofitClient;
 import com.example.project_ltdd.api.services.UserService;
+import com.example.project_ltdd.models.FavoriteWordModel;
+import com.example.project_ltdd.models.FolderModel;
 import com.example.project_ltdd.models.MeaningModel;
 import com.example.project_ltdd.models.PhoneticModel;
 import com.example.project_ltdd.models.WordModel;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -48,7 +54,9 @@ public class WordLookedUpFragment extends Fragment {
     private String currentSearchQuery = "";
     private LinearLayout layoutWordActions;
     private Button btnJumpTo, btnDeleteWord, btnSelectAll, btnClearAll;
-    private WordModel selectedWord = null;
+    private UserService userService = UserRetrofitClient.getClient();
+
+    private List<FolderModel> menuItems = new ArrayList<>();
 
     @Nullable
     @Override
@@ -58,6 +66,7 @@ public class WordLookedUpFragment extends Fragment {
         View view = inflater.inflate(R.layout.activity_fragment_wordlookedup, container, false);
         initViews(view);
         getWordLookedUpFromApi();
+        getFoldersFromApi();
         return view;
     }
 
@@ -105,6 +114,13 @@ public class WordLookedUpFragment extends Fragment {
             selectAllItems(false);
             btnSelectAll.setVisibility(View.VISIBLE);
             v.setVisibility(View.GONE);
+        });
+
+        btnJumpTo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showFolderPopup();
+            }
         });
     }
 
@@ -164,21 +180,17 @@ public class WordLookedUpFragment extends Fragment {
         );
     }
 
-    private void getWordLookedUpFromApi(){
-        UserService userService = UserRetrofitClient.getClient();
+    private void getWordLookedUpFromApi() {
         int userId = 1;
         userService.getWordLookedUp(userId).enqueue(new Callback<List<WordModel>>() {
             @Override
             public void onResponse(Call<List<WordModel>> call, Response<List<WordModel>> response) {
-                if(response.isSuccessful())
-                {
+                if (response.isSuccessful()) {
                     listWord = response.body();
                     setUpAdapter();
                     Toast.makeText(requireContext(), "Từ đã tra!", Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    Toast.makeText(requireContext(), "Không thể hiển thị danh sách Từ đã tra của bạn! Lỗi: "+response.code(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(requireContext(), "Không thể hiển thị danh sách Từ đã tra của bạn! Lỗi: " + response.code(), Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -190,5 +202,72 @@ public class WordLookedUpFragment extends Fragment {
         });
     }
 
+    private void showFolderPopup() {
+        PopupMenu popupMenu = new PopupMenu(requireContext(), btnJumpTo);
+        for (int i = 0; i < menuItems.size(); i++) {
+            popupMenu.getMenu().add(Menu.NONE, i, i, ">Thư mục [" + menuItems.get(i).getFolderName() + "]");
+        }
+        popupMenu.setOnMenuItemClickListener(menuItem -> {
+            int idx = menuItem.getItemId();
+            FolderModel chosen = menuItems.get(idx);
+
+            List<Long> listWordsId = new ArrayList<>();
+            for(WordModel wordModel: adapter.selectedWords)
+            {
+                Long id = wordModel.getWordId();
+                listWordsId.add(id);
+            }
+            addOrUpdateFavorWords(chosen.getFolderId(), listWordsId);
+            return true;
+        });
+        popupMenu.show();
+    }
+
+
+    private void getFoldersFromApi() {
+        userService.getFolders(1).enqueue(new Callback<List<FolderModel>>() {
+            @Override
+            public void onResponse(Call<List<FolderModel>> call, Response<List<FolderModel>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    menuItems = response.body();
+                }
+            }
+            @Override
+            public void onFailure(Call<List<FolderModel>> call, Throwable t) { }
+        });
+    }
+
+    private void addOrUpdateFavorWords(int folderId, List<Long> listWords){
+        int userId = 1;
+        userService.addOrUpdateFavorWords(userId, folderId,listWords).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful())
+                {
+                    try {
+                        String message = response.body().string();
+                        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+                        // Xóa từ và cập nhật danh sách
+                        listWord.removeIf(word -> listWords.contains(word.getWordId()));
+                        adapter.selectedWords.clear();
+                        adapter.notifyDataSetChanged();
+                    }
+                    catch (IOException e){
+                        e.printStackTrace();
+                        Toast.makeText(requireContext(), "Lỗi đọc dữ liệu!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else {
+                    Toast.makeText(requireContext(), "Thêm vào thư mục thất bại!", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(requireContext(), "Kết nối thất bại, thử lại!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 
 }

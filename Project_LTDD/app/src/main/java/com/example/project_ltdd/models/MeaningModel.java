@@ -6,7 +6,7 @@ import java.util.List;
 public class MeaningModel implements Serializable {
     private Long meaning_id;
     private String partOfSpeech;
-    private String vietnameseMeaning;
+    private String vietNamese;
 
     private List<DefinitionModel> definitions;
 
@@ -38,16 +38,16 @@ public class MeaningModel implements Serializable {
     }
 
     public String getVietnameseMeaning() {
-        return vietnameseMeaning;
+        return vietNamese;
     }
 
     public void setVietnameseMeaning(String vietnameseMeaning) {
-        this.vietnameseMeaning = vietnameseMeaning;
+        this.vietNamese = vietnameseMeaning;
     }
 
     public MeaningModel(Long meaningId, String vietnameseMeaning, String partOfSpeech) {
         this.meaning_id = meaningId;
-        this.vietnameseMeaning = vietnameseMeaning;
+        this.vietNamese = vietnameseMeaning;
         this.partOfSpeech = partOfSpeech;
     }
 

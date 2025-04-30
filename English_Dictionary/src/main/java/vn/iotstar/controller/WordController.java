@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import vn.iotstar.entity.WordEntity;
+import vn.iotstar.model.WordDTO;
 import vn.iotstar.service.WordService;
 
 @RestController
@@ -31,8 +32,8 @@ public class WordController {
     }
     
     @GetMapping("all")
-    public ResponseEntity<List<WordEntity>> getAllWord(){
-    	List<WordEntity> listWords = wordService.findAll();
+    public ResponseEntity<List<WordDTO>> getAllWord(){
+    	List<WordDTO> listWords = wordService.findWordAll();
     	return ResponseEntity.ok(listWords);
     }
     

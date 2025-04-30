@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentResultListener;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.project_ltdd.R;
@@ -50,6 +51,18 @@ public class YourWordFragment extends Fragment {
         View view = inflater.inflate(R.layout.activity_fragment_yourword, container, false);
         initViews(view);
         getFoldersFromApi();
+
+        getParentFragmentManager().setFragmentResultListener(
+                "request_reload_your_words",
+                getViewLifecycleOwner(),
+                new FragmentResultListener() {
+                    @Override
+                    public void onFragmentResult(@NonNull String requestKey, @NonNull Bundle result) {
+                        // Gọi hàm để load lại dữ liệu
+                        reloadWords();
+                    }
+                }
+        );
         return view;
     }
 
@@ -115,13 +128,10 @@ public class YourWordFragment extends Fragment {
             public void onTabSelected(TabLayout.Tab tab) {
                 // Get the tab text view
                 TextView tabText = tab.getCustomView().findViewById(R.id.tabText);
-
                 // Hiệu ứng rõ dần (fade in) khi chọn tab
                 tabText.animate().alpha(1f).setDuration(250).start();
-
                 // Thay đổi màu chữ thành trắng khi tab được chọn
                 tabText.setTextColor(Color.WHITE);
-
                 // Đánh dấu tab đã được chọn (để drawable selector thay đổi màu nền)
                 tabText.setSelected(true);
             }
@@ -130,13 +140,10 @@ public class YourWordFragment extends Fragment {
             public void onTabUnselected(TabLayout.Tab tab) {
                 // Get the tab text view
                 TextView tabText = tab.getCustomView().findViewById(R.id.tabText);
-
                 // Hiệu ứng mờ dần (fade out) khi bỏ chọn tab
                 tabText.animate().alpha(0.7f).setDuration(250).start();
-
                 // Thay đổi màu chữ thành đen khi tab không được chọn
                 tabText.setTextColor(Color.BLACK);
-
                 // Đánh dấu tab đã bị bỏ chọn
                 tabText.setSelected(false);
             }
@@ -149,6 +156,11 @@ public class YourWordFragment extends Fragment {
             }
         });
     }
+
+    private void reloadWords() {
+        // Gọi API hoặc database để load lại danh sách từ vựng
+        getFoldersFromApi(); // Ví dụ
+    }
     private void getFoldersFromApi(){
         UserService userService = UserRetrofitClient.getClient();
         int userId = 1;
@@ -160,13 +172,11 @@ public class YourWordFragment extends Fragment {
                     folderList = response.body();
                     setUpAdapter();
                     Toast.makeText(requireContext(), "Từ của bạn!", Toast.LENGTH_SHORT).show();
-
                 }
                 else
                 {
                     Toast.makeText(requireContext(), "Không thể hiển thị danh sách Thư mục của bạn! Lỗi: "+response.code(), Toast.LENGTH_SHORT).show();
                 }
-
             }
 
             @Override

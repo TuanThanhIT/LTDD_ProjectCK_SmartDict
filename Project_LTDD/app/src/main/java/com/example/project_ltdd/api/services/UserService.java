@@ -51,4 +51,32 @@ public interface UserService {
     @POST("addFavoriteWord")
     Call<FavoriteWordModel> addFavoriteWord(@Field("userId") int userId, @Field("folderId") int folderId, @Field("wordId") long wordId);
 
+    @GET("getWordsFolder/{folderId}")
+    Call<List<WordModel>> getWordsFolder(@Path("folderId") int folderId);
+
+    @GET("getFolderWord/{wordId}")
+    Call<FolderModel> getFolderByWord(@Path("wordId") Long wordId);
+
+    @DELETE("{userId}/deleteFavorWord/{wordId}")
+    Call<Void> deleteWordFavor(@Path("userId") int userId, @Path("wordId") Long wordId);
+
+    @GET("wordFavor/exists")
+    Call<Boolean> checkFavorite(@Query("userId") int userId, @Query("wordId") Long wordId);
+
+    @GET("folders/except")
+    Call<List<FolderModel>> getFoldersExcept(@Query("userId") int userId, @Query("wordId") Long word);
+
+    @PATCH("updateFolderWord")
+    Call<ResponseBody> updateFolderWord(@Query("userId") int userId, @Query("wordId") Long wordId, @Query("folderId") int folderId);
+
+    @PATCH("updateFolderWords")
+    Call<ResponseBody> updateFolderWords(@Query("userId") int userId, @Query("folderId") int folderId, @Query("listWordIds") List<Long> listWordId);
+
+    @DELETE("deleteFavorWords")
+    Call<ResponseBody> deleteFavorWords(@Query("userId") int userId, @Query("listWordIds") List<Long> listWordId);
+
+    @FormUrlEncoded
+    @POST("addFavorWords")
+    Call<ResponseBody> addOrUpdateFavorWords(@Field("userId") int userId, @Field("folderId") int folderId, @Field("listWords") List<Long> listWords);
+
 }

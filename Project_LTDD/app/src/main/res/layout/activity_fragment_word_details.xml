@@ -10,15 +10,15 @@
     <!-- AppBar / Toolbar -->
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/brightblue"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            android:layout_marginTop="2dp">
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -72,7 +72,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp">
+        android:padding="10dp">
 
         <LinearLayout
             android:id="@+id/containerWordDetail"
@@ -110,7 +110,8 @@
                 <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -180,7 +181,7 @@
                 android:text="máy truyền hình, ngành truyền hình"
                 android:textColor="#2980B9"
                 android:textStyle="bold"
-                android:textSize="18sp"
+                android:textSize="20sp"
                 android:layout_marginBottom="12dp"/>
         </LinearLayout>
     </ScrollView>

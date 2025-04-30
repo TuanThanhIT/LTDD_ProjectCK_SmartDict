@@ -32,5 +32,9 @@ public class FolderModel implements Serializable {
     public FolderModel(String folderName) {
         this.folder_name = folderName;
     }
+
+    public FolderModel(){
+
+    }
 }
 
