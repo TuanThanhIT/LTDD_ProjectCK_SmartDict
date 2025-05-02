@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.List;
 
 public class MeaningModel implements Serializable {
-    private Long meaning_id;
+    private Long meaningId;
     private String partOfSpeech;
-    private String vietNamese;
+    private String vietnameseMeaning;
 
     private List<DefinitionModel> definitions;
 
@@ -22,11 +22,11 @@ public class MeaningModel implements Serializable {
     }
 
     public Long getMeaningId() {
-        return meaning_id;
+        return meaningId;
     }
 
     public void setMeaningId(Long meaningId) {
-        this.meaning_id = meaningId;
+        this.meaningId = meaningId;
     }
 
     public String getPartOfSpeech() {
@@ -38,16 +38,16 @@ public class MeaningModel implements Serializable {
     }
 
     public String getVietnameseMeaning() {
-        return vietNamese;
+        return vietnameseMeaning;
     }
 
     public void setVietnameseMeaning(String vietnameseMeaning) {
-        this.vietNamese = vietnameseMeaning;
+        this.vietnameseMeaning = vietnameseMeaning;
     }
 
     public MeaningModel(Long meaningId, String vietnameseMeaning, String partOfSpeech) {
-        this.meaning_id = meaningId;
-        this.vietNamese = vietnameseMeaning;
+        this.meaningId = meaningId;
+        this.vietnameseMeaning = vietnameseMeaning;
         this.partOfSpeech = partOfSpeech;
     }
 

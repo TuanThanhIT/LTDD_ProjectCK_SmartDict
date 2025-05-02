@@ -4,37 +4,33 @@ import java.io.Serializable;
 
 public class FolderModel implements Serializable {
 
-    private int folder_id;
-    private String folder_name;
+    private int folderId;
+    private String folderName;
 
     public int getFolderId() {
-        return folder_id;
+        return folderId;
     }
 
     public void setFolderId(int folderId) {
-        this.folder_id = folderId;
+        this.folderId = folderId;
     }
 
     public String getFolderName() {
-        return folder_name;
+        return folderName;
     }
 
     public void setFolderName(String folderName) {
-        this.folder_name = folderName;
+        this.folderName = folderName;
     }
 
 
     public FolderModel(int folderId, String folderName) {
-        this.folder_id = folderId;
-        this.folder_name = folderName;
+        this.folderId = folderId;
+        this.folderName = folderName;
     }
 
     public FolderModel(String folderName) {
-        this.folder_name = folderName;
-    }
-
-    public FolderModel(){
-
+        this.folderName = folderName;
     }
 }
 

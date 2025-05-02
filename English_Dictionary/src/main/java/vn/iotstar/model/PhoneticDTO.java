@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PhoneticDTO {
 	
-	private Long phonetic_id;
 	private String text;
     private String audio;
-    
-    
+
 }

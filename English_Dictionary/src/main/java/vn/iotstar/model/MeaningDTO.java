@@ -10,8 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MeaningDTO {
-	 private Long meaning_id;
+	
 	 private String partOfSpeech;
-	 private  String vietNamese;
 	 private List<DefinitionDTO> definitions;
 }

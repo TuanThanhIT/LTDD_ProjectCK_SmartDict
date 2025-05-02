@@ -1,9 +1,6 @@
 package com.example.project_ltdd.api.services;
 
-<<<<<<< HEAD
-=======
 /*import com.example.project_ltdd.api.responses.GPTResponse;*/
->>>>>>> dev_toan
 import com.example.project_ltdd.models.GPTModel;
 
 import java.util.List;

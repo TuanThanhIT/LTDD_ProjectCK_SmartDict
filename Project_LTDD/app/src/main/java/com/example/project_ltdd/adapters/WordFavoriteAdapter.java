@@ -1,10 +1,8 @@
 package com.example.project_ltdd.adapters;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,44 +19,30 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_ltdd.R;
-import com.example.project_ltdd.api.retrofit_client.UserRetrofitClient;
-import com.example.project_ltdd.api.services.UserService;
-import com.example.project_ltdd.commons.WordCommons;
+import com.example.project_ltdd.commons.WordCommon;
 import com.example.project_ltdd.fragments.WordDetailFragment;
-import com.example.project_ltdd.models.FolderModel;
+import com.example.project_ltdd.models.MeaningModel;
+import com.example.project_ltdd.models.PhoneticModel;
 import com.example.project_ltdd.models.WordModel;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class WordFavoriteAdapter extends RecyclerView.Adapter<WordFavoriteAdapter.WordViewHolder> {
 
     private final List<WordModel> wordList;
     private Context context;
 
-    private int currentFolderId; // Thêm thuộc tính này
-
     public List<WordModel> selectedWords = new ArrayList<>(); // Xu ly viec chon CheckBox
 
-    private List<FolderModel> listFolderEx = new ArrayList<>();
-
-    private final WordCommons wordCommon = new WordCommons();
+    WordCommon wordCommon = new WordCommon();
 
     private FragmentManager fragmentManager;
 
-    private UserService userService = UserRetrofitClient.getClient();
-
-    public WordFavoriteAdapter(List<WordModel> wordList, Context context, FragmentManager fragmentManager, int currentFolderId) {
+    public WordFavoriteAdapter(List<WordModel> wordList, Context context, FragmentManager fragmentManager) {
         this.wordList = wordList;
         this.context = context;
         this.fragmentManager = fragmentManager;
-        this.currentFolderId = currentFolderId;
     }
 
     @NonNull
@@ -112,14 +96,13 @@ public class WordFavoriteAdapter extends RecyclerView.Adapter<WordFavoriteAdapte
                     public boolean onMenuItemClick(MenuItem item) {
                         int id = item.getItemId();
                         if (id == R.id.action_remove) {
-                            deleteWordFavor(word);
+                            // TODO: Xử lý xóa từ
                             return true;
                         } else if (id == R.id.action_move_top) {
                             // TODO: Chuyển lên đầu
                             return true;
                         } else if (id == R.id.action_move_folder) {
                             // TODO: Chuyển đến thư mục khác
-                            getFoldersExcept(word);
                             return true;
                         }
                         return false;
@@ -192,116 +175,5 @@ public class WordFavoriteAdapter extends RecyclerView.Adapter<WordFavoriteAdapte
         }
     }
 
-    private void deleteWordFavor(WordModel wordFavor) {
-        int userId = 1;
-        userService.deleteWordFavor(userId, wordFavor.getWordId()).enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if(response.isSuccessful()){
-                    int position = wordList.indexOf(wordFavor);
-                    if (position != -1) {
-                        wordList.remove(position);
-                        selectedWords.remove(wordFavor); // Nếu từ đó đang được chọn thì cũng xóa khỏi danh sách selectedWords
-                        notifyItemRemoved(position);
-                    }
-                    Toast.makeText(context, "Từ này đã bị xóa khỏi thư mục", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(context, "Xóa thất bại, thử lại!", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(context, "Kết nối thất bại, thử lại!", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-    private void showMoveFolderDialog(WordModel wordEx) {
-        // Dùng danh sách thực từ server
-        String[] folderNames = new String[listFolderEx.size()];
-        for (int i = 0; i < listFolderEx.size(); i++) {
-            folderNames[i] = listFolderEx.get(i).getFolderName(); // Tùy getter bạn đặt tên
-        }
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Chọn thư mục")
-                .setItems(folderNames, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        FolderModel selectedFolder = listFolderEx.get(which);
-                        updateFolderWord(wordEx, selectedFolder);
-                    }
-                })
-                .show();
-    }
-
-
-    private void getFoldersExcept(WordModel wordEx) {
-        int userId = 1; // Cố định hoặc lấy user đang login
-
-        userService.getFoldersExcept(userId, wordEx.getWordId()).enqueue(new Callback<List<FolderModel>>() {
-            @Override
-            public void onResponse(Call<List<FolderModel>> call, Response<List<FolderModel>> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    listFolderEx = response.body();
-
-                    if (listFolderEx.isEmpty()) {
-                        Toast.makeText(context, "Không còn thư mục để chuyển.", Toast.LENGTH_SHORT).show();
-                    } else {
-                        // ✅ Show dialog sau khi có dữ liệu
-                        showMoveFolderDialog(wordEx);
-                    }
-                } else {
-                    Toast.makeText(context, "Lấy danh sách thư mục thất bại.", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<FolderModel>> call, Throwable t) {
-                Toast.makeText(context, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-
-    private void updateFolderWord(WordModel wordEx, FolderModel folderSelect) {
-        int userId = 1;
-
-        userService.updateFolderWord(userId, wordEx.getWordId(), folderSelect.getFolderId())
-                .enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if (response.isSuccessful()) {
-                            try {
-                                String message = response.body().string();
-                                Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
-
-                                // Xóa từ khỏi danh sách hiện tại và cập nhật UI
-                                int position = wordList.indexOf(wordEx);
-                                if (position != -1) {
-                                    wordList.remove(position);
-                                    selectedWords.remove(wordEx); // Xóa khỏi danh sách chọn nếu có
-                                    notifyDataSetChanged();  // Cập nhật RecyclerView hiện tại
-                                }
-
-                                Bundle result = new Bundle();
-                                result.putBoolean("needReload", true);
-                                fragmentManager.setFragmentResult("request_reload_your_words", result);
-
-
-                            } catch (IOException e) {
-                                Toast.makeText(context, "Lỗi đọc phản hồi", Toast.LENGTH_SHORT).show();
-                            }
-                        } else {
-                            Toast.makeText(context, "Thay đổi thư mục thất bại", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Toast.makeText(context, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
 
 }

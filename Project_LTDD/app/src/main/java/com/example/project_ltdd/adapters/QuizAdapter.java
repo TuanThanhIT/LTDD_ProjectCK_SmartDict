@@ -45,16 +45,15 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
     public void onBindViewHolder(QuizViewHolder holder, int posotion){
         QuizModel quiz = mQuiz.get(posotion);
 
-        holder.tvQuizName.setText(quiz.getTitle()); // Hiển thị tên quiz
-        holder.tvQuestionCount.setText("Số câu hỏi: " + quiz.getTotal_question());
-        holder.tvQuizDescription.setText("Mô tả: "+quiz.getDescription());
-        int time = quiz.getTime_limit();
+        holder.tvQuizName.setText(quiz.getNameQuiz()); // Hiển thị tên quiz
+        holder.tvQuestionCount.setText("Số câu hỏi: " + quiz.getQuestionCount());
+        int time = quiz.getQuizTime();
         int minutes = time / 60;
         int seconds = time % 60;
         holder.tvQuizTime.setText("Thời gian: "+ minutes + " phút " + seconds + " giây"); // Hiển thị thời gian làm bà
         // Ví dụ trong adapter hoặc activity/fragment:
         Glide.with(mContext)
-                .load(quiz.getImage())
+                .load(quiz.getQuizImage())
                 .placeholder(R.drawable.sample_image) // ảnh hiển thị trong lúc chờ load
                 .error(R.drawable.error_image)   // ảnh nếu load lỗi
                 .into(holder.imgQuiz);
@@ -85,8 +84,6 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
         private TextView tvQuestionCount;
         private TextView tvQuizTime;
 
-        private TextView tvQuizDescription;
-
         private Button btnStartQuiz;
 
         private ImageView imgQuiz;
@@ -97,7 +94,6 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
             tvQuizName = (TextView) itemView.findViewById(R.id.txvQuizTitle);
             tvQuestionCount = (TextView) itemView.findViewById(R.id.txvQuestionCount);
             tvQuizTime = (TextView) itemView.findViewById(R.id.txvQuizTime);
-            tvQuizDescription = (TextView) itemView.findViewById(R.id.txvQuizDescription);
             imgQuiz = (ImageView) itemView.findViewById(R.id.imgQuiz);
             btnStartQuiz = (Button) itemView.findViewById(R.id.btnStartQuiz);
 
@@ -105,7 +101,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QuizViewHolder
                 @Override
                 public void onClick(View v) {
                     QuizModel quiz = mQuiz.get(getAdapterPosition());
-                    Toast.makeText(mContext, quiz.getTitle(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, quiz.getNameQuiz(), Toast.LENGTH_SHORT).show();
                 }
             });
         }

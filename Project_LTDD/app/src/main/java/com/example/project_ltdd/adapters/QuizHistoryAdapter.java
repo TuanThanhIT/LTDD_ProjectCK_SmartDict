@@ -39,13 +39,13 @@ public class QuizHistoryAdapter extends RecyclerView.Adapter<QuizHistoryAdapter.
     public void onBindViewHolder(QuizHistoryViewHolder holder, int position) {
         QuizHistoryModel quizHistory = mQuizHistoryList.get(position);
 
-        holder.txvQuizName.setText(quizHistory.getQuizTitle());
-        int time = quizHistory.getTestTime();
+        holder.txvQuizName.setText(quizHistory.getQuizName());
+        int time = quizHistory.getQuizTime();
         int minutes = time / 60;
         int seconds = time % 60;
         holder.txvQuizTime.setText(minutes + " phút " + seconds + " giây");
-        holder.txvQuizPoint.setText("Đúng: "+quizHistory.getTotalCorrectAnswer() + "/"+ quizHistory.getTotalQuestion());
-        holder.txvQuizAttempt.setText("Lần: " + quizHistory.getAttempt());
+        holder.txvQuizPoint.setText(quizHistory.getQuizPoint() + " " + "điểm");
+        holder.txvQuizAttempt.setText("Lần: " + quizHistory.getQuzAttempt());
     }
 
     public int getItemCount(){
@@ -69,7 +69,7 @@ public class QuizHistoryAdapter extends RecyclerView.Adapter<QuizHistoryAdapter.
                 @Override
                 public void onClick(View v) {
                     QuizHistoryModel quizHistory = mQuizHistoryList.get(getAdapterPosition());
-                    Toast.makeText(mContext, quizHistory.getQuizTitle(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, quizHistory.getQuizName(), Toast.LENGTH_SHORT).show();
                 }
             });
 

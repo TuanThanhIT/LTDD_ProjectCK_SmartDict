@@ -3,18 +3,18 @@ package com.example.project_ltdd.models;
 import java.io.Serializable;
 
 public class PhoneticModel implements Serializable {
-    private Long phonetic_id;
+    private Long phoneticId;
     private String text;
     private String audio;
 
     // Getter & Setter
 
     public Long getPhoneticId() {
-        return phonetic_id;
+        return phoneticId;
     }
 
     public void setPhoneticId(Long phoneticId) {
-        this.phonetic_id = phoneticId;
+        this.phoneticId = phoneticId;
     }
 
     public String getText() {
@@ -35,7 +35,7 @@ public class PhoneticModel implements Serializable {
 
     public PhoneticModel(String audio, Long phoneticId, String text) {
         this.audio = audio;
-        this.phonetic_id = phoneticId;
+        this.phoneticId = phoneticId;
         this.text = text;
     }
 

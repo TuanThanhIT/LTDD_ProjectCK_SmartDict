@@ -1,59 +1,48 @@
 package com.example.project_ltdd.models;
 
 public class QuizHistoryModel {
-    private String quizTitle;
-    private int attempt;
+    private String quizName;
+    private int quizTime;
+    private int quizPoint;
+    private int quzAttempt;
 
-    private int totalCorrectAnswer;
-    private int testTime;
-    private int totalQuestion;
-
-    public String getQuizTitle() {
-        return quizTitle;
+    public String getQuizName() {
+        return quizName;
     }
 
-    public int getTotalQuestion() {
-        return totalQuestion;
+    public void setQuizName(String quizName) {
+        this.quizName = quizName;
     }
 
-    public int getTestTime() {
-        return testTime;
+    public int getQuzAttempt() {
+        return quzAttempt;
     }
 
-    public int getTotalCorrectAnswer() {
-        return totalCorrectAnswer;
+    public void setQuzAttempt(int quzAttempt) {
+        this.quzAttempt = quzAttempt;
     }
 
-    public int getAttempt() {
-        return attempt;
+    public int getQuizTime() {
+        return quizTime;
     }
 
-    public void setQuizTitle(String quizTitle) {
-        this.quizTitle = quizTitle;
+    public void setQuizTime(int quizTime) {
+        this.quizTime = quizTime;
     }
 
-    public void setTotalQuestion(int totalQuestion) {
-        this.totalQuestion = totalQuestion;
+    public int getQuizPoint() {
+        return quizPoint;
     }
 
-    public void setTestTime(int testTime) {
-        this.testTime = testTime;
+    public void setQuizPoint(int quizPoint) {
+        this.quizPoint = quizPoint;
     }
 
-    public void setTotalCorrectAnswer(int totalCorrectAnswer) {
-        this.totalCorrectAnswer = totalCorrectAnswer;
-    }
-
-    public void setAttempt(int attempt) {
-        this.attempt = attempt;
-    }
-
-    public QuizHistoryModel(String quizTitle, int totalQuestion, int testTime, int totalCorrectAnswer, int attempt) {
-        this.quizTitle = quizTitle;
-        this.totalQuestion = totalQuestion;
-        this.testTime = testTime;
-        this.totalCorrectAnswer = totalCorrectAnswer;
-        this.attempt = attempt;
+    public QuizHistoryModel(String quizName, int quzAttempt, int quizPoint, int quizTime) {
+        this.quizName = quizName;
+        this.quzAttempt = quzAttempt;
+        this.quizPoint = quizPoint;
+        this.quizTime = quizTime;
     }
 
     public QuizHistoryModel() {

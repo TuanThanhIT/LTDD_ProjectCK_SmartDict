@@ -1,9 +1,5 @@
 package vn.iotstar.service.impl;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -13,23 +9,20 @@ import vn.iotstar.entity.MeaningEntity;
 import vn.iotstar.entity.PhoneticEntity;
 import vn.iotstar.entity.WordEntity;
 import vn.iotstar.model.DictionaryResponse;
-import vn.iotstar.model.WordDTO;
 import vn.iotstar.repository.WordRepository;
 import vn.iotstar.service.WordService;
-import vn.iotstar.utils.WordMapper;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class WordServiceImpl implements WordService{
 
     @Autowired
     private WordRepository wordRepository;
-    
-    
+
     @Autowired
     private RestTemplate restTemplate;
-    
-    @Autowired
-    private WordMapper wordMapper;
 
     private static final String API_URL = "https://api.dictionaryapi.dev/api/v2/entries/en/";
 
@@ -45,25 +38,8 @@ public class WordServiceImpl implements WordService{
         }
         throw new IllegalArgumentException("Không tìm thấy từ này trên API!");
     }
-    
-        
-    @Override
-    public List<WordDTO> findWordAll() {
-        List<WordEntity> listWords = wordRepository.findAll();
-        return listWords.stream()
-                        .map(wordMapper::convertToDTO)
-                        .collect(Collectors.toList());
-    }
-    
-    
-    @Override
-	public Optional<WordEntity> findById(Long id) {
-		return wordRepository.findById(id);
-	}
 
-    
-
-	private DictionaryResponse[] fetchFromApi(String word) {
+    private DictionaryResponse[] fetchFromApi(String word) {
         try {
             return restTemplate.getForObject(API_URL + word, DictionaryResponse[].class);
         } catch (Exception e) {
@@ -111,8 +87,4 @@ public class WordServiceImpl implements WordService{
 
         return wordRepository.save(wordEntity);
     }
-    
-    
-    
-    
 }

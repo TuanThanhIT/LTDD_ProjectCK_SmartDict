@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,70 +17,39 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.project_ltdd.R;
 import com.example.project_ltdd.adapters.ExamViewPager2Adapter;
-import com.example.project_ltdd.api.retrofit_client.QuizRetrofitClient;
-import com.example.project_ltdd.api.services.QuizService;
 import com.example.project_ltdd.models.AnswerModel;
 import com.example.project_ltdd.models.QuestionModel;
 import com.example.project_ltdd.models.QuizModel;
-import com.example.project_ltdd.models.TestModel;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class ExamFragment extends Fragment {
     private ViewPager2 viewPagerExam;
     private Button btnNext, btnPrev;
     private TextView txvCountdown, txvQuizTitle;
-    private List<QuestionModel> questionsList = new ArrayList<>();
+    private List<QuestionModel> questionList;
     private ExamViewPager2Adapter adapter;
 
     private int timeLeftInSeconds;// Biến lưu thời gian còn lại
     private int timeSpentInSeconds;
 
-    private int testId;
-
     private ProgressBar progressBarTime;
 
     private CountDownTimer countDownTimer;
-
-    private QuizService quizService = QuizRetrofitClient.getClient();
-
-    private QuizModel quizModel;
-    private Map<Integer, Integer> userAnswers = new HashMap<>();
-
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_fragment_exam, container, false);
-        initViews(view);;
-        addTestAndGetTestId(quizModel.getQuiz_id(), new TestIdCallback() {
-            @Override
-            public void onTestIdReady(int id) {
-                testId = id;
-                getQuestionsAndAnswers(quizModel.getQuiz_id());
-            }
-        });
+        initViews(view);
         return view;
     }
 
     private void SwitchScreen(){
-        ResultExamFragment resultFragment = new ResultExamFragment();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("quizModel", quizModel); // Truyền QuizModel qua Bundle
-        resultFragment.setArguments(bundle);
-
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragment_container, resultFragment);
+        transaction.replace(R.id.fragment_container, new ResultExamFragment());
         transaction.addToBackStack(null);
         transaction.commit();
     }
@@ -95,10 +63,9 @@ public class ExamFragment extends Fragment {
         progressBarTime = view.findViewById(R.id.progressBarTime);
 
         Bundle args = getArguments();
-        quizModel = (QuizModel) args.getSerializable("quizModel");
-
-        txvQuizTitle.setText(quizModel.getTitle());
-        int totalTimeInSeconds = quizModel.getTime_limit();
+        QuizModel quizModel = (QuizModel) args.getSerializable("quizModel");
+        txvQuizTitle.setText(quizModel.getNameQuiz());
+        int totalTimeInSeconds = quizModel.getQuizTime();
         progressBarTime.setMax(totalTimeInSeconds);
         progressBarTime.setProgress(totalTimeInSeconds);
         timeLeftInSeconds = totalTimeInSeconds;
@@ -122,6 +89,56 @@ public class ExamFragment extends Fragment {
             }
         }.start();
 
+        questionList = new ArrayList<>();
+        // Thêm câu hỏi và các lựa chọn câu trả lời vào danh sách
+        // Câu hỏi 1
+        List<AnswerModel> options1 = Arrays.asList(
+                new AnswerModel(1, true, "Paris"),
+                new AnswerModel(2, false, "London"),
+                new AnswerModel(3, false, "Berlin"),
+                new AnswerModel(4, false, "Rome")
+        );
+        questionList.add(new QuestionModel(1, "What is the capital of France?", options1));
+
+        // Câu hỏi 2
+        List<AnswerModel> options2 = Arrays.asList(
+                new AnswerModel(1, false, "Earth"),
+                new AnswerModel(2, true, "Mars"),
+                new AnswerModel(3, false, "Jupiter"),
+                new AnswerModel(4, false, "Venus")
+        );
+        questionList.add(new QuestionModel(2, "Which planet is known as the Red Planet?", options2));
+
+        // Câu hỏi 3
+        List<AnswerModel> options3 = Arrays.asList(
+                new AnswerModel(1, true, "William Shakespeare"),
+                new AnswerModel(2, false, "Mark Twain"),
+                new AnswerModel(3, false, "Charles Dickens"),
+                new AnswerModel(4, false, "J.K. Rowling")
+        );
+        questionList.add(new QuestionModel(3, "Who wrote 'Hamlet'?", options3));
+
+        // Câu hỏi 4
+        List<AnswerModel> options4 = Arrays.asList(
+                new AnswerModel(1, true, "Pacific Ocean"),
+                new AnswerModel(2, false, "Atlantic Ocean"),
+                new AnswerModel(3, false, "Indian Ocean"),
+                new AnswerModel(4, false, "Arctic Ocean")
+        );
+        questionList.add(new QuestionModel(4, "What is the largest ocean on Earth?", options4));
+
+        // Câu hỏi 5
+        List<AnswerModel> options5 = Arrays.asList(
+                new AnswerModel(1, true, "Oxygen"),
+                new AnswerModel(2, false, "Gold"),
+                new AnswerModel(3, false, "Silver"),
+                new AnswerModel(4, false, "Iron")
+        );
+        questionList.add(new QuestionModel(5, "Which element has the chemical symbol 'O'?", options5));
+
+        adapter = new ExamViewPager2Adapter(requireActivity(), questionList);
+        viewPagerExam.setAdapter(adapter);
+
 
         btnPrev.setOnClickListener(v -> {
             int currentItem = viewPagerExam.getCurrentItem();
@@ -135,7 +152,7 @@ public class ExamFragment extends Fragment {
             @Override
             public void onPageSelected(int position) {
                 btnPrev.setVisibility(position == 0 ? View.GONE : View.VISIBLE);
-                btnNext.setText(position == questionsList.size() - 1 ? "Nộp bài" : "Tiếp tục");
+                btnNext.setText(position == questionList.size() - 1 ? "Nộp bài" : "Tiếp tục");
             }
         });
 
@@ -143,104 +160,13 @@ public class ExamFragment extends Fragment {
         btnNext.setOnClickListener(v -> {
             if (btnNext.getText().equals("Tiếp tục")) {
                 int currentItem = viewPagerExam.getCurrentItem();
-                if (currentItem < questionsList.size() - 1) {
+                if (currentItem < questionList.size() - 1) {
                     viewPagerExam.setCurrentItem(currentItem + 1);
                 }
             } else {
-                // Kiểm tra đã trả lời hết chưa
-                if (userAnswers.size() < questionsList.size()) {
-                    Toast.makeText(requireContext(), "Vui lòng trả lời hết tất cả các câu hỏi trước khi nộp!", Toast.LENGTH_SHORT).show();
-                    return;
-                } else {
-                    updateResult();
-                }
                 SwitchScreen();
             }
-        });
-    }
 
-    private void setUpAdater(){
-        adapter = new ExamViewPager2Adapter(requireActivity(), questionsList, testId, (questionId, answerId) -> {
-            userAnswers.put(questionId, answerId);
-        });
-        viewPagerExam.setAdapter(adapter);
-    }
-    private void getQuestionsAndAnswers(int quizId){
-        quizService.getQuestionsAndAnswers(quizId).enqueue(new Callback<List<QuestionModel>>() {
-            @Override
-            public void onResponse(Call<List<QuestionModel>> call, Response<List<QuestionModel>> response) {
-                if(response.isSuccessful()){
-                    questionsList = response.body();
-                    setUpAdater();
-                }
-                else {
-                    Toast.makeText(requireContext(), "Không thể hiển thị câu hỏi của bài Quiz!", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<QuestionModel>> call, Throwable t) {
-                Toast.makeText(requireContext(), "Kết nối thất bại, thử lại!", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void addTestAndGetTestId(int quizId, TestIdCallback callback) {
-        int userId = 1;
-        quizService.addTest(userId, quizId).enqueue(new Callback<TestModel>() {
-            @Override
-            public void onResponse(Call<TestModel> call, Response<TestModel> response) {
-                if (response.isSuccessful()) {
-                    // Sau khi add thành công, lấy testId
-                    quizService.getTestId(userId, quizId).enqueue(new Callback<Integer>() {
-                        @Override
-                        public void onResponse(Call<Integer> call, Response<Integer> response) {
-                            if (response.isSuccessful()) {
-                                int testId = response.body();
-                                callback.onTestIdReady(testId); // Gọi callback khi đã có testId
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<Integer> call, Throwable t) {
-                            Toast.makeText(requireContext(), "Không lấy được Test ID", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                } else {
-                    Toast.makeText(requireContext(), "Không thể tạo bài thi mới", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<TestModel> call, Throwable t) {
-                Toast.makeText(requireContext(), "Kết nối thất bại, thử lại!", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    public interface TestIdCallback {
-        void onTestIdReady(int testId);
-    }
-
-    private void updateResult(){
-        int userId = 1;
-        quizService.updateResult(userId, quizModel.getQuiz_id(), timeSpentInSeconds).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(response.isSuccessful()){
-                    try {
-                        String message = response.body().string();
-//                        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
-                    } catch (IOException e){
-                        Toast.makeText(requireContext(), "Lỗi đọc phản hồi", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(requireContext(), "Kết nối thất bại, thử lại!", Toast.LENGTH_SHORT).show();
-            }
         });
     }
 }

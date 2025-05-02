@@ -3,7 +3,7 @@ package com.example.project_ltdd.models;
 public class DefinitionModel {
     private Long definition_id;
 
-    private String definition;
+    private String definiton;
     private String example;
 
     public Long getDefinition_id() {
@@ -15,11 +15,11 @@ public class DefinitionModel {
     }
 
     public String getDefiniton() {
-        return definition;
+        return definiton;
     }
 
     public void setDefiniton(String definiton) {
-        this.definition = definiton;
+        this.definiton = definiton;
     }
 
     public String getExample() {
@@ -33,6 +33,6 @@ public class DefinitionModel {
     public DefinitionModel(Long definition_id, String example, String definiton) {
         this.definition_id = definition_id;
         this.example = example;
-        this.definition = definiton;
+        this.definiton = definiton;
     }
 }

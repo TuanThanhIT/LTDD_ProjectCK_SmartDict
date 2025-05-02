@@ -9,7 +9,7 @@ import com.example.project_ltdd.models.FolderModel;
 import com.example.project_ltdd.fragments.WordFavoriteFragment;
 
 import java.util.List;
-
+// hello
 public class YourWordPagerAdapter extends FragmentStateAdapter {
     private final List<FolderModel> folderList;
 

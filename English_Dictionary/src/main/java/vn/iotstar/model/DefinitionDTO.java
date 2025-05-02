@@ -8,9 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DefinitionDTO {
-	
-	private Long definition_id;
 	private String definition;
     private String example;
 }
-
