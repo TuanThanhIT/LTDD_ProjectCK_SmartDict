@@ -5,20 +5,32 @@ import java.util.Arrays;
 import java.util.List;
 
 public class QuestionModel implements Serializable {
-    private String questionText;
-    private List<String> options;
 
-    public QuestionModel(String questionText, List<String> options) {
-        this.questionText = questionText;
-        this.options = options;
+    private int question_id;
+    private String question_test;
+    private List<AnswerModel> listAnswers;
+
+    public int getQuestion_id() {
+        return question_id;
     }
 
-    public String getQuestionText() {
-        return questionText;
+    public void setQuestion_id(int question_id) {
+        this.question_id = question_id;
     }
 
-    public List<String> getOptions() {
-        return options;
+    public List<AnswerModel> getListAnswers() {
+        return listAnswers;
     }
 
+    public void setListAnswers(List<AnswerModel> listAnswers) {
+        this.listAnswers = listAnswers;
+    }
+
+    public String getQuestion_test() {
+        return question_test;
+    }
+
+    public void setQuestion_test(String question_test) {
+        this.question_test = question_test;
+    }
 }

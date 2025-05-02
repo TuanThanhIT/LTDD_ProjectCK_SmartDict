@@ -31,7 +31,7 @@ public class QuizEntity {
 	private String image;
 	
 	
-	@Column(columnDefinition = "navrchar(255)")
+	@Column(columnDefinition = "nvarchar(255)")
 	private String description;
 	
 	@Column(nullable = false)
@@ -42,7 +42,7 @@ public class QuizEntity {
 	
 	
 	@OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<QuestionEntity> quetions;
+	private List<QuestionEntity> questions;
 	
 	@OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL)
 	private List<TestEntity> tests;

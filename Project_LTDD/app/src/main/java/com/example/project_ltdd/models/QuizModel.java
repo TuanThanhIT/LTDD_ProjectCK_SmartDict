@@ -1,41 +1,66 @@
 package com.example.project_ltdd.models;
 
-public class QuizModel {
+import com.google.gson.annotations.SerializedName;
 
-    private String nameQuiz;
-    private int questionCount;
-    private int quizTime;
+import java.io.Serializable;
 
-    public QuizModel() {
+public class QuizModel implements Serializable {
+
+    private int quiz_id;
+    private String title;
+
+    public int getQuiz_id() {
+        return quiz_id;
     }
 
-    public String getNameQuiz() {
-        return nameQuiz;
+    public void setQuiz_id(int quiz_id) {
+        this.quiz_id = quiz_id;
     }
 
-    public void setNameQuiz(String nameQuiz) {
-        this.nameQuiz = nameQuiz;
+    private String description;
+    private int total_question;
+    private int time_limit;
+    private String image;
+
+    public String getDescription() {
+        return description;
     }
 
-    public int getQuizTime() {
-        return quizTime;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public void setQuizTime(int quizTime) {
-        this.quizTime = quizTime;
+    public String getTitle() {
+        return title;
     }
 
-    public int getQuestionCount() {
-        return questionCount;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public QuizModel(String nameQuiz, int quizTime, int questionCount) {
-        this.nameQuiz = nameQuiz;
-        this.quizTime = quizTime;
-        this.questionCount = questionCount;
+    public String getImage() {
+        return image;
     }
 
-    public void setQuestionCount(int questionCount) {
-        this.questionCount = questionCount;
+    public void setImage(String image) {
+        this.image = image;
     }
+
+    public int getTime_limit() {
+        return time_limit;
+    }
+
+    public void setTime_limit(int time_limit) {
+        this.time_limit = time_limit;
+    }
+
+    public int getTotal_question() {
+        return total_question;
+    }
+
+    public void setTotal_question(int total_question) {
+        this.total_question = total_question;
+    }
+
+
 }

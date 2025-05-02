@@ -1,5 +1,7 @@
 package vn.iotstar.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -32,6 +34,7 @@ public class DefinitionEntity {
 	
 	@ManyToOne
 	@JoinColumn(name = "meaning_id")
+	@JsonBackReference
 	private MeaningEntity meaning;
 
 }
