@@ -7,7 +7,7 @@ appcompat = "1.7.0"
 material = "1.12.0"
 activity = "1.10.0"
 constraintlayout = "2.2.0"
-retrofit = "2.9.0"
+
 okhttp = "4.9.1"
 lottieVersion = "6.6.4"
 pinviewVersion = "1.4.4"
@@ -20,8 +20,7 @@ appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "a
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
-retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit"}
-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
+
 logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
 lottie = {group = "com.airbnb.android", name = "lottie", version.ref = "lottieVersion"}
 pinview = { group = "io.github.chaosleung", name = "pinview", version.ref = "pinviewVersion" }

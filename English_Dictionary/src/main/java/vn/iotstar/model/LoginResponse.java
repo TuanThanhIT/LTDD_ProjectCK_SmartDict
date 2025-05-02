@@ -7,9 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OTPVerificationDTO {
-	private String email;
-    private String otp;
-    private String fullname; 
-    private String password; 
+public class LoginResponse {
+	private boolean success;
+    private String message;
+    private UserLoginDTO data;
+
+
 }

@@ -43,8 +43,6 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
-    implementation(libs.retrofit)
-    implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
@@ -55,9 +53,14 @@ dependencies {
     annotationProcessor("com.github.bumptech.glide:compiler:4.13.2")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+<<<<<<< HEAD
     implementation("com.squareup.okhttp3:logging-interceptor:3.12.0")
     implementation("com.google.mlkit:translate:17.0.2")
     implementation("com.google.android.gms:play-services-mlkit-text-recognition:19.0.0")
+=======
+    implementation ("com.squareup.retrofit2:converter-scalars:2.9.0")
+>>>>>>> dev_toan
 	implementation(libs.lottie)
+	implementation ("io.github.chaosleung:pinview:1.4.4")
     implementation(libs.pinview)
 }
