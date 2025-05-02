@@ -9,6 +9,16 @@ public class FavoriteWordModel {
 
     private int word_id;
 
+    private String wordName;
+
+    public String getWordName() {
+        return wordName;
+    }
+
+    public void setWordName(String wordName) {
+        this.wordName = wordName;
+    }
+
     public int getWord_id() {
         return word_id;
     }
@@ -35,6 +45,14 @@ public class FavoriteWordModel {
 
     public int getId() {
         return id;
+    }
+
+    public FavoriteWordModel(int id, int word_id, int folder_id, int user_id, String wordName) {
+        this.id = id;
+        this.word_id = word_id;
+        this.folder_id = folder_id;
+        this.user_id = user_id;
+        this.wordName = wordName;
     }
 
     public void setId(int id) {

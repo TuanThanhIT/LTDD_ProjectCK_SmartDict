@@ -1,40 +1,31 @@
 package com.example.project_ltdd.models;
 
 public class AnswerModel {
-    private int answerId;
-    private String answerText;
-    private boolean isCorrect;
+    private int answer_id;
+    private String answer_text;
+    private boolean correct;
 
-    public int getAnswerId() {
-        return answerId;
+    public int getAnswer_id() {
+        return answer_id;
     }
 
-    public void setAnswerId(int answerId) {
-        this.answerId = answerId;
-    }
-
-    public String getAnswerText() {
-        return answerText;
-    }
-
-    public void setAnswerText(String answerText) {
-        this.answerText = answerText;
+    public void setAnswer_id(int answer_id) {
+        this.answer_id = answer_id;
     }
 
     public boolean isCorrect() {
-        return isCorrect;
+        return correct;
     }
 
     public void setCorrect(boolean correct) {
-        isCorrect = correct;
+        this.correct = correct;
     }
 
-    public AnswerModel(int answerId, boolean isCorrect, String answerText) {
-        this.answerId = answerId;
-        this.isCorrect = isCorrect;
-        this.answerText = answerText;
+    public String getAnswer_text() {
+        return answer_text;
     }
 
-    public AnswerModel() {
+    public void setAnswer_text(String answer_text) {
+        this.answer_text = answer_text;
     }
 }

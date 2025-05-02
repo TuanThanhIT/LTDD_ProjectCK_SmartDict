@@ -8,23 +8,31 @@ import com.example.project_ltdd.fragments.QuestionFragment;
 import com.example.project_ltdd.models.QuestionModel;
 
 import java.util.List;
+import java.util.function.BiConsumer;
 
 public class ExamViewPager2Adapter extends FragmentStateAdapter {
-    private List<QuestionModel> questionList;
+    private List<QuestionModel> questions;
+    private int testId;
+    private BiConsumer<Integer, Integer> answerCallback; // Câu hỏi ID và Answer ID
 
-    public ExamViewPager2Adapter(@NonNull FragmentActivity fragmentActivity, List<QuestionModel> questions) {
+    public ExamViewPager2Adapter(@NonNull FragmentActivity fragmentActivity, List<QuestionModel> questions, int testId, BiConsumer<Integer, Integer> answerCallback) {
         super(fragmentActivity);
-        this.questionList = questions;
+        this.questions = questions;
+        this.testId = testId;
+        this.answerCallback = answerCallback;
     }
 
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        return QuestionFragment.newInstance(questionList.get(position));
+        QuestionModel question = questions.get(position);
+        return QuestionFragment.newInstance(question, testId, answerCallback);
     }
 
     @Override
     public int getItemCount() {
-        return questionList.size();
+        return questions.size();
     }
 }
+
+

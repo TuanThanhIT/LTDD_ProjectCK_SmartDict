@@ -122,6 +122,12 @@ public class WordLookedUpFragment extends Fragment {
                 showFolderPopup();
             }
         });
+
+        btnDeleteWord.setOnClickListener(v ->{
+            handleDeleteWords();
+        });
+
+
     }
 
     private void filterResults() {
@@ -202,6 +208,24 @@ public class WordLookedUpFragment extends Fragment {
         });
     }
 
+    private void handleDeleteWords(){
+        List<Long> listWordsId = new ArrayList<>();
+        for(WordModel wordModel: adapter.selectedWords)
+        {
+            Long id = wordModel.getWordId();
+            listWordsId.add(id);
+        }
+        deleteSearchWords(listWordsId); // Gửi API xoá
+
+        // Cập nhật dữ liệu trong danh sách
+        listWord.removeIf(word -> listWordsId.contains(word.getWordId()));
+
+        // Xóa lựa chọn và cập nhật RecyclerView
+        adapter.selectedWords.clear();
+        adapter = new WordLookedUpAdapter(listWord, getContext(), getParentFragmentManager());
+        rcvLookedUpWord.setAdapter(adapter);
+    }
+
     private void showFolderPopup() {
         PopupMenu popupMenu = new PopupMenu(requireContext(), btnJumpTo);
         for (int i = 0; i < menuItems.size(); i++) {
@@ -247,8 +271,8 @@ public class WordLookedUpFragment extends Fragment {
                     try {
                         String message = response.body().string();
                         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+                        layoutWordActions.setVisibility(View.GONE);
                         // Xóa từ và cập nhật danh sách
-                        listWord.removeIf(word -> listWords.contains(word.getWordId()));
                         adapter.selectedWords.clear();
                         adapter.notifyDataSetChanged();
                     }
@@ -269,5 +293,28 @@ public class WordLookedUpFragment extends Fragment {
             }
         });
     }
+
+    private void deleteSearchWords(List<Long> listSearchWords){
+        int userId = 1;
+        userService.deleteSearchWords(userId, listSearchWords).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try{
+                    String message = response.body().string();
+                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();      // Xóa từ và cập nhật danh sách
+                }
+                catch (IOException e){
+                    e.printStackTrace();
+                    Toast.makeText(requireContext(), "Lỗi đọc dữ liệu!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(requireContext(), "Kết nối thất bại, thử lại!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 
 }

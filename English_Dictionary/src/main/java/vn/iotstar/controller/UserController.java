@@ -68,8 +68,7 @@ public class UserController {
     public ResponseEntity<?> updateFolder(@RequestParam int folderId, @RequestParam String folderName){
     	try {
     		FolderDTO folder = userService.updateFolderByUser(folderName, folderId);
-    		return ResponseEntity.ok(folder);
-    		
+    		return ResponseEntity.ok(folder);   		
     	} catch(RuntimeException e) {
     		return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
     	}
@@ -162,8 +161,19 @@ public class UserController {
     }
     
     @PostMapping("/addFavorWords")
-    public ResponseEntity<?> addOrUpdateFavorWords(@RequestParam int userId, @RequestParam int folderId, @RequestParam List<Long> listWords){
-    	userService.addOrUpdateFavoriteWords(userId, folderId, listWords);
+    public ResponseEntity<?> addOrUpdateFavorWords(@RequestParam int userId, @RequestParam int folderId, @RequestParam List<Long> listWords){	
+    	try {
+    		userService.addOrUpdateFavoriteWords(userId, folderId, listWords);
+    	} catch (RuntimeException e) {
+    		return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+		}
     	return ResponseEntity.ok("Các từ vựng này đã được thêm vào thư mục thành công");
     }
+    
+    @DeleteMapping("/deleteSearchWords")
+    public ResponseEntity<?> deleteSearchWords(@RequestParam int userId, @RequestParam List<Long> listSearchWords){
+    	userService.deleteSearchWords(userId, listSearchWords);
+    	return ResponseEntity.ok("Các từ này đã được xóa khỏi Từ đã tra");
+    }
+  
 }

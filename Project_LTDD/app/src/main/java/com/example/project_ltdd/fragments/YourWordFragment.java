@@ -26,9 +26,11 @@ import com.example.project_ltdd.models.WordModel;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,6 +43,8 @@ public class YourWordFragment extends Fragment {
     private List<FolderModel> folderList = new ArrayList<>();
 
     private ImageView btnMenu;
+
+    private UserService userService = UserRetrofitClient.getClient();
 
 
     @Override
@@ -97,7 +101,6 @@ public class YourWordFragment extends Fragment {
                             // Xử lý thêm tu
                             return true;
                         } else if (id == R.id.action_arrangeAZ) {
-                            // TODO:Sắp xếp A->Z
                             return true;
                         }
                         return false;
@@ -185,4 +188,5 @@ public class YourWordFragment extends Fragment {
             }
         });
     }
+
 }

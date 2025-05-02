@@ -79,4 +79,8 @@ public interface UserService {
     @POST("addFavorWords")
     Call<ResponseBody> addOrUpdateFavorWords(@Field("userId") int userId, @Field("folderId") int folderId, @Field("listWords") List<Long> listWords);
 
+    @DELETE("deleteSearchWords")
+    Call<ResponseBody> deleteSearchWords(@Query("userId") int userId, @Query("listSearchWords") List<Long> listSearchWords);
+
+
 }

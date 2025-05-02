@@ -1,5 +1,9 @@
 package vn.iotstar.entity;
 
+import java.util.List;
+
+import org.springframework.data.jpa.repository.Query;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Entity;
@@ -35,5 +39,6 @@ public class FavoriteWordEntity {
     @ManyToOne
     @JoinColumn(name = "folder_id", nullable = false)
     private FolderFavorEntity folder;
+    
     
 }

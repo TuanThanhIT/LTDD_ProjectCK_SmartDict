@@ -51,4 +51,7 @@ public interface UserService {
 
 	void addOrUpdateFavoriteWords(int userId, int folderId, List<Long> listWordId);
 
+	void deleteSearchWords(int userId, List<Long> listSearchWords);
+
+
 }

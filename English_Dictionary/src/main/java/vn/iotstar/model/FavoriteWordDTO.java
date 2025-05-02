@@ -14,6 +14,14 @@ public class FavoriteWordDTO {
 	private int folder_id;
 	
 	private long word_id;
+	
+	private String word;
 
+	public FavoriteWordDTO(int user_id, int folder_id, long word_id) {
+		this.user_id = user_id;
+		this.folder_id = folder_id;
+		this.word_id = word_id;
+	}
+	
 	
 }

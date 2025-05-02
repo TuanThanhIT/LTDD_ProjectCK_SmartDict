@@ -239,7 +239,12 @@ public class UserServiceImpl implements UserService {
 	        }
 	    }
 	}
-	
+
+	@Override
+	public void deleteSearchWords(int userId, List<Long> listSearchWords) {
+		userRepository.deleteSearchWords(userId, listSearchWords);
+	}
+
 	
 }
 
