@@ -27,19 +27,10 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.project_ltdd.R;
-import com.example.project_ltdd.api.retrofit_client.TranslateRetrofitClient;
-import com.example.project_ltdd.api.services.TranslateService;
-import com.example.project_ltdd.models.TranslateModel;
 import com.google.mlkit.nl.translate.TranslateLanguage;
 import com.google.mlkit.nl.translate.Translation;
 import com.google.mlkit.nl.translate.Translator;
 import com.google.mlkit.nl.translate.TranslatorOptions;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class TranslationFragment extends Fragment {
 

@@ -1,8 +1,6 @@
 package com.example.project_ltdd.api.retrofit_client;
 
 import com.example.project_ltdd.api.services.QuizService;
-import com.example.project_ltdd.api.services.TranslateService;
-import com.example.project_ltdd.api.services.UserService;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
