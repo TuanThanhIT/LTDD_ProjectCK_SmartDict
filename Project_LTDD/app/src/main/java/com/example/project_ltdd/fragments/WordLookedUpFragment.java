@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
@@ -12,6 +13,8 @@ import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,19 +24,29 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.project_ltdd.R;
 import com.example.project_ltdd.adapters.WordLookedUpAdapter;
+import com.example.project_ltdd.api.retrofit_client.UserRetrofitClient;
+import com.example.project_ltdd.api.services.UserService;
+import com.example.project_ltdd.models.FavoriteWordModel;
+import com.example.project_ltdd.models.FolderModel;
 import com.example.project_ltdd.models.MeaningModel;
 import com.example.project_ltdd.models.PhoneticModel;
 import com.example.project_ltdd.models.WordModel;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class WordLookedUpFragment extends Fragment {
 
     private WordLookedUpAdapter adapter;
 
-    private List<WordModel> listWord;
+    private List<WordModel> listWord = new ArrayList<>();
     private RecyclerView rcvLookedUpWord;
     private EditText edtLookedUp;
     private ImageView btnClearLookedUp;
@@ -41,7 +54,9 @@ public class WordLookedUpFragment extends Fragment {
     private String currentSearchQuery = "";
     private LinearLayout layoutWordActions;
     private Button btnJumpTo, btnDeleteWord, btnSelectAll, btnClearAll;
-    private WordModel selectedWord = null;
+    private UserService userService = UserRetrofitClient.getClient();
+
+    private List<FolderModel> menuItems = new ArrayList<>();
 
     @Nullable
     @Override
@@ -50,6 +65,8 @@ public class WordLookedUpFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_fragment_wordlookedup, container, false);
         initViews(view);
+        getWordLookedUpFromApi();
+        getFoldersFromApi();
         return view;
     }
 
@@ -57,27 +74,6 @@ public class WordLookedUpFragment extends Fragment {
         rcvLookedUpWord = view.findViewById(R.id.rcvLookedUpWord);
         edtLookedUp = view.findViewById(R.id.edtLookedUp);
         btnClearLookedUp = view.findViewById(R.id.btnClearLookUp);
-        listWord = new ArrayList<>();
-        listWord.add(new WordModel(
-                1L,
-                Arrays.asList(
-                        new MeaningModel(1L, "con mèo", "Noun"),
-                        new MeaningModel(2L, "người khó chịu", "Noun")
-                ),
-                Arrays.asList(
-                        new PhoneticModel("https://api.dictionaryapi.dev/media/pronunciations/en/cat-uk.mp3", 1L, "/kæt/"),
-                        new PhoneticModel("https://api.dictionaryapi.dev/media/pronunciations/en/cat-us.mp3", 1L, "/kat/")
-                ),
-                "cat"
-        ));
-
-        adapter = new WordLookedUpAdapter(listWord, requireContext(), getParentFragmentManager());
-        rcvLookedUpWord.setAdapter(adapter);
-        rcvLookedUpWord.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
-        rcvLookedUpWord.setLayoutAnimation(
-                AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.fade_in_layout)
-        );
-
         // Bắt sự kiện nhập vào ô tìm kiếm
         edtLookedUp.addTextChangedListener(new TextWatcher() {
             @Override
@@ -106,24 +102,6 @@ public class WordLookedUpFragment extends Fragment {
         btnSelectAll = view.findViewById(R.id.btnSelectAll);
         btnClearAll = view.findViewById(R.id.btnClearAll);
 
-        adapter.setOnItemCheckListener(new WordLookedUpAdapter.OnItemCheckListener() {
-            @Override
-            public void onItemChecked(WordModel word) {
-                layoutWordActions.setVisibility(View.VISIBLE); // Hiện LinearLayout khi có từ được chọn
-                if(adapter.selectedWords.size() == adapter.getItemCount()){
-                    btnSelectAll.setVisibility(View.GONE);
-                    btnClearAll.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void onItemUnchecked(WordModel word) {
-                // Kiểm tra nếu không còn từ nào được chọn
-                if (adapter.selectedWords.isEmpty()) {
-                    layoutWordActions.setVisibility(View.GONE); // Ẩn LinearLayout nếu không còn từ nào được chọn
-                }
-            }
-        });
 
         // Xu ly button chon tat ca
         btnSelectAll.setOnClickListener(v -> {
@@ -137,6 +115,19 @@ public class WordLookedUpFragment extends Fragment {
             btnSelectAll.setVisibility(View.VISIBLE);
             v.setVisibility(View.GONE);
         });
+
+        btnJumpTo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showFolderPopup();
+            }
+        });
+
+        btnDeleteWord.setOnClickListener(v ->{
+            handleDeleteWords();
+        });
+
+
     }
 
     private void filterResults() {
@@ -165,6 +156,164 @@ public class WordLookedUpFragment extends Fragment {
 
         // Cập nhật layout chứa nút chức năng
         layoutWordActions.setVisibility(select ? View.VISIBLE : View.GONE);
+    }
+
+    private void setUpAdapter(){
+        adapter = new WordLookedUpAdapter(listWord, requireContext(), getParentFragmentManager());
+        adapter.setOnItemCheckListener(new WordLookedUpAdapter.OnItemCheckListener() {
+            @Override
+            public void onItemChecked(WordModel word) {
+                layoutWordActions.setVisibility(View.VISIBLE); // Hiện LinearLayout khi có từ được chọn
+                if(adapter.selectedWords.size() == adapter.getItemCount()){
+                    btnSelectAll.setVisibility(View.GONE);
+                    btnClearAll.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onItemUnchecked(WordModel word) {
+                // Kiểm tra nếu không còn từ nào được chọn
+                if (adapter.selectedWords.isEmpty()) {
+                    layoutWordActions.setVisibility(View.GONE); // Ẩn LinearLayout nếu không còn từ nào được chọn
+                }
+            }
+        });
+
+        rcvLookedUpWord.setAdapter(adapter);
+        rcvLookedUpWord.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false));
+        rcvLookedUpWord.setLayoutAnimation(
+                AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.fade_in_layout)
+        );
+    }
+
+    private void getWordLookedUpFromApi() {
+        int userId = 1;
+        userService.getWordLookedUp(userId).enqueue(new Callback<List<WordModel>>() {
+            @Override
+            public void onResponse(Call<List<WordModel>> call, Response<List<WordModel>> response) {
+                if (response.isSuccessful()) {
+                    listWord = response.body();
+                    setUpAdapter();
+                    Toast.makeText(requireContext(), "Từ đã tra!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(requireContext(), "Không thể hiển thị danh sách Từ đã tra của bạn! Lỗi: " + response.code(), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<List<WordModel>> call, Throwable t) {
+                Toast.makeText(requireContext(), "Lỗi: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void handleDeleteWords(){
+        List<Long> listWordsId = new ArrayList<>();
+        for(WordModel wordModel: adapter.selectedWords)
+        {
+            Long id = wordModel.getWordId();
+            listWordsId.add(id);
+        }
+        deleteSearchWords(listWordsId); // Gửi API xoá
+
+        // Cập nhật dữ liệu trong danh sách
+        listWord.removeIf(word -> listWordsId.contains(word.getWordId()));
+
+        // Xóa lựa chọn và cập nhật RecyclerView
+        adapter.selectedWords.clear();
+        adapter = new WordLookedUpAdapter(listWord, getContext(), getParentFragmentManager());
+        rcvLookedUpWord.setAdapter(adapter);
+    }
+
+    private void showFolderPopup() {
+        PopupMenu popupMenu = new PopupMenu(requireContext(), btnJumpTo);
+        for (int i = 0; i < menuItems.size(); i++) {
+            popupMenu.getMenu().add(Menu.NONE, i, i, ">Thư mục [" + menuItems.get(i).getFolderName() + "]");
+        }
+        popupMenu.setOnMenuItemClickListener(menuItem -> {
+            int idx = menuItem.getItemId();
+            FolderModel chosen = menuItems.get(idx);
+
+            List<Long> listWordsId = new ArrayList<>();
+            for(WordModel wordModel: adapter.selectedWords)
+            {
+                Long id = wordModel.getWordId();
+                listWordsId.add(id);
+            }
+            addOrUpdateFavorWords(chosen.getFolderId(), listWordsId);
+            return true;
+        });
+        popupMenu.show();
+    }
+
+
+    private void getFoldersFromApi() {
+        userService.getFolders(1).enqueue(new Callback<List<FolderModel>>() {
+            @Override
+            public void onResponse(Call<List<FolderModel>> call, Response<List<FolderModel>> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    menuItems = response.body();
+                }
+            }
+            @Override
+            public void onFailure(Call<List<FolderModel>> call, Throwable t) { }
+        });
+    }
+
+    private void addOrUpdateFavorWords(int folderId, List<Long> listWords){
+        int userId = 1;
+        userService.addOrUpdateFavorWords(userId, folderId,listWords).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful())
+                {
+                    try {
+                        String message = response.body().string();
+                        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+                        layoutWordActions.setVisibility(View.GONE);
+                        // Xóa từ và cập nhật danh sách
+                        adapter.selectedWords.clear();
+                        adapter.notifyDataSetChanged();
+                    }
+                    catch (IOException e){
+                        e.printStackTrace();
+                        Toast.makeText(requireContext(), "Lỗi đọc dữ liệu!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else {
+                    Toast.makeText(requireContext(), "Thêm vào thư mục thất bại!", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(requireContext(), "Kết nối thất bại, thử lại!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void deleteSearchWords(List<Long> listSearchWords){
+        int userId = 1;
+        userService.deleteSearchWords(userId, listSearchWords).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try{
+                    String message = response.body().string();
+                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();      // Xóa từ và cập nhật danh sách
+                }
+                catch (IOException e){
+                    e.printStackTrace();
+                    Toast.makeText(requireContext(), "Lỗi đọc dữ liệu!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(requireContext(), "Kết nối thất bại, thử lại!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 

@@ -12,7 +12,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,7 +31,7 @@ public class AnswerEntity {
 	private String answer_text;
 	
 	@Column(nullable = false)
-	private boolean is_correct;
+	private boolean isCorrect;
 	
 	@ManyToOne
 	@JoinColumn(name = "question_id", nullable = false)
@@ -40,4 +39,5 @@ public class AnswerEntity {
 	
     @OneToMany(mappedBy = "selectedAnswer", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserAnswerEntity> userAnswers;
+    
 }

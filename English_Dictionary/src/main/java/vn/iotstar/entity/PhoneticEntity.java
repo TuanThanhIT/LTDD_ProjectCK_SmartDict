@@ -1,5 +1,7 @@
 package vn.iotstar.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,6 +30,7 @@ public class PhoneticEntity {
 	
 	@ManyToOne
 	@JoinColumn(name = "word_id", nullable = false)
+	@JsonBackReference
 	private WordEntity word;
 	
 

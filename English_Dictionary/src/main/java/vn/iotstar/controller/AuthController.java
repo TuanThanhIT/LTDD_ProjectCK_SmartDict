@@ -44,7 +44,7 @@ public class AuthController {
         if (userRepository.findByEmail(userDTO.getEmail()).isPresent()) {
             return ResponseEntity.badRequest().body("Email đã tồn tại!");
         }
-
+        
         // Tạo OTP
         String otp = String.format("%06d", new Random().nextInt(999999));
         LocalDateTime expiryTime = LocalDateTime.now().plusMinutes(5);

@@ -25,6 +25,7 @@ public class FolderFavorEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int folder_id;
+	
 	private String folder_name;
 	
 	@ManyToOne
