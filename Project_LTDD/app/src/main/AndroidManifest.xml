@@ -21,10 +21,10 @@
             android:windowSoftInputMode="adjustNothing"/>
         <activity android:name=".activities.SplashActivity"
             android:windowSoftInputMode="adjustNothing"/>
-        <activity android:name=".activities.SignUpActivity"
+        <activity android:name=".activities.LoginActivity"
             android:windowSoftInputMode="adjustNothing"/>
         <activity
-            android:name=".activities.LoginActivity"
+            android:name=".activities.SignUpActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
