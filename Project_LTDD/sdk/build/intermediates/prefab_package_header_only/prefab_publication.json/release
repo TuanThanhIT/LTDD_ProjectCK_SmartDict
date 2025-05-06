@@ -1,0 +1,17 @@
+{
+  "installationFolder": "D:\\ANDROID\\LTDD_ProjectCK_SmartDict\\Project_LTDD\\sdk\\build\\intermediates\\prefab_package\\release\\prefab",
+  "gradlePath": ":sdk",
+  "packageInfo": {
+    "packageName": "sdk",
+    "packageSchemaVersion": 2,
+    "packageDependencies": [],
+    "modules": [
+      {
+        "moduleName": "opencv_jni_shared",
+        "moduleHeaders": "D:\\ANDROID\\LTDD_ProjectCK_SmartDict\\Project_LTDD\\sdk\\native\\jni\\include",
+        "moduleExportLibraries": [],
+        "abis": []
+      }
+    ]
+  }
+}

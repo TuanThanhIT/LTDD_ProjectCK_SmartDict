@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Project_LTDD"
 include(":app")
- 
+include(":sdk")
