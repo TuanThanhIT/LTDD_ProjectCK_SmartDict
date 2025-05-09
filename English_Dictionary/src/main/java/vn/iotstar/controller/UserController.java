@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import vn.iotstar.model.FavoriteWordDTO;
 import vn.iotstar.model.FolderDTO;
+import vn.iotstar.model.UserDTO;
 import vn.iotstar.model.WordDTO;
 import vn.iotstar.service.UserService;
 import vn.iotstar.service.WordService;
@@ -174,6 +175,13 @@ public class UserController {
     public ResponseEntity<?> deleteSearchWords(@RequestParam int userId, @RequestParam List<Long> listSearchWords){
     	userService.deleteSearchWords(userId, listSearchWords);
     	return ResponseEntity.ok("Các từ này đã được xóa khỏi Từ đã tra");
+    }
+    
+    @GetMapping("/top5UsersBest")
+    public ResponseEntity<List<UserDTO>> getTop5Users(){
+    	List<UserDTO> listUserDTOs = new ArrayList<>();
+    	listUserDTOs = userService.findTop5UsersByCorrectAnswersAndTestTime();
+    	return ResponseEntity.ok(listUserDTOs);
     }
   
 }

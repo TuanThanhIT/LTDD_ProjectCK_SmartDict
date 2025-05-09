@@ -4,6 +4,8 @@ import android.icu.text.CaseMap;
 
 import com.example.project_ltdd.models.FavoriteWordModel;
 import com.example.project_ltdd.models.FolderModel;
+import com.example.project_ltdd.models.UserModel;
+import com.example.project_ltdd.models.UserTopModel;
 import com.example.project_ltdd.models.WordModel;
 
 import java.util.List;
@@ -82,5 +84,6 @@ public interface UserService {
     @DELETE("deleteSearchWords")
     Call<ResponseBody> deleteSearchWords(@Query("userId") int userId, @Query("listSearchWords") List<Long> listSearchWords);
 
-
+    @GET("top5UsersBest")
+    Call<List<UserTopModel>> getTopUserBest();
 }

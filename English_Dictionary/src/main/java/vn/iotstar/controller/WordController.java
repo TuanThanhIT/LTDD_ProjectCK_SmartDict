@@ -1,5 +1,6 @@
 package vn.iotstar.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +38,17 @@ public class WordController {
     	return ResponseEntity.ok(listWords);
     }
     
+    @GetMapping("/top5WordSearchs")
+    public ResponseEntity<List<WordDTO>> getTop5WordSearchs(){ 
+    	List<WordDTO> listWordDTOs = new ArrayList<>();
+    	listWordDTOs = wordService.findTop5MostSearchedWords();
+    	return ResponseEntity.ok(listWordDTOs);
+    }
     
+    @GetMapping("/top5WordFavors")
+    public ResponseEntity<List<WordDTO>> getTop5WordFavors(){ 
+    	List<WordDTO> listWordDTOs = new ArrayList<>();
+    	listWordDTOs = wordService.findTop5MostSearchedWords();
+    	return ResponseEntity.ok(listWordDTOs);
+    }
 }

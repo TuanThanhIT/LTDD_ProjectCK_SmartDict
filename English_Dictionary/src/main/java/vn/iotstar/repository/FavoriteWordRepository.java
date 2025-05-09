@@ -61,5 +61,14 @@ public interface FavoriteWordRepository extends JpaRepository<FavoriteWordEntity
 	 @Query("SELECT f FROM FavoriteWordEntity f WHERE f.user.id = :userId AND f.word.id = :wordId")
 	 FavoriteWordEntity findByUserIdAndWordId(@Param("userId") int userId, @Param("wordId") Long wordId);
 
+	 @Query(value = """
+			    SELECT w.*
+			    FROM word w
+			    JOIN favorite_word fw ON w.word_id = fw.word_id
+			    GROUP BY w.word_id
+			    ORDER BY COUNT(fw.word_id) DESC
+			    LIMIT 5
+			    """, nativeQuery = true)
+	List<WordEntity> findTop5MostFavoritedWords();
 
 }

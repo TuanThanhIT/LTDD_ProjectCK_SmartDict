@@ -181,7 +181,7 @@ public class TranslationFragment extends Fragment {
     private void downloadModel() {
         checkInternetConnection(); // Kiểm tra mạng trước khi tải
         translator.downloadModelIfNeeded()
-                .addOnSuccessListener(unused -> showToast("sẵn sàng dịch"))
+                .addOnSuccessListener(unused -> showToast("Sẵn sàng dịch"))
                 .addOnFailureListener(e -> showToast("Lỗi tải model: " + e.getMessage()));
     }
 

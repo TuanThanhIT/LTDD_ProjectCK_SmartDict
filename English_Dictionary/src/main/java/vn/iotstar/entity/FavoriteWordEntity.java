@@ -1,11 +1,5 @@
 package vn.iotstar.entity;
 
-import java.util.List;
-
-import org.springframework.data.jpa.repository.Query;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
