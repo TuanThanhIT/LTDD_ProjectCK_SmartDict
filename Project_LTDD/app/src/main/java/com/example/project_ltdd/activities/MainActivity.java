@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         headerView = navigationView.inflateHeaderView(R.layout.nav_header);
         btnMenuClose = headerView.findViewById(R.id.btn_close_nav);
         btnUser = findViewById(R.id.btn_user);
+
         btnMenuClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -184,6 +185,11 @@ public class MainActivity extends AppCompatActivity {
             }
 
             return false;
+        });
+
+        btnUser.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, UserProfileActivity.class);
+            startActivity(intent);
         });
 
     }

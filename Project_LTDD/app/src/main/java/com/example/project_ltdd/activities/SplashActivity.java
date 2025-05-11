@@ -23,7 +23,7 @@ public class SplashActivity extends AppCompatActivity {
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+            Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
             startActivity(intent);
             finish(); // Đóng SplashActivity
         }
@@ -59,7 +59,7 @@ public class SplashActivity extends AppCompatActivity {
                 // Hủy delay tự động
                 handler.removeCallbacks(runnable);
 
-                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         });
