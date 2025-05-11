@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.transaction.Transactional;
 import vn.iotstar.entity.OtpEntity;
 import vn.iotstar.entity.UserEntity;
+import vn.iotstar.model.ChangePasswordDTO;
+import vn.iotstar.model.ForgotPasswwordDTO;
 import vn.iotstar.model.LoginResponse;
 import vn.iotstar.model.OTPVerificationDTO;
 import vn.iotstar.model.UserLoginDTO;
@@ -109,5 +111,66 @@ public class AuthController {
         UserLoginDTO data = new UserLoginDTO(user.getFullname(), user.getEmail(), user.getUser_id(), user.getFullname());
         return ResponseEntity.ok(new LoginResponse(true, "Đăng nhập thành công!", data));
     }
+    
+    @PostMapping("/forgot-password")
+    public ResponseEntity<?> forgotPassword(@RequestBody ForgotPasswwordDTO request) {
+    	String email = request.getEmail().trim();
+        Optional<UserEntity> userOpt = userRepository.findByEmail(email.trim());
+
+        if (userOpt.isEmpty()) {
+            return ResponseEntity.badRequest().body("Email không tồn tại trong hệ thống!");
+        }
+
+        UserEntity user = userOpt.get();
+
+        // Tạo mật khẩu mới ngẫu nhiên
+        String newPassword = generateRandomPassword(8);
+
+        // Mã hóa và cập nhật mật khẩu
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+
+        // Gửi email chứa mật khẩu mới
+        String subject = "Khôi phục mật khẩu";
+        String body = "Chào " + user.getFullname() + ",\n\n"
+                + "Mật khẩu mới của bạn là: " + newPassword + "\n"
+                + "Vui lòng đăng nhập và đổi lại mật khẩu sau khi đăng nhập.";
+        emailService.sendSimpleMessage(user.getEmail(), subject, body);
+
+        return ResponseEntity.ok("Mật khẩu mới đã được gửi đến email của bạn.");
+    }
+
+    private String generateRandomPassword(int length) {
+        String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuilder sb = new StringBuilder();
+        Random rnd = new Random();
+        for (int i = 0; i < length; i++) {
+            sb.append(chars.charAt(rnd.nextInt(chars.length())));
+        }
+        return sb.toString();
+    }
+    
+    @PostMapping("/change-password")
+    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordDTO request) {
+        Optional<UserEntity> userOpt = userRepository.findByEmail(request.getEmail().trim());
+
+        if (userOpt.isEmpty()) {
+            return ResponseEntity.badRequest().body("Email không tồn tại!");
+        }
+
+        UserEntity user = userOpt.get();
+
+        // Kiểm tra mật khẩu hiện tại
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+            return ResponseEntity.badRequest().body("Mật khẩu hiện tại không đúng!");
+        }
+
+        // Mã hóa và cập nhật mật khẩu mới
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
+
+        return ResponseEntity.ok("Đổi mật khẩu thành công!");
+    }
+
 
 }
