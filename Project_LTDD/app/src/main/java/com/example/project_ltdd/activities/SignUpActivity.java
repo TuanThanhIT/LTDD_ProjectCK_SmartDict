@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -26,6 +27,7 @@ import retrofit2.Response;
 public class SignUpActivity extends AppCompatActivity {
     Button btnSignUp;
     EditText edtFullName, edtEmail, edtPassword, edtConfirmPassword;
+    TextView tv_login;
     private String email, fullname, password, confirmPassword;
 
 
@@ -75,6 +77,10 @@ public class SignUpActivity extends AppCompatActivity {
             });
         });
         /*ĐĂNG KÝ VÀ TẠO OTP*/
+        tv_login.setOnClickListener(v -> {
+            Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
+            startActivity(intent);
+        });
 
     }
 
@@ -139,5 +145,6 @@ public class SignUpActivity extends AppCompatActivity {
         edtEmail = (EditText) findViewById(R.id.edt_email_su);
         edtPassword = (EditText) findViewById(R.id.edt_password_su);
         edtConfirmPassword = (EditText) findViewById(R.id.edt_confirm_password);
+        tv_login = (TextView) findViewById(R.id.tv_change_to_login_su);
     }
 }
