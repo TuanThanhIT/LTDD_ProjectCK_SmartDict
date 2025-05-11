@@ -12,4 +12,8 @@ public interface WordService {
 	Optional<WordEntity> findById(Long id);
 
 	List<WordDTO> findWordAll();
+
+	List<WordDTO> findTop5MostFavoritedWords();
+
+	List<WordDTO> findTop5MostSearchedWords();
 }

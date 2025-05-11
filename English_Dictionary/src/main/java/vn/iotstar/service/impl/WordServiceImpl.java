@@ -1,5 +1,6 @@
 package vn.iotstar.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -14,6 +15,7 @@ import vn.iotstar.entity.PhoneticEntity;
 import vn.iotstar.entity.WordEntity;
 import vn.iotstar.model.DictionaryResponse;
 import vn.iotstar.model.WordDTO;
+import vn.iotstar.repository.FavoriteWordRepository;
 import vn.iotstar.repository.WordRepository;
 import vn.iotstar.service.WordService;
 import vn.iotstar.utils.WordMapper;
@@ -30,6 +32,9 @@ public class WordServiceImpl implements WordService{
     
     @Autowired
     private WordMapper wordMapper;
+    
+    @Autowired
+    private FavoriteWordRepository favoriteWordRepository;
 
     private static final String API_URL = "https://api.dictionaryapi.dev/api/v2/entries/en/";
 
@@ -112,7 +117,28 @@ public class WordServiceImpl implements WordService{
         return wordRepository.save(wordEntity);
     }
     
+    @Override
+	public List<WordDTO> findTop5MostSearchedWords(){
+    	List<WordDTO> listWordDTOs = new ArrayList<>();
+    	List<WordEntity> listWordsTop5 = new ArrayList<>();
+    	listWordsTop5 = wordRepository.findTop5MostSearchedWords();
+    	for(WordEntity w: listWordsTop5) {
+    		WordDTO wordDTO = new WordDTO(w.getWord_id(), w.getWord());
+    		listWordDTOs.add(wordDTO);
+    	}
+    	return listWordDTOs;
+    }
     
-    
+    @Override
+	public List<WordDTO> findTop5MostFavoritedWords(){
+    	List<WordDTO> listWordDTOs = new ArrayList<>();
+    	List<WordEntity> listWordFavorsTop5 = new ArrayList<>();
+    	listWordFavorsTop5 = favoriteWordRepository.findTop5MostFavoritedWords();
+    	for(WordEntity w: listWordFavorsTop5) {
+    		WordDTO wordDTO = new WordDTO(w.getWord_id(), w.getWord());
+    		listWordDTOs.add(wordDTO);
+    	}
+    	return listWordDTOs;
+    }
     
 }

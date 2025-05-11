@@ -8,6 +8,7 @@ import vn.iotstar.entity.FolderFavorEntity;
 import vn.iotstar.entity.UserEntity;
 import vn.iotstar.model.FavoriteWordDTO;
 import vn.iotstar.model.FolderDTO;
+import vn.iotstar.model.UserDTO;
 import vn.iotstar.model.WordDTO;
 
 public interface UserService {
@@ -52,6 +53,8 @@ public interface UserService {
 	void addOrUpdateFavoriteWords(int userId, int folderId, List<Long> listWordId);
 
 	void deleteSearchWords(int userId, List<Long> listSearchWords);
+
+	List<UserDTO> findTop5UsersByCorrectAnswersAndTestTime();
 
 
 }

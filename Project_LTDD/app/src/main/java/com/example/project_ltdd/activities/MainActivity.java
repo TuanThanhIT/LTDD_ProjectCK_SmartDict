@@ -1,6 +1,8 @@
 package com.example.project_ltdd.activities;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -29,6 +31,8 @@ import com.example.project_ltdd.fragments.WordLookedUpFragment;
 import com.example.project_ltdd.fragments.YourWordFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
@@ -189,4 +193,5 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(facebookUrl));
         context.startActivity(intent);
     }
+
 }

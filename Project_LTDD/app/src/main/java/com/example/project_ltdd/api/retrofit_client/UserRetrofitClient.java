@@ -7,7 +7,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UserRetrofitClient {
-    private static final String BASE_URL = "http://192.168.1.83:8077/api/users/"; // Dùng 10.0.2.2 nếu chạy trên Android Emulator
+    private static final String BASE_URL = "http://192.168.1.15:8077/api/users/"; // Dùng 10.0.2.2 nếu chạy trên Android Emulator
     private static Retrofit retrofit;
 
     public static UserService getClient() {

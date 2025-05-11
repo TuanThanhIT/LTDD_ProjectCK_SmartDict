@@ -1,14 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:orientation="vertical"
     android:background="@color/white">
 
+    <!-- Tiêu đề -->
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/titleSetting"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Setting Fragment"
-        android:textSize="24sp"/>
+        android:text="Cài đặt"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="#B3000000"
+        android:padding="10dp" />
+
+    <!-- Nhắc nhở nhập liệu -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginBottom="16dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="2dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:background="@color/main_color">
+
+            <TextView
+                android:id="@+id/textReminder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tạo nhắc nhở mới"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#333333"
+                android:paddingBottom="8dp" />
+
+            <TimePicker
+                android:id="@+id/timePickerReminder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:timePickerMode="spinner"
+                android:layout_marginBottom="8dp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nội dung nhắc nhở"
+                app:boxStrokeColor="#6200EE"
+                android:layout_marginBottom="12dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextReminder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:background="@color/white"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSaveReminder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lưu lại"
+                app:cornerRadius="8dp"
+                app:backgroundTint="@color/brightblue"
+                android:textColor="@color/white"
+                android:layout_gravity="end" />
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Danh sách nhắc nhở -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginBottom="16dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="2dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:background="@color/main_color">
+
+            <TextView
+                android:id="@+id/titleList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Các nhắc nhở của bạn"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:paddingBottom="8dp" />
+
+            <ListView
+                android:id="@+id/listViewReminders"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@android:color/darker_gray"
+                android:dividerHeight="1dp"
+                android:scrollbars="vertical"
+                android:overScrollMode="always" />
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Góp ý / Báo lỗi -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnFeedback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginBottom="16dp"
+        android:text="Góp ý / Báo lỗi"
+        android:textColor="@color/white"
+        app:backgroundTint="@color/brightblue"
+        app:cornerRadius="8dp" />
+
 </LinearLayout>

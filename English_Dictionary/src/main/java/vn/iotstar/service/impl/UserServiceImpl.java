@@ -15,6 +15,7 @@ import vn.iotstar.entity.UserEntity;
 import vn.iotstar.entity.WordEntity;
 import vn.iotstar.model.FavoriteWordDTO;
 import vn.iotstar.model.FolderDTO;
+import vn.iotstar.model.UserDTO;
 import vn.iotstar.model.WordDTO;
 import vn.iotstar.repository.FavoriteWordRepository;
 import vn.iotstar.repository.FolderRepository;
@@ -243,6 +244,20 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void deleteSearchWords(int userId, List<Long> listSearchWords) {
 		userRepository.deleteSearchWords(userId, listSearchWords);
+	}
+	
+	@Override
+	public List<UserDTO> findTop5UsersByCorrectAnswersAndTestTime(){
+		List<UserDTO> listUserDTO = new ArrayList<>();
+		List<UserEntity> listUsers = new ArrayList<>();
+		listUsers = userRepository.findTop5UsersByCorrectAnswersAndTestTime();
+		for(UserEntity u: listUsers) {
+			UserDTO userDTO = new UserDTO();
+			userDTO.setUser_id(u.getUser_id());
+			userDTO.setFullname(u.getFullname());
+			listUserDTO.add(userDTO);
+		}
+		return listUserDTO;
 	}
 
 	
