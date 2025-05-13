@@ -12,4 +12,4 @@
 -- Detecting CXX compile features - done
 -- Configuring done
 -- Generating done
--- Build files have been written to: D:/ANDROID/LTDD_ProjectCK_SmartDict/Project_LTDD/sdk/.cxx/Debug/176q5r6d/x86
+-- Build files have been written to: D:/HOCTAP/LapTrinhDiDong/AndroidStudioProjects/LTDD_ProjectCK_SmartDict/Project_LTDD/sdk/.cxx/Debug/176q5r6d/x86

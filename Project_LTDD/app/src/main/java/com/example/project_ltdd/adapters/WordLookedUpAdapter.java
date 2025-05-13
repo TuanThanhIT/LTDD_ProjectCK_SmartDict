@@ -27,6 +27,7 @@ import com.example.project_ltdd.fragments.WordDetailFragment;
 import com.example.project_ltdd.models.FavoriteWordModel;
 import com.example.project_ltdd.models.FolderModel;
 import com.example.project_ltdd.models.WordModel;
+import com.example.project_ltdd.utils.UserPrefs;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,13 +53,15 @@ public class WordLookedUpAdapter extends RecyclerView.Adapter<WordLookedUpAdapte
 
     private List<FolderModel> menuItems = new ArrayList<>();
 
-
     private Map<Long, Boolean> favoriteStatus = new HashMap<>();
+    private UserPrefs userPrefs;
+
     public WordLookedUpAdapter(List<WordModel> wordList, Context context, FragmentManager fragmentManager) {
         this.wordList = wordList;
         this.context = context;
         this.wordListFiltered = new ArrayList<>(wordList);
         this.fragmentManager = fragmentManager;
+        this.userPrefs = new UserPrefs(context);
         getFoldersFromApi();
     }
 
@@ -222,7 +225,8 @@ public class WordLookedUpAdapter extends RecyclerView.Adapter<WordLookedUpAdapte
     }
 
     private void getFoldersFromApi() {
-        userService.getFolders(1).enqueue(new Callback<List<FolderModel>>() {
+        int userId = userPrefs.getUserId();
+        userService.getFolders(userId).enqueue(new Callback<List<FolderModel>>() {
             @Override
             public void onResponse(Call<List<FolderModel>> call, Response<List<FolderModel>> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -236,7 +240,8 @@ public class WordLookedUpAdapter extends RecyclerView.Adapter<WordLookedUpAdapte
 
 
     private void addFavoriteWord(int folderId, WordModel word) {
-        userService.addFavoriteWord(1, folderId, word.getWordId()).enqueue(new Callback<FavoriteWordModel>() {
+        int userId = userPrefs.getUserId();
+        userService.addFavoriteWord(userId, folderId, word.getWordId()).enqueue(new Callback<FavoriteWordModel>() {
             @Override
             public void onResponse(Call<FavoriteWordModel> call, Response<FavoriteWordModel> response) {
                 favoriteStatus.put(word.getWordId(), true);
@@ -249,7 +254,7 @@ public class WordLookedUpAdapter extends RecyclerView.Adapter<WordLookedUpAdapte
     }
 
     private void deleteWordFavor(WordModel word) {
-        int userId = 1;
+        int userId = userPrefs.getUserId();
         userService.deleteWordFavor(userId, word.getWordId()).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -264,7 +269,8 @@ public class WordLookedUpAdapter extends RecyclerView.Adapter<WordLookedUpAdapte
 
 
     private void handleFavorite(WordModel word, ImageView btnFavorite) {
-        userService.checkFavorite(1, word.getWordId()).enqueue(new Callback<Boolean>() {
+        int userId = userPrefs.getUserId();
+        userService.checkFavorite(userId, word.getWordId()).enqueue(new Callback<Boolean>() {
             @Override
             public void onResponse(Call<Boolean> call, Response<Boolean> response) {
                 if (response.isSuccessful() && response.body() != null) {

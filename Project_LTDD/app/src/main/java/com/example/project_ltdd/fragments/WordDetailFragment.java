@@ -27,6 +27,7 @@ import com.example.project_ltdd.models.FolderModel;
 import com.example.project_ltdd.models.MeaningModel;
 import com.example.project_ltdd.models.PhoneticModel;
 import com.example.project_ltdd.models.WordModel;
+import com.example.project_ltdd.utils.UserPrefs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,8 @@ public class WordDetailFragment extends Fragment {
     private WordModel wordDetail;
     private FolderModel folder;
     private boolean isFolderSelected = false;
+
+    private UserPrefs userPrefs;
     private WordCommons wordCommon = new WordCommons();
 
     @Nullable
@@ -80,10 +83,11 @@ public class WordDetailFragment extends Fragment {
         toolbar = view.findViewById(R.id.toolbar);
         txvFolder = view.findViewById(R.id.txvFolder);
         btnFavoriteMenu = view.findViewById(R.id.imgFavorite);
+        userPrefs = new UserPrefs(requireContext());
     }
 
     private void fetchFolderThenBind() {
-        userService.getFolderByWord(wordDetail.getWordId()).enqueue(new Callback<FolderModel>() {
+        userService.getFolderByWord(wordDetail.getWordId(), userPrefs.getUserId()).enqueue(new Callback<FolderModel>() {
             @Override
             public void onResponse(Call<FolderModel> call, Response<FolderModel> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -189,7 +193,7 @@ public class WordDetailFragment extends Fragment {
     }
 
     private void getFoldersFromApi() {
-        userService.getFolders(1).enqueue(new Callback<List<FolderModel>>() {
+        userService.getFolders(userPrefs.getUserId()).enqueue(new Callback<List<FolderModel>>() {
             @Override
             public void onResponse(Call<List<FolderModel>> call, Response<List<FolderModel>> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -202,7 +206,7 @@ public class WordDetailFragment extends Fragment {
     }
 
     private void addFavoriteWord(int folderId, String folderName) {
-        userService.addFavoriteWord(1, folderId, wordDetail.getWordId()).enqueue(new Callback<FavoriteWordModel>() {
+        userService.addFavoriteWord(userPrefs.getUserId(), folderId, wordDetail.getWordId()).enqueue(new Callback<FavoriteWordModel>() {
             @Override
             public void onResponse(Call<FavoriteWordModel> call, Response<FavoriteWordModel> response) {
                 Toast.makeText(requireContext(), "Từ vựng được thêm vào thư mục thành công!", Toast.LENGTH_SHORT).show();
@@ -216,7 +220,7 @@ public class WordDetailFragment extends Fragment {
     }
 
     private void deleteWordFavor() {
-        int userId = 1;
+        int userId = userPrefs.getUserId();
         userService.deleteWordFavor(userId, wordDetail.getWordId()).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {

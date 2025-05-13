@@ -22,6 +22,7 @@ import com.example.project_ltdd.R;
 import com.example.project_ltdd.fragments.HomeFragment;
 import com.example.project_ltdd.fragments.AIFragment;
 import com.example.project_ltdd.fragments.QuizFragment;
+import com.example.project_ltdd.fragments.WordFavoriteFragment;
 import com.example.project_ltdd.fragments.WordSearchFragment;
 import com.example.project_ltdd.fragments.SecurityPolicyFragment;
 import com.example.project_ltdd.fragments.SettingFragment;
@@ -29,6 +30,7 @@ import com.example.project_ltdd.fragments.TermFragment;
 import com.example.project_ltdd.fragments.TranslationFragment;
 import com.example.project_ltdd.fragments.WordLookedUpFragment;
 import com.example.project_ltdd.fragments.YourWordFragment;
+import com.example.project_ltdd.utils.UserPrefs;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
@@ -113,25 +115,25 @@ public class MainActivity extends AppCompatActivity {
             int itemId = item.getItemId();
 
             if (itemId == R.id.nav_home) {
-                selectedFragment = new HomeFragment();
+                switchFragment(new HomeFragment());
             } else if(itemId == R.id.nav_quizz){
-                selectedFragment = new QuizFragment();
+                switchFragmentIfLoggedIn(new QuizFragment());
             } else if(itemId == R.id.nav_search){
-                selectedFragment = new WordSearchFragment();
+                switchFragmentIfLoggedIn(new WordSearchFragment());
             } else if(itemId == R.id.nav_settings){
-                selectedFragment = new SettingFragment();
+                switchFragment(new SettingFragment());
             } else if(itemId == R.id.nav_textTranslation){
-                selectedFragment = new TranslationFragment();
+                switchFragmentIfLoggedIn(new TranslationFragment());
             } else if(itemId == R.id.nav_wordLookedUp){
-                selectedFragment = new WordLookedUpFragment();
+                switchFragmentIfLoggedIn(new WordLookedUpFragment());
             } else if(itemId == R.id.nav_yourWord){
-                selectedFragment = new YourWordFragment();
+                switchFragmentIfLoggedIn(new YourWordFragment());
             } else if(itemId == R.id.nav_term) {
-                selectedFragment = new TermFragment();
+                switchFragment(new TermFragment());
             } else if(itemId == R.id.nav_facebook){
                 openFacebookPage(MainActivity.this);
             } else {
-                selectedFragment = new SecurityPolicyFragment();
+                switchFragment(new SecurityPolicyFragment());
             }
 
             if (selectedFragment != null) {
@@ -165,13 +167,13 @@ public class MainActivity extends AppCompatActivity {
                 view.startAnimation(animation);
             }
             if(itemId == R.id.nav_bottomHome){
-                selectedFragment = new HomeFragment();
+                switchFragment(new HomeFragment());
             } else if(itemId == R.id.nav_bottomSearch){
-                selectedFragment = new WordSearchFragment();
+                switchFragmentIfLoggedIn(new WordSearchFragment());
             } else if(itemId == R.id.nav_bottomYourWord) {
-                selectedFragment = new YourWordFragment();
+                switchFragmentIfLoggedIn(new YourWordFragment());
             } else if(itemId == R.id.nav_bottomAI){
-                selectedFragment = new AIFragment();
+                switchFragmentIfLoggedIn(new AIFragment());
             } else {
                 moveTaskToBack(true);
                 return true;
@@ -190,6 +192,7 @@ public class MainActivity extends AppCompatActivity {
         btnUser.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, UserProfileActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
 
     }
@@ -199,5 +202,22 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(facebookUrl));
         context.startActivity(intent);
     }
+
+    private void switchFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                .replace(R.id.fragment_container, fragment)
+                .commit();
+    }
+
+    private void switchFragmentIfLoggedIn(Fragment fragment) {
+        UserPrefs userPrefs = new UserPrefs(this);
+        if (!userPrefs.isLoggedIn()) {
+            startActivity(new Intent(this, LoginActivity.class));
+        } else {
+            switchFragment(fragment);
+        }
+    }
+
 
 }

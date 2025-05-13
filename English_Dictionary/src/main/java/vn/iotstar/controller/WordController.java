@@ -48,7 +48,7 @@ public class WordController {
     @GetMapping("/top5WordFavors")
     public ResponseEntity<List<WordDTO>> getTop5WordFavors(){ 
     	List<WordDTO> listWordDTOs = new ArrayList<>();
-    	listWordDTOs = wordService.findTop5MostSearchedWords();
+    	listWordDTOs = wordService.findTop5MostFavoritedWords();
     	return ResponseEntity.ok(listWordDTOs);
     }
 }

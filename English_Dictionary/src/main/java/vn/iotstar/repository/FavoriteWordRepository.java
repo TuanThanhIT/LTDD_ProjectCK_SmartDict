@@ -19,8 +19,8 @@ public interface FavoriteWordRepository extends JpaRepository<FavoriteWordEntity
 	@Query("Select fw.word From FavoriteWordEntity fw Where fw.folder.folder_id = :folderId")
 	List<WordEntity> findWordsByFolderId(@Param("folderId") int folderId);
 	
-	@Query("Select fw.folder From FavoriteWordEntity fw Where fw.word.word_id = :wordId")
-	FolderFavorEntity getFolderByWord(@Param("wordId") Long wordId);
+	@Query("Select fw.folder From FavoriteWordEntity fw Where fw.word.word_id = :wordId and fw.user.user_id = :userId")
+	FolderFavorEntity getFolderByWordAndUser(@Param("wordId") Long wordId, @Param("userId") int userId);
 	
 	@Transactional
 	@Modifying

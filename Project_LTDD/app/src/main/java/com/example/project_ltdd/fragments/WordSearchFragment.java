@@ -113,6 +113,8 @@ public class WordSearchFragment extends Fragment {
                     }
                 }
         );
+
+        Toast.makeText(requireContext(), "Tra cứu", Toast.LENGTH_SHORT).show();
     }
 
     private void setupAdapter() {

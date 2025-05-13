@@ -19,7 +19,7 @@
         android:theme="@style/Theme.Project_LTDD"
         tools:targetApi="31">
         <activity android:name=".activities.SignUpActivity"
-            android:windowSoftInputMode="adjustNothing"/>
+            android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".activities.LoginActivity"
             android:windowSoftInputMode="adjustNothing"/>
         <activity android:name=".activities.UserProfileActivity"

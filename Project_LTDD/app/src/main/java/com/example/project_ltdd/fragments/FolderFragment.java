@@ -23,6 +23,7 @@ import com.example.project_ltdd.adapters.FolderAdapter;
 import com.example.project_ltdd.api.retrofit_client.UserRetrofitClient;
 import com.example.project_ltdd.api.services.UserService;
 import com.example.project_ltdd.models.FolderModel;
+import com.example.project_ltdd.utils.UserPrefs;
 
 import org.json.JSONObject;
 
@@ -48,6 +49,8 @@ public class FolderFragment extends Fragment {
 
     UserService userService = UserRetrofitClient.getClient();
 
+    private UserPrefs userPrefs;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -62,7 +65,7 @@ public class FolderFragment extends Fragment {
         txvQuantityFolder = view.findViewById(R.id.txvQuantityFolder);
         btnAddFolder = view.findViewById(R.id.btnAddFolder);
         recyclerView = view.findViewById(R.id.recyclerViewFolders);
-
+        userPrefs = new UserPrefs(requireContext());
 
         // Setup Toolbar
         Toolbar toolbar = view.findViewById(R.id.toolbar);
@@ -86,7 +89,7 @@ public class FolderFragment extends Fragment {
                 builder.setPositiveButton("Thêm", (dialog, which)->{
                     String folderName = inputName.getText().toString().trim();
                     if (!folderName.isEmpty()) {
-                        addFolder(1, folderName); // gọi hàm thêm folder
+                        addFolder(userPrefs.getUserId(), folderName); // gọi hàm thêm folder
                         txvQuantityFolder.setText("("+folderList.size()+")");
                     } else {
                         Toast.makeText(requireContext(), "Tên thư mục không được để trống", Toast.LENGTH_SHORT).show();
@@ -234,7 +237,7 @@ public class FolderFragment extends Fragment {
     }
 
     private void getFoldersFromApi(){
-        int userId = 1;
+        int userId = userPrefs.getUserId();
         userService.getFolders(userId).enqueue(new Callback<List<FolderModel>>() {
             @Override
             public void onResponse(Call<List<FolderModel>> call, Response<List<FolderModel>> response) {

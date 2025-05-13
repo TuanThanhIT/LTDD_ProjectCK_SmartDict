@@ -21,6 +21,7 @@ import com.example.project_ltdd.api.services.UserService;
 import com.example.project_ltdd.commons.WordCommons;
 import com.example.project_ltdd.fragments.WordDetailFragment;
 import com.example.project_ltdd.models.WordModel;
+import com.example.project_ltdd.utils.UserPrefs;
 
 import org.json.JSONObject;
 
@@ -43,10 +44,12 @@ public class WordSearchAdapter extends RecyclerView.Adapter<WordSearchAdapter.Vo
 
     private WordModel vocab;
     WordCommons wordCommon = new WordCommons();
+    private UserPrefs userPrefs;
     public WordSearchAdapter(List<WordModel> vocabList, FragmentManager mFragmentManager, Context context) {
         this.vocabList = vocabList;
         this.mFragmentManager = mFragmentManager;
         this.context = context;
+        this.userPrefs = new UserPrefs(context);
     }
 
     @NonNull
@@ -58,7 +61,8 @@ public class WordSearchAdapter extends RecyclerView.Adapter<WordSearchAdapter.Vo
 
     @Override
     public void onBindViewHolder(@NonNull VocabViewHolder holder, int position) {
-        vocab = vocabListFiltered.get(position);
+        WordModel vocab = vocabListFiltered.get(position); // Dùng biến cục bộ
+
         holder.txvWord.setText(vocab.getWord());
 
         StringBuilder phoneticText = wordCommon.setPhoneticText(vocab.getPhonetics());
@@ -69,7 +73,6 @@ public class WordSearchAdapter extends RecyclerView.Adapter<WordSearchAdapter.Vo
 
         holder.txvPartOfSpeech.setText(partOfSpeechText.toString());
         holder.txvMeaning.setText(vietNameseText.toString());
-
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,7 +85,7 @@ public class WordSearchAdapter extends RecyclerView.Adapter<WordSearchAdapter.Vo
 
                 mFragmentManager.setFragmentResult("request_word", result);
 
-                postUserSearchWordFromApi();
+                postUserSearchWordFromApi(vocab); // Truyền vocab đúng tương ứng
 
                 FragmentTransaction transaction = mFragmentManager.beginTransaction();
                 transaction.replace(R.id.fragment_container, detailFragment);
@@ -90,8 +93,8 @@ public class WordSearchAdapter extends RecyclerView.Adapter<WordSearchAdapter.Vo
                 transaction.commit();
             }
         });
-
     }
+
 
     @Override
     public int getItemCount() {
@@ -144,21 +147,20 @@ public class WordSearchAdapter extends RecyclerView.Adapter<WordSearchAdapter.Vo
         };
     }
 
-    private void postUserSearchWordFromApi(){
-        UserService userService;
-        userService = UserRetrofitClient.getClient();
+    private void postUserSearchWordFromApi(WordModel vocab) {
+        UserService userService = UserRetrofitClient.getClient();
 
         Long wordId = vocab.getWordId();
-        int userId = 1;
+        int userId = userPrefs.getUserId();
+
         userService.addWordSearch(userId, wordId).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
                     try {
-                        String message = response.body().string(); // Lấy nội dung thực tế từ body
-                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                        String message = response.body().string();
+//                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
                     } catch (IOException e) {
-                        e.printStackTrace();
                         Toast.makeText(context, "Lỗi khi đọc phản hồi từ máy chủ", Toast.LENGTH_SHORT).show();
                     }
                 } else {
@@ -181,4 +183,6 @@ public class WordSearchAdapter extends RecyclerView.Adapter<WordSearchAdapter.Vo
             }
         });
     }
+
+
 }

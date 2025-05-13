@@ -127,8 +127,8 @@ public class UserServiceImpl implements UserService {
 	
 	
 	@Override
-	public FolderDTO getFolderByWord(Long wordId) {
-	    FolderFavorEntity folderFavorEntity = favoriteWordRepository.getFolderByWord(wordId);
+	public FolderDTO getFolderByWord(Long wordId, int userId) {
+	    FolderFavorEntity folderFavorEntity = favoriteWordRepository.getFolderByWordAndUser(wordId, userId);
 
 	    FolderDTO folder = new FolderDTO();
 	    if (folderFavorEntity != null) {

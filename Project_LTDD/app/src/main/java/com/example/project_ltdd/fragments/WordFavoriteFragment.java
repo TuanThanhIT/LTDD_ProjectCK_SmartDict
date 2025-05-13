@@ -23,6 +23,7 @@ import com.example.project_ltdd.api.retrofit_client.UserRetrofitClient;
 import com.example.project_ltdd.api.services.UserService;
 import com.example.project_ltdd.models.FolderModel;
 import com.example.project_ltdd.models.WordModel;
+import com.example.project_ltdd.utils.UserPrefs;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,6 +48,8 @@ public class WordFavoriteFragment extends Fragment {
     private RecyclerView rvFavoriteWords;
 
     private UserService userService = UserRetrofitClient.getClient();
+
+    private UserPrefs userPrefs;
 
     public static WordFavoriteFragment newInstance(int folderId, String folderName) {
         WordFavoriteFragment fragment = new WordFavoriteFragment();
@@ -75,6 +78,8 @@ public class WordFavoriteFragment extends Fragment {
         btnDeleteWord = view.findViewById(R.id.btnDeleteAll);
         btnSelectAll = view.findViewById(R.id.btnSelectAll);
         btnClearAll = view.findViewById(R.id.btnClearAll);
+
+        userPrefs = new UserPrefs(requireContext());
 
         // Xu ly button chon tat ca
         btnSelectAll.setOnClickListener(v -> {
@@ -203,7 +208,7 @@ public class WordFavoriteFragment extends Fragment {
     }
 
     private void getFoldersFromApi() {
-        userService.getFolders(1).enqueue(new Callback<List<FolderModel>>() {
+        userService.getFolders(userPrefs.getUserId()).enqueue(new Callback<List<FolderModel>>() {
             @Override
             public void onResponse(Call<List<FolderModel>> call, Response<List<FolderModel>> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -216,7 +221,7 @@ public class WordFavoriteFragment extends Fragment {
     }
 
     private void updateFolderWords(List<Long> listWordId, FolderModel folderSelect) {
-        int userId = 1;
+        int userId = userPrefs.getUserId();
 
         userService.updateFolderWords(userId, folderSelect.getFolderId(), listWordId)
                 .enqueue(new Callback<ResponseBody>() {
@@ -257,7 +262,7 @@ public class WordFavoriteFragment extends Fragment {
     }
 
     private void deleteFavorWords(List<Long> listWordId){
-        int userId = 1;
+        int userId = userPrefs.getUserId();
         userService.deleteFavorWords(userId, listWordId).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

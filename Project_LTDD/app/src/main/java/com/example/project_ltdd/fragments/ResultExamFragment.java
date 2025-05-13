@@ -20,6 +20,7 @@ import com.example.project_ltdd.api.retrofit_client.QuizRetrofitClient;
 import com.example.project_ltdd.api.services.QuizService;
 import com.example.project_ltdd.models.QuizModel;
 import com.example.project_ltdd.models.TestModel;
+import com.example.project_ltdd.utils.UserPrefs;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,6 +39,8 @@ public class ResultExamFragment extends Fragment {
     private TestModel testModel;
 
     private QuizService quizService = QuizRetrofitClient.getClient();
+
+    private UserPrefs userPrefs;
 
     @Nullable
     @Override
@@ -60,6 +63,7 @@ public class ResultExamFragment extends Fragment {
         txvResultCorrectAnswer = view.findViewById(R.id.txvResultCorrectAnswers);
         txvResultScore = view.findViewById(R.id.txvResultScore);
         progressBarResult = view.findViewById(R.id.progressBarResult);
+        userPrefs = new UserPrefs(requireContext());
 
         btnExit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +74,8 @@ public class ResultExamFragment extends Fragment {
                 transaction.commit();
             }
         });
+
+        Toast.makeText(requireContext(), "Kết quả bài làm của bạn!", Toast.LENGTH_SHORT).show();
     }
     private void setupData(){
         txvResultTitle.setText(quizModel.getTitle());
@@ -85,13 +91,12 @@ public class ResultExamFragment extends Fragment {
     }
 
     private void getTestResult(){
-        int userId = 1;
+        int userId = userPrefs.getUserId();
         quizService.getTestResult(userId, quizModel.getQuiz_id()).enqueue(new Callback<TestModel>() {
             @Override
             public void onResponse(Call<TestModel> call, Response<TestModel> response) {
                 if(response.isSuccessful()){
                     testModel = response.body();
-                    Toast.makeText(requireContext(), "Kết quả bài làm của bạn!", Toast.LENGTH_SHORT).show();
                     setupData();
                 }
                 else {

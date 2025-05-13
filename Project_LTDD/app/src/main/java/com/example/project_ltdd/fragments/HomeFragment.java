@@ -84,6 +84,8 @@ public class HomeFragment extends Fragment {
 
         viewPager2Top = view.findViewById(R.id.viewPager2Top);
         circleIndicator3 = view.findViewById(R.id.circle_indicator3);
+
+        Toast.makeText(requireContext(), "Trang chủ", Toast.LENGTH_SHORT).show();
     }
 
     private List<BannerModel> getListBanners() {

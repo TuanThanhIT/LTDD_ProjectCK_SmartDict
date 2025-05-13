@@ -27,6 +27,7 @@ import com.example.project_ltdd.commons.WordCommons;
 import com.example.project_ltdd.fragments.WordDetailFragment;
 import com.example.project_ltdd.models.FolderModel;
 import com.example.project_ltdd.models.WordModel;
+import com.example.project_ltdd.utils.UserPrefs;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -54,11 +55,14 @@ public class WordFavoriteAdapter extends RecyclerView.Adapter<WordFavoriteAdapte
 
     private UserService userService = UserRetrofitClient.getClient();
 
+    private UserPrefs userPrefs;
+
     public WordFavoriteAdapter(List<WordModel> wordList, Context context, FragmentManager fragmentManager, int currentFolderId) {
         this.wordList = wordList;
         this.context = context;
         this.fragmentManager = fragmentManager;
         this.currentFolderId = currentFolderId;
+        this.userPrefs = new UserPrefs(context); // <-- thêm dòng này
     }
 
     @NonNull
@@ -116,6 +120,7 @@ public class WordFavoriteAdapter extends RecyclerView.Adapter<WordFavoriteAdapte
                             return true;
                         } else if (id == R.id.action_move_top) {
                             // TODO: Chuyển lên đầu
+                            moveWordToTop(word);
                             return true;
                         } else if (id == R.id.action_move_folder) {
                             // TODO: Chuyển đến thư mục khác
@@ -191,9 +196,21 @@ public class WordFavoriteAdapter extends RecyclerView.Adapter<WordFavoriteAdapte
             chbSelect = itemView.findViewById(R.id.cbFavorite);
         }
     }
+    private void moveWordToTop(WordModel word) {
+        int currentIndex = wordList.indexOf(word);
+        if (currentIndex > 0) {
+            wordList.remove(currentIndex);
+            wordList.add(0, word);
+            notifyItemMoved(currentIndex, 0);
+            Toast.makeText(context, "Đã chuyển từ lên đầu", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Từ đã nằm ở đầu danh sách", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     private void deleteWordFavor(WordModel wordFavor) {
-        int userId = 1;
+        int userId = userPrefs.getUserId();
         userService.deleteWordFavor(userId, wordFavor.getWordId()).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -237,7 +254,7 @@ public class WordFavoriteAdapter extends RecyclerView.Adapter<WordFavoriteAdapte
 
 
     private void getFoldersExcept(WordModel wordEx) {
-        int userId = 1; // Cố định hoặc lấy user đang login
+        int userId = userPrefs.getUserId(); // Cố định hoặc lấy user đang login
 
         userService.getFoldersExcept(userId, wordEx.getWordId()).enqueue(new Callback<List<FolderModel>>() {
             @Override
@@ -265,7 +282,7 @@ public class WordFavoriteAdapter extends RecyclerView.Adapter<WordFavoriteAdapte
 
 
     private void updateFolderWord(WordModel wordEx, FolderModel folderSelect) {
-        int userId = 1;
+        int userId = userPrefs.getUserId();
 
         userService.updateFolderWord(userId, wordEx.getWordId(), folderSelect.getFolderId())
                 .enqueue(new Callback<ResponseBody>() {

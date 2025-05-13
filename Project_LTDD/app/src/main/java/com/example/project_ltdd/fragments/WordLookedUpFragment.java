@@ -31,6 +31,7 @@ import com.example.project_ltdd.models.FolderModel;
 import com.example.project_ltdd.models.MeaningModel;
 import com.example.project_ltdd.models.PhoneticModel;
 import com.example.project_ltdd.models.WordModel;
+import com.example.project_ltdd.utils.UserPrefs;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -58,6 +59,8 @@ public class WordLookedUpFragment extends Fragment {
 
     private List<FolderModel> menuItems = new ArrayList<>();
 
+    private UserPrefs userPrefs;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -74,6 +77,7 @@ public class WordLookedUpFragment extends Fragment {
         rcvLookedUpWord = view.findViewById(R.id.rcvLookedUpWord);
         edtLookedUp = view.findViewById(R.id.edtLookedUp);
         btnClearLookedUp = view.findViewById(R.id.btnClearLookUp);
+        userPrefs = new UserPrefs(requireContext());
         // Bắt sự kiện nhập vào ô tìm kiếm
         edtLookedUp.addTextChangedListener(new TextWatcher() {
             @Override
@@ -127,6 +131,7 @@ public class WordLookedUpFragment extends Fragment {
             handleDeleteWords();
         });
 
+        Toast.makeText(requireContext(), "Từ đã tra!", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -187,14 +192,13 @@ public class WordLookedUpFragment extends Fragment {
     }
 
     private void getWordLookedUpFromApi() {
-        int userId = 1;
+        int userId = userPrefs.getUserId();
         userService.getWordLookedUp(userId).enqueue(new Callback<List<WordModel>>() {
             @Override
             public void onResponse(Call<List<WordModel>> call, Response<List<WordModel>> response) {
                 if (response.isSuccessful()) {
                     listWord = response.body();
                     setUpAdapter();
-                    Toast.makeText(requireContext(), "Từ đã tra!", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(requireContext(), "Không thể hiển thị danh sách Từ đã tra của bạn! Lỗi: " + response.code(), Toast.LENGTH_SHORT).show();
                 }
@@ -249,7 +253,7 @@ public class WordLookedUpFragment extends Fragment {
 
 
     private void getFoldersFromApi() {
-        userService.getFolders(1).enqueue(new Callback<List<FolderModel>>() {
+        userService.getFolders(userPrefs.getUserId()).enqueue(new Callback<List<FolderModel>>() {
             @Override
             public void onResponse(Call<List<FolderModel>> call, Response<List<FolderModel>> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -262,7 +266,7 @@ public class WordLookedUpFragment extends Fragment {
     }
 
     private void addOrUpdateFavorWords(int folderId, List<Long> listWords){
-        int userId = 1;
+        int userId = userPrefs.getUserId();
         userService.addOrUpdateFavorWords(userId, folderId,listWords).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -295,7 +299,7 @@ public class WordLookedUpFragment extends Fragment {
     }
 
     private void deleteSearchWords(List<Long> listSearchWords){
-        int userId = 1;
+        int userId = userPrefs.getUserId();
         userService.deleteSearchWords(userId, listSearchWords).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

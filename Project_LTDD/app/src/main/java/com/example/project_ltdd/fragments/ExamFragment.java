@@ -24,6 +24,7 @@ import com.example.project_ltdd.models.AnswerModel;
 import com.example.project_ltdd.models.QuestionModel;
 import com.example.project_ltdd.models.QuizModel;
 import com.example.project_ltdd.models.TestModel;
+import com.example.project_ltdd.utils.UserPrefs;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -57,6 +58,8 @@ public class ExamFragment extends Fragment {
 
     private QuizModel quizModel;
     private Map<Integer, Integer> userAnswers = new HashMap<>();
+
+    private UserPrefs userPrefs;
 
 
     @Nullable
@@ -93,6 +96,7 @@ public class ExamFragment extends Fragment {
         txvCountdown = view.findViewById(R.id.txvCountdown);
         txvQuizTitle = view.findViewById(R.id.txvQuizTitle);
         progressBarTime = view.findViewById(R.id.progressBarTime);
+        userPrefs = new UserPrefs(requireContext());
 
         Bundle args = getArguments();
         quizModel = (QuizModel) args.getSerializable("quizModel");
@@ -186,7 +190,7 @@ public class ExamFragment extends Fragment {
     }
 
     private void addTestAndGetTestId(int quizId, TestIdCallback callback) {
-        int userId = 1;
+        int userId = userPrefs.getUserId();
         quizService.addTest(userId, quizId).enqueue(new Callback<TestModel>() {
             @Override
             public void onResponse(Call<TestModel> call, Response<TestModel> response) {
@@ -223,7 +227,7 @@ public class ExamFragment extends Fragment {
     }
 
     private void updateResult(){
-        int userId = 1;
+        int userId = userPrefs.getUserId();
         quizService.updateResult(userId, quizModel.getQuiz_id(), timeSpentInSeconds).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

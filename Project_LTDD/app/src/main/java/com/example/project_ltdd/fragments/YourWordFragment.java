@@ -23,6 +23,7 @@ import com.example.project_ltdd.api.retrofit_client.UserRetrofitClient;
 import com.example.project_ltdd.api.services.UserService;
 import com.example.project_ltdd.models.FolderModel;
 import com.example.project_ltdd.models.WordModel;
+import com.example.project_ltdd.utils.UserPrefs;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
@@ -45,6 +46,8 @@ public class YourWordFragment extends Fragment {
     private ImageView btnMenu;
 
     private UserService userService = UserRetrofitClient.getClient();
+
+    private UserPrefs userPrefs;
 
 
     @Override
@@ -74,6 +77,7 @@ public class YourWordFragment extends Fragment {
         tabLayout = view.findViewById(R.id.tabLayout);
         viewPager = view.findViewById(R.id.viewPager);
         btnMenu = view.findViewById(R.id.btnMenu);
+        userPrefs = new UserPrefs(requireContext());
 
         view.findViewById(R.id.btnFolder).setOnClickListener(v -> {
             // Tạo fragment mới
@@ -111,6 +115,7 @@ public class YourWordFragment extends Fragment {
             }
         });
 
+        Toast.makeText(requireContext(), "Từ của bạn", Toast.LENGTH_SHORT).show();
     }
 
     private void setUpAdapter()
@@ -166,7 +171,7 @@ public class YourWordFragment extends Fragment {
     }
     private void getFoldersFromApi(){
         UserService userService = UserRetrofitClient.getClient();
-        int userId = 1;
+        int userId = userPrefs.getUserId();
         userService.getFolders(userId).enqueue(new Callback<List<FolderModel>>() {
             @Override
             public void onResponse(Call<List<FolderModel>> call, Response<List<FolderModel>> response) {
@@ -174,7 +179,6 @@ public class YourWordFragment extends Fragment {
                 {
                     folderList = response.body();
                     setUpAdapter();
-                    Toast.makeText(requireContext(), "Từ của bạn!", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {

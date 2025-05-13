@@ -96,13 +96,15 @@ public class SettingFragment extends Fragment {
         btnFeedback.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_SENDTO);
             intent.setData(Uri.parse("mailto:"));
-            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"your_email@example.com"});
+            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"22110418@student.hcmute.edu.vn"});
             intent.putExtra(Intent.EXTRA_SUBJECT, "Góp ý / Báo lỗi ứng dụng");
             startActivity(Intent.createChooser(intent, "Chọn ứng dụng gửi email"));
         });
 
         // Xử lý xóa nhắc nhở khi click vào item trong ListView
         listViewReminders.setOnItemClickListener((parent, view1, position, id) -> removeReminder(position));
+
+        Toast.makeText(requireContext(), "Cài đặt", Toast.LENGTH_SHORT).show();
 
         return view;
     }

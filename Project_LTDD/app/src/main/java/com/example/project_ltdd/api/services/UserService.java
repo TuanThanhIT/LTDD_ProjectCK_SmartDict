@@ -56,8 +56,8 @@ public interface UserService {
     @GET("getWordsFolder/{folderId}")
     Call<List<WordModel>> getWordsFolder(@Path("folderId") int folderId);
 
-    @GET("getFolderWord/{wordId}")
-    Call<FolderModel> getFolderByWord(@Path("wordId") Long wordId);
+    @GET("{userId}/getFolderWord/{wordId}")
+    Call<FolderModel> getFolderByWord(@Path("wordId") Long wordId, @Path("userId") int userId);
 
     @DELETE("{userId}/deleteFavorWord/{wordId}")
     Call<Void> deleteWordFavor(@Path("userId") int userId, @Path("wordId") Long wordId);

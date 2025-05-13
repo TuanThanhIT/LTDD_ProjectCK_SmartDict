@@ -1,9 +1,9 @@
 package com.example.project_ltdd.activities;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -16,9 +16,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.project_ltdd.R;
 import com.example.project_ltdd.api.retrofit_client.AuthRetrofitClient;
+import com.example.project_ltdd.api.retrofit_client.UserRetrofitClient;
 import com.example.project_ltdd.api.services.AuthService;
+import com.example.project_ltdd.api.services.UserService;
+import com.example.project_ltdd.models.FolderModel;
 import com.example.project_ltdd.models.OTPVerificationModel;
 import com.example.project_ltdd.models.UserRegisterModel;
+
+import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -30,8 +35,10 @@ public class SignUpActivity extends AppCompatActivity {
     TextView tv_login;
     private String email, fullname, password, confirmPassword;
 
-
     AuthService authService;
+    ProgressDialog progressDialog; // ProgressDialog
+
+    private UserService userService = UserRetrofitClient.getClient();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,6 +48,12 @@ public class SignUpActivity extends AppCompatActivity {
         Anhxa();
 
         authService = AuthRetrofitClient.getClient().create(AuthService.class);
+
+        // Khởi tạo ProgressDialog
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Đang xử lý...");
+        progressDialog.setCancelable(false);
+
         /*ĐĂNG KÝ VÀ TẠO OTP*/
         btnSignUp.setOnClickListener(v -> {
             fullname = edtFullName.getText().toString();
@@ -61,6 +74,8 @@ public class SignUpActivity extends AppCompatActivity {
             authService.register(dto).enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
+                    // Tắt ProgressDialog
+                    progressDialog.dismiss();
                     if (response.isSuccessful()) {
                         Toast.makeText(SignUpActivity.this, "OTP đã gửi đến email", Toast.LENGTH_SHORT).show();
                         SendOTPSuccessful();
@@ -71,20 +86,23 @@ public class SignUpActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<String> call, Throwable t) {
+                    // Tắt ProgressDialog
+                    progressDialog.dismiss();
                     Toast.makeText(SignUpActivity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_LONG).show();
                     t.printStackTrace();
                 }
             });
         });
-        /*ĐĂNG KÝ VÀ TẠO OTP*/
+
         tv_login.setOnClickListener(v -> {
             Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
             startActivity(intent);
         });
 
+        Toast.makeText(this, "Đăng kí", Toast.LENGTH_SHORT).show();
     }
 
-    private void SendOTPSuccessful(){
+    private void SendOTPSuccessful() {
         /*NHẬP OTP VÀ TẠO TÀI KHOẢN*/
         LayoutInflater inflater = LayoutInflater.from(SignUpActivity.this);
         View otpView = inflater.inflate(R.layout.activity_otp, null);
@@ -106,7 +124,9 @@ public class SignUpActivity extends AppCompatActivity {
                     return;
                 }
 
-                // Gửi OTP và thông tin user để xác thực và tạo tài khoản
+                // Hiện ProgressDialog trước khi gọi API xác thực OTP
+                progressDialog.show();
+
                 OTPVerificationModel otpDTO = new OTPVerificationModel();
                 otpDTO.setEmail(email);
                 otpDTO.setOtp(otpInput);
@@ -116,6 +136,8 @@ public class SignUpActivity extends AppCompatActivity {
                 authService.verifyOtp(otpDTO).enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
+                        // Tắt ProgressDialog
+                        progressDialog.dismiss();
                         if (response.isSuccessful()) {
                             Toast.makeText(SignUpActivity.this, "Tạo tài khoản thành công!", Toast.LENGTH_SHORT).show();
                             dialog.dismiss();
@@ -129,6 +151,8 @@ public class SignUpActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<String> call, Throwable t) {
+                        // ✅ Tắt ProgressDialog
+                        progressDialog.dismiss();
                         Toast.makeText(SignUpActivity.this, "Lỗi kết nối", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -139,12 +163,12 @@ public class SignUpActivity extends AppCompatActivity {
         /*NHẬP OTP VÀ TẠO TÀI KHOẢN*/
     }
 
-    private void Anhxa(){
-        btnSignUp = (Button) findViewById(R.id.btn_sign_up);
-        edtFullName = (EditText) findViewById(R.id.edt_full_name);
-        edtEmail = (EditText) findViewById(R.id.edt_email_su);
-        edtPassword = (EditText) findViewById(R.id.edt_password_su);
-        edtConfirmPassword = (EditText) findViewById(R.id.edt_confirm_password);
-        tv_login = (TextView) findViewById(R.id.tv_change_to_login_su);
+    private void Anhxa() {
+        btnSignUp = findViewById(R.id.btn_sign_up);
+        edtFullName = findViewById(R.id.edt_full_name);
+        edtEmail = findViewById(R.id.edt_email_su);
+        edtPassword = findViewById(R.id.edt_password_su);
+        edtConfirmPassword = findViewById(R.id.edt_confirm_password);
+        tv_login = findViewById(R.id.tv_change_to_login_su);
     }
 }

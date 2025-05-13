@@ -23,9 +23,10 @@ public class SplashActivity extends AppCompatActivity {
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
             startActivity(intent);
             finish(); // Đóng SplashActivity
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         }
     };
     @Override
@@ -59,8 +60,10 @@ public class SplashActivity extends AppCompatActivity {
                 // Hủy delay tự động
                 handler.removeCallbacks(runnable);
 
-                Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                 startActivity(intent);
+                // Áp dụng animation chuyển màn hình
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
     }

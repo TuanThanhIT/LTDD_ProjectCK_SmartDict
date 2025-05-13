@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -105,11 +106,11 @@ public class UserController {
     	return ResponseEntity.ok(listWordsFolder);
     }
     
-    @GetMapping("/getFolderWord/{wordId}")
-    public ResponseEntity<FolderDTO> getFolderByWord(@PathVariable Long wordId)
+    @GetMapping("{userId}/getFolderWord/{wordId}/")
+    public ResponseEntity<FolderDTO> getFolderByWord(@PathVariable Long wordId, @PathVariable int userId)
     {
     	FolderDTO folderDisplay = new FolderDTO();
-    	folderDisplay = userService.getFolderByWord(wordId);
+    	folderDisplay = userService.getFolderByWord(wordId, userId);
     	return ResponseEntity.ok(folderDisplay);
     }
     

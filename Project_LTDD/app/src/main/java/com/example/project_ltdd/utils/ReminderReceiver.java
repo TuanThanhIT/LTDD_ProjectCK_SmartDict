@@ -15,6 +15,7 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.project_ltdd.R;
+import com.example.project_ltdd.activities.LoginActivity;
 import com.example.project_ltdd.activities.MainActivity;
 
 public class ReminderReceiver extends BroadcastReceiver {
@@ -28,7 +29,7 @@ public class ReminderReceiver extends BroadcastReceiver {
             message = "Đừng quên học từ mới hôm nay nhé!";
         }
 
-        Intent notificationIntent = new Intent(context, MainActivity.class);
+        Intent notificationIntent = new Intent(context, LoginActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 context, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE
         );

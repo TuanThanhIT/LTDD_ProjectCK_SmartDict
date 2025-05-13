@@ -34,7 +34,7 @@ public interface UserService {
 
 	List<WordDTO> getWordsByFolder(int folderId);
 
-	FolderDTO getFolderByWord(Long wordId);
+	FolderDTO getFolderByWord(Long wordId, int userId);
 
 	void deleteByWordId(Long wordId);
 

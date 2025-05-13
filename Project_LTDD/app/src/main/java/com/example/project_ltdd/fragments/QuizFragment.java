@@ -19,6 +19,7 @@ import com.example.project_ltdd.api.retrofit_client.QuizRetrofitClient;
 import com.example.project_ltdd.api.services.QuizService;
 import com.example.project_ltdd.models.QuizHistoryModel;
 import com.example.project_ltdd.models.QuizModel;
+import com.example.project_ltdd.utils.UserPrefs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,7 @@ public class QuizFragment extends Fragment {
     private QuizHistoryAdapter mQuizHistoryAdapter;
     private List<QuizModel> quizList = new ArrayList<>();
     private List<QuizHistoryModel> quizHistoryList = new ArrayList<>();
+    private UserPrefs userPrefs;
 
 
     @Nullable
@@ -58,6 +60,8 @@ public class QuizFragment extends Fragment {
         rvQuizList = view.findViewById(R.id.rvQuizList);
         // Hiển thị lịch sử làm quiz
         rvHistoryQuizList = view.findViewById(R.id.rvHistoryQuizTest);
+        userPrefs = new UserPrefs(requireContext());
+        Toast.makeText(requireContext(),"Quiz",  Toast.LENGTH_SHORT).show();
     }
 
     private void setUpQuizAdapter(){
@@ -80,7 +84,6 @@ public class QuizFragment extends Fragment {
                 {
                     quizList = response.body();
                     setUpQuizAdapter();
-                    Toast.makeText(requireContext(),"Quiz",  Toast.LENGTH_SHORT).show();
                 }
                 else{
                     Toast.makeText(requireContext(), "Không thể hiển thị các bài quiz", Toast.LENGTH_SHORT).show();
@@ -95,7 +98,7 @@ public class QuizFragment extends Fragment {
     }
 
     private void getQuizesHistory() {
-        int userId = 1;
+        int userId = userPrefs.getUserId();
         quizService.getHistoryTest(userId).enqueue(new Callback<List<QuizHistoryModel>>() {
             @Override
             public void onResponse(Call<List<QuizHistoryModel>> call, Response<List<QuizHistoryModel>> response) {
