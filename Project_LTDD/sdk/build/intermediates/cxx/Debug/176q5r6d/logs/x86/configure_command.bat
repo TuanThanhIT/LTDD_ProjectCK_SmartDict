@@ -1,6 +1,6 @@
 @echo off
 "C:\\Users\\Admin\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\cmake.exe" ^
-  "-HD:\\HOCTAP\\LapTrinhDiDong\\AndroidStudioProjects\\LTDD_ProjectCK_SmartDict\\Project_LTDD\\sdk\\libcxx_helper" ^
+  "-HD:\\ANDROID\\LTDD_ProjectCK_SmartDict\\Project_LTDD\\sdk\\libcxx_helper" ^
   "-DCMAKE_SYSTEM_NAME=Android" ^
   "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON" ^
   "-DCMAKE_SYSTEM_VERSION=21" ^
@@ -11,9 +11,9 @@
   "-DCMAKE_ANDROID_NDK=C:\\Users\\Admin\\AppData\\Local\\Android\\Sdk\\ndk\\27.0.12077973" ^
   "-DCMAKE_TOOLCHAIN_FILE=C:\\Users\\Admin\\AppData\\Local\\Android\\Sdk\\ndk\\27.0.12077973\\build\\cmake\\android.toolchain.cmake" ^
   "-DCMAKE_MAKE_PROGRAM=C:\\Users\\Admin\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe" ^
-  "-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=D:\\HOCTAP\\LapTrinhDiDong\\AndroidStudioProjects\\LTDD_ProjectCK_SmartDict\\Project_LTDD\\sdk\\build\\intermediates\\cxx\\Debug\\176q5r6d\\obj\\x86" ^
-  "-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=D:\\HOCTAP\\LapTrinhDiDong\\AndroidStudioProjects\\LTDD_ProjectCK_SmartDict\\Project_LTDD\\sdk\\build\\intermediates\\cxx\\Debug\\176q5r6d\\obj\\x86" ^
+  "-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=D:\\ANDROID\\LTDD_ProjectCK_SmartDict\\Project_LTDD\\sdk\\build\\intermediates\\cxx\\Debug\\176q5r6d\\obj\\x86" ^
+  "-DCMAKE_RUNTIME_OUTPUT_DIRECTORY=D:\\ANDROID\\LTDD_ProjectCK_SmartDict\\Project_LTDD\\sdk\\build\\intermediates\\cxx\\Debug\\176q5r6d\\obj\\x86" ^
   "-DCMAKE_BUILD_TYPE=Debug" ^
-  "-BD:\\HOCTAP\\LapTrinhDiDong\\AndroidStudioProjects\\LTDD_ProjectCK_SmartDict\\Project_LTDD\\sdk\\.cxx\\Debug\\176q5r6d\\x86" ^
+  "-BD:\\ANDROID\\LTDD_ProjectCK_SmartDict\\Project_LTDD\\sdk\\.cxx\\Debug\\176q5r6d\\x86" ^
   -GNinja ^
   "-DANDROID_STL=c++_shared"

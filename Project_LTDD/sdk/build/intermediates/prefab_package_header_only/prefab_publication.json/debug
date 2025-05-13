@@ -1,5 +1,5 @@
 {
-  "installationFolder": "D:\\HOCTAP\\LapTrinhDiDong\\AndroidStudioProjects\\LTDD_ProjectCK_SmartDict\\Project_LTDD\\sdk\\build\\intermediates\\prefab_package\\debug\\prefab",
+  "installationFolder": "D:\\ANDROID\\LTDD_ProjectCK_SmartDict\\Project_LTDD\\sdk\\build\\intermediates\\prefab_package\\debug\\prefab",
   "gradlePath": ":sdk",
   "packageInfo": {
     "packageName": "sdk",
@@ -8,7 +8,7 @@
     "modules": [
       {
         "moduleName": "opencv_jni_shared",
-        "moduleHeaders": "D:\\HOCTAP\\LapTrinhDiDong\\AndroidStudioProjects\\LTDD_ProjectCK_SmartDict\\Project_LTDD\\sdk\\native\\jni\\include",
+        "moduleHeaders": "D:\\ANDROID\\LTDD_ProjectCK_SmartDict\\Project_LTDD\\sdk\\native\\jni\\include",
         "moduleExportLibraries": [],
         "abis": []
       }
