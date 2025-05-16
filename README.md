@@ -47,5 +47,15 @@ Với những phân tích về nhu cầu và thực trạng trên, việc phát 
 
 # Các bước cài đặt dự án
 
- 	**Clone dự án**
+ **CLone dự án**
+
+ 	Đường dẫn dự án: git clone https://github.com/TuanThanhIT/LTDD_ProjectCK_SmartDict
+
+  **Tạo database SmartDict**
+
+   	Trong MySQL: CREATE DATABASE SmartDict;
+ 
+ **Đường dẫn API của dự án**
+
+  	http://localhost:8077/
    
