@@ -58,4 +58,12 @@ Với những phân tích về nhu cầu và thực trạng trên, việc phát 
  **Đường dẫn API của dự án**
 
   	http://localhost:8077/
+
+   **Thay đổi đường dẫn Internet trong IDE Android Studio**
+
+   	Trong file /api/retrofit_client/...RetrofitClient: private static final String BASE_URL = "Ip của Internet:8077/";
+
+     	Trong file /xml/network-security-config: <domain includeSubdomains="false">Ip của Internet</domain>
+
+   
    
