@@ -44,3 +44,8 @@ Với những phân tích về nhu cầu và thực trạng trên, việc phát 
     		API (Spring Boot) tương tác với Database (MySQL) để lấy dữ liệu.
       
     		Dữ liệu được trả về Android để hiển thị cho người dùng.
+
+# Các bước cài đặt dự án
+
+ 	**Clone dự án**
+   
